@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:enterFadeDuration="800" android:exitFadeDuration="400"
+    >
+    <item  android:state_pressed="false">
+        <scale android:drawable="@drawable/fast_forward_button"/>
+    </item>
+    <item
+        android:drawable="@android:drawable/screen_background_dark_transparent"
+        android:state_pressed="true"/>
+</selector>

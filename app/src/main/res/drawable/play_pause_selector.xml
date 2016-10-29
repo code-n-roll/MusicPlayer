@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:enterFadeDuration="800" android:exitFadeDuration="400"
+    >
+    <item
+        android:drawable="@android:drawable/screen_background_dark_transparent"
+        android:state_pressed="true"/>
+    <item
+        android:drawable="@android:color/transparent"
+        android:state_pressed="false"
+        />
+</selector>

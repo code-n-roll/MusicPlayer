@@ -1,0 +1,79 @@
+<resources>
+    <string name="app_name">MusicPlayer</string>
+    <string name="hw">Hello world!</string>
+    <string name="albums">ALBUMS</string>
+    <string name="artists">ARTISTS</string>
+    <string name="genres">GENRES</string>
+    <string name="folders">FOLDERS</string>
+    <string name="playlists">PLAYLISTS</string>
+    <string name="more">MORE</string>
+    <string name="recent_songs">Recently played songs</string>
+    <string name="all_genres">All genres</string>
+    <string name="title_activity_genres">Genres</string>
+    <string name="title_activity_main">Music Player</string>
+    <string name="title_activity_tracklist">Top charts</string>
+    <string name="hay">How are you?</string>
+    <string name="audiofile_setting">Audio file</string>
+    <string name="edit">Edit</string>
+    <string name="delete_song">Delete</string>
+    <string name="delete_song_cache">Delete from cache</string>
+    <string name="stuff">"
+    Say, hey!
+
+    Hear the sound of the falling rain
+    Coming down like an Armageddon flame
+    The shame
+    The ones who died without a name
+
+    Hear the dogs howling out of key
+    To a hymn called "Faith and Misery"
+    And plead, the company lost the war today
+
+    I beg to dream and differ
+    from the hollow lies
+    This is the dawning of the rest of our lives
+    On holiday
+
+    Hear the drum pounding out of time
+    Another protester has crossed the line
+    To find the money's on the other side
+
+    Can I get another Amen? (Amen!)
+    There's a flag wrapped around a score of men
+    A gag, a plastic bag on a monument
+
+    I beg to dream and differ
+    from the hollow lies
+    This is the dawning of the rest of our lives
+    On holiday
+
+    Hey!
+    Say, hey!
+
+    "The representative from California has the floor"
+
+    Sieg Heil* to the president Gasman
+    Bombs away is your punishment
+    Pulverize the Eiffel towers
+    Who criticize your government
+    Bang bang goes the broken glass and
+    Kill all the fags that don't agree
+    Triumph by fires, setting fire
+    Is not a way that's meant for me
+    Just cause, just cause, because we're outlaws yeah!
+
+    I beg to dream and differ
+    from the hollow lies
+    This is the dawning of the rest of our lives
+    I beg to dream and differ
+    from the hollow lies
+    This is the dawning of the rest of our lives
+
+    This is our lives on holiday
+
+                "</string>
+    <string name="white_stipes">White Stripes _ Seven Nation Army (The Glitch Mob Remix_dubstep) (Battlefield 1 ost)</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
+

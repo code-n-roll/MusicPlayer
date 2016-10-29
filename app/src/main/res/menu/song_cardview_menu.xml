@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    >
+
+    <item android:id="@+id/edit_song_name"
+        android:title="@string/edit"/>
+    <item android:id="@+id/delete_song"
+        android:title="@string/delete_song"/>
+    <item android:id="@+id/delete_song_cache"
+        android:title="@string/delete_song_cache"/>
+</menu>
