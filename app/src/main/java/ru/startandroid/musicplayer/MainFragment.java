@@ -68,7 +68,7 @@ public class MainFragment extends Fragment {
         layoutParams.width = convertDpToPixels(123, getActivity())*listRecSongs.size();
         layoutParams.height = convertDpToPixels(210, getActivity());
         recentlySongListView.setLayoutParams(layoutParams);
-
+  
 
 
 
