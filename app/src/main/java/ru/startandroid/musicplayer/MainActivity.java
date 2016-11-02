@@ -1,8 +1,8 @@
 package ru.startandroid.musicplayer;
 
 import android.Manifest;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -11,20 +11,12 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.GridView;
 
 import java.io.File;
 import java.util.ArrayList;
-
-import static ru.startandroid.musicplayer.TracklistActivity.getFilesNames;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -49,10 +41,11 @@ public class MainActivity extends AppCompatActivity {
     private String MAIN_TAG = "MainFragment";
     private MainFragment ma;
 
+
     public static SongCardView getCurSelectedSong(){
         return curSelectedSong;
     }
-    public void setCurSelectedSong(SongCardView songCardView){
+    public static void setCurSelectedSong(SongCardView songCardView){
         curSelectedSong = songCardView;
     }
     public static ArrayList<SongCardView> getListRecentlySongs(){
@@ -70,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-
         if (getFragmentManager().findFragmentByTag(MAIN_TAG) == null) {
             ma = new MainFragment();
 
@@ -81,15 +73,12 @@ public class MainActivity extends AppCompatActivity {
             );
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
-            FragmentManager fm = getFragmentManager();
+            FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             ft.add(R.id.fContainerActMain, ma, MAIN_TAG);
             ft.commit();
 //            fm.executePendingTransactions();
         }
-
-
-
 
         Log.d(LOG_TAG, "MainActivity onCreate");
     }

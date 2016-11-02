@@ -6,43 +6,16 @@
     android:weightSum="2"
     xmlns:tools="http://schemas.android.com/tools"
     >
-    <ScrollView
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pagerFullscreenPlayer"
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:scrollbars="none"
-
+        android:overScrollMode="never"
         >
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/dark_gray_header_color"
 
-            >
-            <ImageView
-                android:id="@+id/fullscreenAlbumCover"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/columbia"
-                android:scaleType="fitXY"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingTop="40dp"
-                android:paddingBottom="40dp"
-
-                />
-            <TextView
-                android:id="@+id/lyricSong"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/stuff"
-                android:textColor="@android:color/white"
-                android:layout_below="@id/fullscreenAlbumCover"
-                />
-        </RelativeLayout>
-    </ScrollView>
+    </android.support.v4.view.ViewPager>
 
     <LinearLayout
         android:layout_weight="1"

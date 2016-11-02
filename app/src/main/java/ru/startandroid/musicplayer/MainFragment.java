@@ -1,14 +1,16 @@
 package ru.startandroid.musicplayer;
 
 import android.Manifest;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,14 +37,37 @@ public class MainFragment extends Fragment {
     private SongCardView curSelectedSong;
     private MediaPlayer mediaPlayer;
     private File path;
+    private String LOG_TAG = "myLogs";
 
+    @Override
+    public void onAttach(Context context){
+        super.onAttach(context);
+        Log.d(LOG_TAG, "MainFragment onAttach");
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+        Log.d(LOG_TAG, "MainFragment onCreate");
+    }
+
+    public MediaPlayer getCurMediaPlayer(){
+        return this.mediaPlayer;
+    }
+
+    public void restoreDefaultToolbar(MainActivity ma){
+        WindowManager.LayoutParams attrs = ma.getWindow().getAttributes();
+        attrs.flags &= (~WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        attrs.flags &= (~WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        ma.getWindow().setAttributes(attrs);
+        ma.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-
-
 
         toolbar = (Toolbar) view.findViewById(R.id.activityMainToolbar);
         MainActivity ma = (MainActivity) getActivity();
@@ -50,12 +75,13 @@ public class MainFragment extends Fragment {
         ma.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         ma.getSupportActionBar().setDisplayShowHomeEnabled(false);
 
+        restoreDefaultToolbar(ma);
+
         path = MainActivity.getPath();
 
         GridView recentlySongListView = (GridView) view.findViewById(R.id.recently_played_songs);
 
         ArrayList<SongCardView> listRecSongs = MainActivity.getListRecentlySongs();
-        Collections.reverse(listRecSongs);
         songCardViewAdapter = new SongCardViewAdapter(getActivity(),
                 R.layout.content_recently_songs, listRecSongs);
 
@@ -68,7 +94,7 @@ public class MainFragment extends Fragment {
         layoutParams.width = convertDpToPixels(123, getActivity())*listRecSongs.size();
         layoutParams.height = convertDpToPixels(210, getActivity());
         recentlySongListView.setLayoutParams(layoutParams);
-  
+
 
 
 
@@ -100,7 +126,7 @@ public class MainFragment extends Fragment {
                                 ft.addToBackStack(FULLSCREEN_TAG);
                                 ft.commit();
                                 fm.executePendingTransactions();
-                                fpf.setDataFullscreenPlayer(justSelectedSongCardView);
+                                FspPageFragment.setDataFullscreenPlayer(fpf,justSelectedSongCardView);
 //                                fpf.getPlayImageButton().setSelected(false);
 //                                fpf.getPlayImageButton().callOnClick();
                             }
@@ -110,7 +136,7 @@ public class MainFragment extends Fragment {
                                 ft.addToBackStack(FULLSCREEN_TAG);
                                 ft.commit();
                                 fm.executePendingTransactions();
-                                fpf.setDataFullscreenPlayer(justSelectedSongCardView);
+                                FspPageFragment.setDataFullscreenPlayer(fpf,justSelectedSongCardView);
                                 fpf.getPlayImageButton().setSelected(false);
                                 fpf.getPlayImageButton().callOnClick();
                             }
@@ -118,15 +144,13 @@ public class MainFragment extends Fragment {
                         } else {
                             curSelectedSong = justSelectedSongCardView;
 
-                            File file = new File(path,
-                                    TracklistActivity.getFilesNames().
-                                            get(curSelectedSong.getId()));
+                            File file = new File(path,curSelectedSong.getFilePath());
                             fpf.setFileNewSong(file);
                             ft.replace(R.id.fContainerActMain, fpf);
                             ft.addToBackStack(FULLSCREEN_TAG);
                             ft.commit();
                             fm.executePendingTransactions();
-                            fpf.setDataFullscreenPlayer(justSelectedSongCardView);
+                            FspPageFragment.setDataFullscreenPlayer(fpf, justSelectedSongCardView);
                         }
                         fpf.setSongFullTimeSeekBarProgress();
 
@@ -136,5 +160,52 @@ public class MainFragment extends Fragment {
         recentlySongListView.setOnItemClickListener(itemClickListener);
 
         return view;
+    }
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState){
+        super.onActivityCreated(savedInstanceState);
+        Log.d(LOG_TAG, "MainFragment onActivityCreated");
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        Log.d(LOG_TAG, "MainFragment onStart");
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        Log.d(LOG_TAG, "MainFragment onResume");
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        Log.d(LOG_TAG, "MainFragment onPause");
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        Log.d(LOG_TAG, "MainFragment onStop");
+    }
+
+    @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+        Log.d(LOG_TAG, "MainFragment onDestroyView");
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        Log.d(LOG_TAG, "MainFragment onDestroy");
+    }
+
+    @Override
+    public void onDetach(){
+        super.onDetach();
+        Log.d(LOG_TAG, "MainFragment onDetach");
     }
 }

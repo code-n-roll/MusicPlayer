@@ -1,7 +1,7 @@
 package ru.startandroid.musicplayer;
 
-import android.app.FragmentTransaction;
-import android.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -18,25 +18,10 @@ import java.util.ArrayList;
 public class TracklistActivity extends AppCompatActivity
 {
     private String TRACKLIST_TAG = "tracklistFragment";
-    private static ArrayList<SongCardView> songsCardView = new ArrayList<SongCardView>(){{
-        add(new SongCardView(0, "Holiday", "Green Day", R.drawable.columbia, R.string.stuff));
-        add(new SongCardView(1, "Holiday", "Green Day", R.drawable.columbia, R.string.stuff));
-        add(new SongCardView(2, "Holiday", "Green Day", R.drawable.brasil, R.string.stuff));
-        add(new SongCardView(3, "Holiday", "Green Day", R.drawable.argentina, R.string.stuff));
-        add(new SongCardView(4, "Holiday", "Green Day", R.drawable.chile, R.string.stuff));
-        add(new SongCardView(5, "Jesus of suburbia", "Green Day", R.drawable.uruguay, R.string.stuff));
-        add(new SongCardView(6, "Nothing else matters", "Metallica", R.drawable.chile, R.string.stuff));
-        add(new SongCardView(7, "Holiday", "Green Day", R.drawable.brasil, R.string.stuff));
-        add(new SongCardView(8, "Holiday", "Green Day", R.drawable.argentina, R.string.stuff));
-        add(new SongCardView(9, "Holiday", "Green Day", R.drawable.uruguay, R.string.stuff));
-    }};
 
-    public static ArrayList<SongCardView> getSongsCardView(){
-        return songsCardView;
-    }
+
     private TracklistFragment tf;
-    private SongCardView curSelectedSong;
-
+    private static SongCardView curSelectedSong;
     private static ArrayList<String> filesNames = new ArrayList<String>()
     {{
         add("White Stripes - Seven Nation Army (The Glitch Mob Remix-dubstep) (Battlefield 1 ost).mp3");
@@ -50,16 +35,31 @@ public class TracklistActivity extends AppCompatActivity
         add("The Weeknd - False Alarm (Live).mp3");
         add("Баста - Евпатория(acoustic).mp3");
     }};
+    private static ArrayList<SongCardView> songsCardView = new ArrayList<SongCardView>(){{
+        add(new SongCardView(0, "Holiday", "Green Day", R.drawable.columbia, R.string.stuff, filesNames.get(0)));
+        add(new SongCardView(1, "Holiday", "Green Day", R.drawable.columbia, R.string.stuff, filesNames.get(1)));
+        add(new SongCardView(2, "Holiday", "Green Day", R.drawable.brasil, R.string.stuff, filesNames.get(2)));
+        add(new SongCardView(3, "Holiday", "Green Day", R.drawable.argentina, R.string.stuff, filesNames.get(3)));
+        add(new SongCardView(4, "Holiday", "Green Day", R.drawable.chile, R.string.stuff, filesNames.get(4)));
+        add(new SongCardView(5, "Jesus of suburbia", "Green Day", R.drawable.uruguay, R.string.stuff, filesNames.get(5)));
+        add(new SongCardView(6, "Nothing else matters", "Metallica", R.drawable.chile, R.string.stuff, filesNames.get(6)));
+        add(new SongCardView(7, "Holiday", "Green Day", R.drawable.brasil, R.string.stuff, filesNames.get(7)));
+        add(new SongCardView(8, "Holiday", "Green Day", R.drawable.argentina, R.string.stuff, filesNames.get(8)));
+        add(new SongCardView(9, "Holiday", "Green Day", R.drawable.uruguay, R.string.stuff, filesNames.get(9)));
+    }};
     private String LOG_TAG = "MyLogs";
 
+    public static void setCurSelectedSong(SongCardView curSelectedSong){
+        curSelectedSong = curSelectedSong;
+    }
 
-    public static ArrayList<String> getFilesNames(){
-        return filesNames;
+    public static ArrayList<SongCardView> getSongsCardView(){
+        return songsCardView;
     }
 
     public SongCardViewAdapter getSongCardViewAdapter(){
         TracklistFragment someFragment = (TracklistFragment)
-                this.getFragmentManager().findFragmentById(tf.getId());
+                this.getSupportFragmentManager().findFragmentById(tf.getId());
 
         return someFragment.getSongCardViewAdapterFragment();
     }
@@ -110,7 +110,7 @@ public class TracklistActivity extends AppCompatActivity
             tf = new TracklistFragment();
 
 
-            FragmentManager fm = getFragmentManager();
+            FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             ft.add(R.id.fContainerActTracklist, tf, TRACKLIST_TAG);
             ft.commit();

@@ -1,14 +1,14 @@
 package ru.startandroid.musicplayer;
 
 import android.Manifest;
-import android.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.os.Environment;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -33,6 +33,7 @@ public class TracklistFragment extends Fragment {
     private ArrayList<SongCardView> songsCardView;
     private Toolbar toolbar;
     private FullscreenPlayerFragment fpf;
+    private MainFragment mf;
     private File path;
     private MediaPlayer mediaPlayer;
     private String FULLSCREEN_TAG = "fullscreenFragment";
@@ -70,7 +71,13 @@ public class TracklistFragment extends Fragment {
     }
 
 
-
+    public void restoreDefaultToolbar(TracklistActivity ta){
+        WindowManager.LayoutParams attrs = ta.getWindow().getAttributes();
+        attrs.flags &= (~WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        attrs.flags &= (~WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        ta.getWindow().setAttributes(attrs);
+        ta.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,11 +91,7 @@ public class TracklistFragment extends Fragment {
         ta.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ta.getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        WindowManager.LayoutParams attrs = ta.getWindow().getAttributes();
-        attrs.flags &= (~WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        attrs.flags &= (~WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        ta.getWindow().setAttributes(attrs);
-        ta.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        restoreDefaultToolbar(ta);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,7 +155,7 @@ public class TracklistFragment extends Fragment {
                             fpf = new FullscreenPlayerFragment();
                         }
 
-                        if (fpf.getCurMediaPlayer() == null) {
+                        if ((mf!= null && mf.getCurMediaPlayer() == null) && fpf.getCurMediaPlayer() == null) {
                             mediaPlayer = new MediaPlayer();
                             getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
                             path = Environment.getExternalStoragePublicDirectory(
@@ -168,7 +171,7 @@ public class TracklistFragment extends Fragment {
                                 ft.addToBackStack(FULLSCREEN_TAG);
                                 ft.commit();
                                 fm.executePendingTransactions();
-                                fpf.setDataFullscreenPlayer(justSelectedSongCardView);
+                                FspPageFragment.setDataFullscreenPlayer(fpf,justSelectedSongCardView);
 //                                fpf.getPlayImageButton().setSelected(false);
 //                                fpf.getPlayImageButton().callOnClick();
                             }
@@ -178,7 +181,7 @@ public class TracklistFragment extends Fragment {
                                 ft.addToBackStack(FULLSCREEN_TAG);
                                 ft.commit();
                                 fm.executePendingTransactions();
-                                fpf.setDataFullscreenPlayer(justSelectedSongCardView);
+                                FspPageFragment.setDataFullscreenPlayer(fpf,justSelectedSongCardView);
                                 fpf.getPlayImageButton().setSelected(false);
                                 fpf.getPlayImageButton().callOnClick();
                             }
@@ -186,15 +189,13 @@ public class TracklistFragment extends Fragment {
                         } else {
                             curSelectedSong = justSelectedSongCardView;
 
-                            File file = new File(path,
-                                    TracklistActivity.getFilesNames().
-                                            get(curSelectedSong.getId()));
+                            File file = new File(path,curSelectedSong.getFilePath());
                             fpf.setFileNewSong(file);
                             ft.replace(R.id.fContainerActTracklist, fpf);
                             ft.addToBackStack(FULLSCREEN_TAG);
                             ft.commit();
                             fm.executePendingTransactions();
-                            fpf.setDataFullscreenPlayer(justSelectedSongCardView);
+                            FspPageFragment.setDataFullscreenPlayer(fpf,justSelectedSongCardView);
                         }
                         fpf.setSongFullTimeSeekBarProgress();
                     }

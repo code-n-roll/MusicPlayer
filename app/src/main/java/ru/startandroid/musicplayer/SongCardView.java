@@ -13,18 +13,21 @@ public class SongCardView implements Parcelable{
     private String nameArtist;
     private int albumCoverResource;
     private int lyricSong;
+    private String filePath;
 
     public SongCardView(int id, String nameSong, String nameArtist,
-                        int albumCoverResource, int lyricSongResource){
+                        int albumCoverResource, int lyricSongResource,
+                        String filePath){
         this.id = id;
         this.nameSong = nameSong;
         this.nameArtist = nameArtist;
         this.albumCoverResource = albumCoverResource;
         this.lyricSong = lyricSongResource;
+        this.filePath = filePath;
     }
 
-
-
+    public void setFilePath(String path){this.filePath = path;}
+    public String getFilePath(){return this.filePath;}
     public int getLyricSong(){return this.lyricSong;}
     public void setLyricSong(int lyricSong){
         this.lyricSong = lyricSong;
@@ -74,6 +77,7 @@ public class SongCardView implements Parcelable{
         parcel.writeString(this.nameSong);
         parcel.writeString(this.nameArtist);
         parcel.writeInt(this.albumCoverResource);
+        parcel.writeString(this.filePath);
     }
 
     public SongCardView(Parcel in){
@@ -81,6 +85,7 @@ public class SongCardView implements Parcelable{
         this.nameSong = in.readString();
         this.nameArtist = in.readString();
         this.albumCoverResource = in.readInt();
+        this.filePath = in.readString();
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator(){
