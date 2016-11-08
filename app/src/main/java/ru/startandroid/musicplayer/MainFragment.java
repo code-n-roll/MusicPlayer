@@ -48,7 +48,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
+        setRetainInstance(false);
         Log.d(LOG_TAG, "MainFragment onCreate");
     }
 
@@ -110,7 +110,7 @@ public class MainFragment extends Fragment {
                         SongCardView justSelectedSongCardView = (SongCardView)
                                 parent.getItemAtPosition(position);
 
-                        FragmentManager fm = getFragmentManager();
+                        FragmentManager fm = getActivity().getSupportFragmentManager();
                         FragmentTransaction ft = fm.beginTransaction();
 
                         if (fpf == null){
@@ -126,7 +126,8 @@ public class MainFragment extends Fragment {
                                 ft.addToBackStack(FULLSCREEN_TAG);
                                 ft.commit();
                                 fm.executePendingTransactions();
-                                FspPageFragment.setDataFullscreenPlayer(fpf,justSelectedSongCardView);
+                                ((FspPageFragment)getActivity().getSupportFragmentManager().findFragmentByTag("fspPageFragment"))
+                                .setDataFullscreenPlayer(fpf,justSelectedSongCardView);
 //                                fpf.getPlayImageButton().setSelected(false);
 //                                fpf.getPlayImageButton().callOnClick();
                             }
@@ -136,7 +137,8 @@ public class MainFragment extends Fragment {
                                 ft.addToBackStack(FULLSCREEN_TAG);
                                 ft.commit();
                                 fm.executePendingTransactions();
-                                FspPageFragment.setDataFullscreenPlayer(fpf,justSelectedSongCardView);
+                                ((FspPageFragment)getActivity().getSupportFragmentManager().findFragmentByTag("fspPageFragment"))
+                                .setDataFullscreenPlayer(fpf,justSelectedSongCardView);
                                 fpf.getPlayImageButton().setSelected(false);
                                 fpf.getPlayImageButton().callOnClick();
                             }
@@ -150,7 +152,8 @@ public class MainFragment extends Fragment {
                             ft.addToBackStack(FULLSCREEN_TAG);
                             ft.commit();
                             fm.executePendingTransactions();
-                            FspPageFragment.setDataFullscreenPlayer(fpf, justSelectedSongCardView);
+                            ((FspPageFragment)getActivity().getSupportFragmentManager().findFragmentByTag("fspPageFragment"))
+                                    .setDataFullscreenPlayer(fpf, justSelectedSongCardView);
                         }
                         fpf.setSongFullTimeSeekBarProgress();
 

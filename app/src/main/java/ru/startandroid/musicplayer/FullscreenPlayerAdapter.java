@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.ViewGroup;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -12,23 +13,21 @@ import java.util.ArrayList;
  * Created by NotePad.by on 01.11.2016.
  */
 
-public class FullscreenPlayerAdapter extends FragmentStatePagerAdapter {
-    private FullscreenPlayerFragment fpf;
+public class FullscreenPlayerAdapter extends FragmentPagerAdapter {
 
-    public FullscreenPlayerAdapter(FragmentManager fragmentManager, FullscreenPlayerFragment fpf){
+    FullscreenPlayerAdapter(FragmentManager fragmentManager){
         super(fragmentManager);
-        this.fpf = fpf;
     }
 
     @Override
     public int getCount(){
-        return 12;
+        return 10;
     }
 
 
     @Override
     public Fragment getItem(int position){
-        return FspPageFragment.newInstance(position, fpf);
+        return FspPageFragment.newInstance(position);
     }
 
 }

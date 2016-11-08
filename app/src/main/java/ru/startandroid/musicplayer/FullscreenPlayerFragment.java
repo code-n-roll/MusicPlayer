@@ -2,8 +2,11 @@ package ru.startandroid.musicplayer;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.media.Image;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
@@ -33,6 +36,8 @@ import java.util.Random;
 import java.util.concurrent.RunnableFuture;
 
 import static android.support.v4.view.ViewPager.SCROLL_STATE_DRAGGING;
+import static android.support.v4.view.ViewPager.SCROLL_STATE_IDLE;
+import static android.support.v4.view.ViewPager.SCROLL_STATE_SETTLING;
 
 
 /**
@@ -44,7 +49,7 @@ public class FullscreenPlayerFragment extends Fragment {
     private ImageButton playImageButton, shuffleImageButton, replayImageButton,
             fastForwardButton, fastBackwardButton;
     private SeekBar seekBar;
-    private TextView timeStart, timeEnd;
+    private TextView timeStart, timeEnd, nameSong, nameArtist;
     private SongCardView currentSong;
     private MediaPlayer curMediaPlayer;
     private boolean resume = false, paused=false,continued = false;
@@ -52,13 +57,17 @@ public class FullscreenPlayerFragment extends Fragment {
     private double startTime, finalTime, seconds;
     private Handler myHandler = new Handler();
     private File fileCurrentSong, filePlayedSong;
-    private String TRACKLIST_TAG = "tracklistFragment", currentTimeSong;
+    private String TRACKLIST_TAG = "tracklistFragment",
+            PAGER_FULLSCREENPLAYER_TAG = "pagerFullscreenPlayer",
+            currentTimeSong;
     private boolean startThreadTime = true, startThreadSeekbar = true;
     private String LOG_TAG = "myLogs";
     private ViewPager pagerFullscreenPlayer;
-    private int oldPosition;
-    private boolean fastButtons = false, swap = false;
-
+    private int oldPosition=-1, newPosition=-1;
+    private boolean fastButtons = false, swap = false,
+            fastForwardCall = false, fastBackwardCall = false;
+    private FspPageFragment fspPageFragment;
+    private FullscreenPlayerAdapter fullscreenPlayerAdapter;
 
     public void setCurrentSong(SongCardView currentSong){ this.currentSong = currentSong;}
     public SongCardView getCurrentSong(){
@@ -66,6 +75,15 @@ public class FullscreenPlayerFragment extends Fragment {
     }
     public boolean getResume(){
         return this.resume;
+    }
+    public Runnable getUpdateSeekBar(){
+        return this.UpdateSeekBar;
+    }
+    public void setPaused(Boolean paused){
+        this.paused = paused;
+    }
+    public Boolean getPaused(){
+        return this.paused;
     }
     public void setContinued(boolean state){
         this.continued = state;
@@ -87,6 +105,19 @@ public class FullscreenPlayerFragment extends Fragment {
         return this.fileCurrentSong;
     }
 
+    public ViewPager getPagerFullscreenPlayer(){
+        return this.pagerFullscreenPlayer;
+    }
+    public void setOldPosition(int oldPosition){
+        this.oldPosition = oldPosition;
+    }
+    public void setFastForwardCall(Boolean fastForwardCall){
+        this.fastForwardCall = fastForwardCall;
+    }
+    public void setFastBackwardCall(Boolean fastBackwardCall){
+        this.fastBackwardCall = fastBackwardCall;
+    }
+
     @Override
     public void onAttach(Context context){
         super.onAttach(context);
@@ -96,7 +127,8 @@ public class FullscreenPlayerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
+        setRetainInstance(false);
+
         Log.d(LOG_TAG, "FullscreenPlayerFragment onCreate");
     }
 
@@ -205,6 +237,7 @@ public class FullscreenPlayerFragment extends Fragment {
     }
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState){
@@ -226,6 +259,10 @@ public class FullscreenPlayerFragment extends Fragment {
 //           }
 //        });
 
+        nameSong = (TextView) view.findViewById(R.id.nameSongFullscreenPlayer);
+        nameArtist = (TextView) view.findViewById(R.id.nameArtistFullScreenPlayer);
+
+
 
         timeStart = (TextView) view.findViewById(R.id.textViewStart);
         timeEnd = (TextView) view.findViewById(R.id.textViewEnd);
@@ -242,45 +279,69 @@ public class FullscreenPlayerFragment extends Fragment {
 
 
         pagerFullscreenPlayer = (ViewPager) view.findViewById(R.id.pagerFullscreenPlayer);
-        pagerFullscreenPlayer.setAdapter(new FullscreenPlayerAdapter(getFragmentManager(),
-                FullscreenPlayerFragment.this));
-
+        fullscreenPlayerAdapter = new FullscreenPlayerAdapter(getChildFragmentManager());
+        pagerFullscreenPlayer.setAdapter(fullscreenPlayerAdapter);
         pagerFullscreenPlayer.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 Log.d(LOG_TAG, "onPageSelected, position = " + position);
-                swap = true;
-                if (!fastButtons && swap) {
+//                if (oldPosition != -1) {
+
                     if (oldPosition < position) {
-                        fastForwardButton.callOnClick();
+                        fastForwardCall = true;
                     } else if (oldPosition > position) {
-                        fastBackwardButton.callOnClick();
+                        fastBackwardCall = true;
                     }
-                }
-                fastButtons = false;
-                swap = false;
+//                }
                 oldPosition = position;
             }
+
 
 
             @Override
             public void onPageScrolled(int position, float positionOffset,
                                        int positionOffsetPixels) {
                 Log.d(LOG_TAG, "onPageScrolled, position = " + position);
-
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
                 Log.d(LOG_TAG, "onPageScrollStateChanged, state = " + state);
+                if (state == SCROLL_STATE_IDLE || state == SCROLL_STATE_SETTLING) {
+                    swap = true;
+                    if (!fastButtons) {
+                        if (fastForwardCall) {
+                            fastForwardButton.callOnClick();
+                            fastForwardCall = false;
+                        } else if (fastBackwardCall) {
+                            fastBackwardButton.callOnClick();
+                            fastBackwardCall = false;
+                        }
+                    }
+                    fastButtons = false;
+                    swap = false;
+                }
             }
         });
 
-        FspPageFragment fspPageFragment = new FspPageFragment();
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.add(R.id.pagerFullscreenPlayer,fspPageFragment);
-        ft.commit();
+
+        currentSong = TracklistActivity.getCurSelectedSong();
+        oldPosition = currentSong.getId();
+        pagerFullscreenPlayer.setCurrentItem(currentSong.getId());
+
+
+        nameSong.setText(currentSong.getNameSong());
+        nameArtist.setText(currentSong.getNameArtist());
+
+//        fspPageFragment = ((FspPageFragment) getChildFragmentManager().findFragmentByTag("fspPageFragment"));
+//        if (fspPageFragment == null) {
+//            FragmentManager fm = getChildFragmentManager();
+//            FragmentTransaction ft = fm.beginTransaction();
+//            fspPageFragment = new FspPageFragment();
+//            ft.add(R.id.pagerFullscreenPlayer, fspPageFragment, "fspPageFragment");
+//            ft.commit();
+//        }
+
 
 
         if (curMediaPlayer == null) {
@@ -290,18 +351,17 @@ public class FullscreenPlayerFragment extends Fragment {
         seekBar = (SeekBar) view.findViewById(R.id.seekbarSongTime);
 
 
-
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             DisplayMetrics dm = new DisplayMetrics();
             getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
             int height = dm.heightPixels - MainActivity.convertDpToPixels(20, getActivity());
-            FspPageFragment.getAlbumCoverImageView().setLayoutParams(new RelativeLayout.LayoutParams(
+            fspPageFragment.getAlbumCoverImageView().setLayoutParams(new RelativeLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, height));
         }
 
         if (savedInstanceState != null){
             SongCardView restoreCurrentSong = (SongCardView)savedInstanceState.getParcelable("currentSong");
-            FspPageFragment.setDataFullscreenPlayer(this, restoreCurrentSong);
+            fspPageFragment.setDataFullscreenPlayer(this, restoreCurrentSong);
             playImageButton.setSelected(savedInstanceState.getBoolean("statePlayButton"));
             replayImageButton.setSelected(savedInstanceState.getBoolean("stateReplayButton"));
             shuffleImageButton.setSelected(savedInstanceState.getBoolean("stateShuffleButton"));
@@ -355,6 +415,8 @@ public class FullscreenPlayerFragment extends Fragment {
             }
         });
 
+
+
         fastForwardButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -376,11 +438,18 @@ public class FullscreenPlayerFragment extends Fragment {
 
                 fileCurrentSong = new File(MainActivity.getPath(),currentSong.getFilePath());
                 forBackwardTrack(fileCurrentSong);
-                FspPageFragment.setDataFullscreenPlayer(FullscreenPlayerFragment.this, currentSong);
-                setSongFullTimeSeekBarProgress();
-                if (fastButtons && !swap)
-                    pagerFullscreenPlayer.setCurrentItem(pagerFullscreenPlayer.getCurrentItem() + 1, true);
 
+//                fspPageFragment.setDataFullscreenPlayer(FullscreenPlayerFragment.this, currentSong);
+                setNameSongArtist(currentSong);
+                setSongFullTimeSeekBarProgress();
+                if (fastButtons && !swap) {
+                    oldPosition = currentSong.getId();
+                    if (pagerFullscreenPlayer.getCurrentItem() == currentTracklist.size()-1){
+                        pagerFullscreenPlayer.setCurrentItem(0, false);
+                    } else {
+                        pagerFullscreenPlayer.setCurrentItem(pagerFullscreenPlayer.getCurrentItem() + 1, true);
+                    }
+                }
             }
         });
 
@@ -403,10 +472,17 @@ public class FullscreenPlayerFragment extends Fragment {
                 }
                 fileCurrentSong = new File(MainActivity.getPath(),currentSong.getFilePath());
                 forBackwardTrack(fileCurrentSong);
-                FspPageFragment.setDataFullscreenPlayer(FullscreenPlayerFragment.this, currentSong);
+                setNameSongArtist(currentSong);
+//                fspPageFragment.setDataFullscreenPlayer(FullscreenPlayerFragment.this, currentSong);
                 setSongFullTimeSeekBarProgress();
-                if (fastButtons && !swap)
-                    pagerFullscreenPlayer.setCurrentItem(pagerFullscreenPlayer.getCurrentItem() - 1, true);
+                if (fastButtons && !swap) {
+                    oldPosition = currentSong.getId();
+                    if (pagerFullscreenPlayer.getCurrentItem() == 0){
+                        pagerFullscreenPlayer.setCurrentItem(currentTracklist.size()-1, false);
+                    } else {
+                        pagerFullscreenPlayer.setCurrentItem(pagerFullscreenPlayer.getCurrentItem() - 1, true);
+                    }
+                }
             }
         });
 
@@ -547,29 +623,33 @@ public class FullscreenPlayerFragment extends Fragment {
         return view;
     }
 
+    public void setNameSongArtist(SongCardView songCardView){
+        this.nameSong.setText(songCardView.getNameSong());
+        this.nameArtist.setText(songCardView.getNameArtist());
+    }
 
     public void setFileNewSong(File file){
-        this.fileCurrentSong = file;
+        setFileCurrentSong(file);
         try {
-            if (this.curMediaPlayer.isPlaying())
+            MediaPlayer curMediaPlayer = getCurMediaPlayer();
+            if (curMediaPlayer.isPlaying())
             {
-                this.curMediaPlayer.pause();
-                this.curMediaPlayer.stop();
-                this.resume = false;
-                this.myHandler.removeCallbacks(UpdateSongTime);
-                this.myHandler.removeCallbacks(UpdateSeekBar);
-
+                curMediaPlayer.pause();
+                curMediaPlayer.stop();
+                setResume(false);
+                getMyHandler().removeCallbacks(getUpdateSongTime());
+                getMyHandler().removeCallbacks(getUpdateSeekBar());
             }
-            if (paused){
-                this.curMediaPlayer.stop();
-                this.resume = false;
-                this.myHandler.removeCallbacks(UpdateSongTime);
-                this.myHandler.removeCallbacks(UpdateSeekBar);
-                paused = false;
+            if (getPaused()){
+                curMediaPlayer.stop();
+                setResume(false);
+                getMyHandler().removeCallbacks(getUpdateSongTime());
+                getMyHandler().removeCallbacks(getUpdateSeekBar());
+                setPaused(false);
             }
 
-            this.curMediaPlayer.reset();
-            this.curMediaPlayer.setDataSource(this.fileCurrentSong.toString());
+            curMediaPlayer.reset();
+            curMediaPlayer.setDataSource(file.toString());
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -577,25 +657,26 @@ public class FullscreenPlayerFragment extends Fragment {
 
     public void forBackwardTrack(File file){
         try {
+            MediaPlayer curMediaPlayer = getCurMediaPlayer();
             if (curMediaPlayer.isPlaying()) {
                 curMediaPlayer.pause();
                 curMediaPlayer.stop();
-                playImageButton.setSelected(!playImageButton.isSelected());
+                getPlayImageButton().setSelected(!getPlayImageButton().isSelected());
                 setStatePlayButton();
-                resume = false;
-                myHandler.removeCallbacks(UpdateSongTime);
-                myHandler.removeCallbacks(UpdateSeekBar);
+                setResume(false);
+                getMyHandler().removeCallbacks(getUpdateSongTime());
+                getMyHandler().removeCallbacks(getUpdateSeekBar());
                 curMediaPlayer.reset();
                 curMediaPlayer.setDataSource(file.toString());
             } else {
                 curMediaPlayer.stop();
-                resume = false;
-                myHandler.removeCallbacks(UpdateSongTime);
-                myHandler.removeCallbacks(UpdateSeekBar);
+                setResume(false);
+                getMyHandler().removeCallbacks(getUpdateSongTime());
+                getMyHandler().removeCallbacks(getUpdateSeekBar());
                 curMediaPlayer.reset();
                 curMediaPlayer.setDataSource(file.toString());
             }
-            playImageButton.callOnClick();
+            getPlayImageButton().callOnClick();
         }catch (IOException e){
             e.printStackTrace();
         }

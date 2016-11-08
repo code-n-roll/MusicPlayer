@@ -50,7 +50,10 @@ public class TracklistActivity extends AppCompatActivity
     private String LOG_TAG = "MyLogs";
 
     public static void setCurSelectedSong(SongCardView curSelectedSong){
-        curSelectedSong = curSelectedSong;
+        TracklistActivity.curSelectedSong = curSelectedSong;
+    }
+    public static SongCardView getCurSelectedSong(){
+        return curSelectedSong;
     }
 
     public static ArrayList<SongCardView> getSongsCardView(){
@@ -106,7 +109,7 @@ public class TracklistActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tracklist);
 
-        if (getFragmentManager().findFragmentByTag(TRACKLIST_TAG) == null) {
+        if (getSupportFragmentManager().findFragmentByTag(TRACKLIST_TAG) == null) {
             tf = new TracklistFragment();
 
 

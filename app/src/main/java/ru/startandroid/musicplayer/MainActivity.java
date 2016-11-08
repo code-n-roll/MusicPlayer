@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        if (getFragmentManager().findFragmentByTag(MAIN_TAG) == null) {
+        if (getSupportFragmentManager().findFragmentByTag(MAIN_TAG) == null) {
             ma = new MainFragment();
 
             mediaPlayer = new MediaPlayer();

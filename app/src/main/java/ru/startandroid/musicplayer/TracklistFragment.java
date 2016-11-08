@@ -39,7 +39,7 @@ public class TracklistFragment extends Fragment {
     private String FULLSCREEN_TAG = "fullscreenFragment";
     private String LOG_TAG = "myLogs";
     private SongCardView curSelectedSong;
-
+    private FspPageFragment fspPageFragment;
 
     public MediaPlayer getMediaPlayer(){
         return this.mediaPlayer;
@@ -56,7 +56,9 @@ public class TracklistFragment extends Fragment {
     public File getPath(){
         return this.path;
     }
-
+    public SongCardView getCurSelectedSong(){
+        return this.curSelectedSong;
+    }
     @Override
     public void onAttach(Context context){
         super.onAttach(context);
@@ -66,7 +68,7 @@ public class TracklistFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
+        setRetainInstance(false);
         Log.d(LOG_TAG, "TracklistFragment onCreate");
     }
 
@@ -80,8 +82,8 @@ public class TracklistFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tracklist, container, false);
 
         toolbar = (Toolbar) view.findViewById(R.id.tracklist_toolbar);
@@ -123,7 +125,7 @@ public class TracklistFragment extends Fragment {
 
 
         final GridView tracklistList = (GridView) view.findViewById(R.id.tracklist_list);
-        songsCardView = ((TracklistActivity) getActivity()).getSongsCardView();
+        songsCardView = TracklistActivity.getSongsCardView();
 
         if (songCardViewAdapter == null) {
             songCardViewAdapter = new SongCardViewAdapter(getActivity(),
@@ -139,7 +141,7 @@ public class TracklistFragment extends Fragment {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View v, int position,
                                             long id){
-                        curSelectedSong = MainActivity.getCurSelectedSong();
+                        curSelectedSong = TracklistActivity.getCurSelectedSong();
                         if ( curSelectedSong == null)
                             setCurSelectedSong((SongCardView)
                                     parent.getItemAtPosition(position));
@@ -148,12 +150,13 @@ public class TracklistFragment extends Fragment {
                         SongCardView justSelectedSongCardView = (SongCardView)
                                 parent.getItemAtPosition(position);
 
-                        FragmentManager fm = getFragmentManager();
+                        FragmentManager fm = getActivity().getSupportFragmentManager();
                         FragmentTransaction ft = fm.beginTransaction();
 
                         if (fpf == null){
                             fpf = new FullscreenPlayerFragment();
                         }
+
 
                         if ((mf!= null && mf.getCurMediaPlayer() == null) && fpf.getCurMediaPlayer() == null) {
                             mediaPlayer = new MediaPlayer();
@@ -171,31 +174,41 @@ public class TracklistFragment extends Fragment {
                                 ft.addToBackStack(FULLSCREEN_TAG);
                                 ft.commit();
                                 fm.executePendingTransactions();
-                                FspPageFragment.setDataFullscreenPlayer(fpf,justSelectedSongCardView);
 //                                fpf.getPlayImageButton().setSelected(false);
 //                                fpf.getPlayImageButton().callOnClick();
                             }
                             else {
                                 fpf.setContinued(false);
+                                TracklistActivity.setCurSelectedSong(curSelectedSong);
                                 ft.replace(R.id.fContainerActTracklist, fpf);
                                 ft.addToBackStack(FULLSCREEN_TAG);
                                 ft.commit();
                                 fm.executePendingTransactions();
-                                FspPageFragment.setDataFullscreenPlayer(fpf,justSelectedSongCardView);
+//                                ((FspPageFragment)getFragmentManager().findFragmentByTag("fspPageFragment"))
+//                                .setDataFullscreenPlayer(fpf,justSelectedSongCardView);
                                 fpf.getPlayImageButton().setSelected(false);
                                 fpf.getPlayImageButton().callOnClick();
                             }
 
                         } else {
                             curSelectedSong = justSelectedSongCardView;
-
+                            TracklistActivity.setCurSelectedSong(curSelectedSong);
+                            path = Environment.getExternalStoragePublicDirectory(
+                                    Environment.DIRECTORY_MUSIC
+                            );
                             File file = new File(path,curSelectedSong.getFilePath());
                             fpf.setFileNewSong(file);
                             ft.replace(R.id.fContainerActTracklist, fpf);
                             ft.addToBackStack(FULLSCREEN_TAG);
                             ft.commit();
                             fm.executePendingTransactions();
-                            FspPageFragment.setDataFullscreenPlayer(fpf,justSelectedSongCardView);
+
+                            fpf.getPagerFullscreenPlayer().setCurrentItem(curSelectedSong.getId());
+                            fpf.setFastForwardCall(false);
+                            fpf.setFastBackwardCall(false);
+//                            fpf.getFspPageFragment().setDataFullscreenPlayer(fpf, justSelectedSongCardView);
+//                            ((FspPageFragment)getActivity().getFragmentManager().findFragmentByTag("fspPageFragment"))
+//                            .setDataFullscreenPlayer(fpf,justSelectedSongCardView);
                         }
                         fpf.setSongFullTimeSeekBarProgress();
                     }
