@@ -17,7 +17,8 @@ import java.util.ArrayList;
 
 public class TracklistActivity extends AppCompatActivity
 {
-    private String TRACKLIST_TAG = "tracklistFragment";
+    private String TRACKLIST_TAG = "tracklistFragment",
+                    FULLSCREEN_TAG = "fullscreenFragment";
 
 
     private TracklistFragment tf;
@@ -109,16 +110,28 @@ public class TracklistActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tracklist);
 
-        if (getSupportFragmentManager().findFragmentByTag(TRACKLIST_TAG) == null) {
-            tf = new TracklistFragment();
+        String showFpf = getIntent().getStringExtra("TAG_SHOW_FPF");
+
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+            if (getSupportFragmentManager().findFragmentByTag(TRACKLIST_TAG) == null) {
+                tf = new TracklistFragment();
+                ft.add(R.id.fContainerActTracklist, tf, TRACKLIST_TAG);
+                if (showFpf != null){
+                    if (tf.getFpf() == null) {
+                        tf.setFpf(new FullscreenPlayerFragment());
+                    }
+                    tf.getFpf().setContinued(true);
+                    ft.replace(R.id.fContainerActTracklist, tf.getFpf(), FULLSCREEN_TAG);
+                    ft.addToBackStack(FULLSCREEN_TAG);
+                }
+
+                //            fm.executePendingTransactions();
+            }
+        ft.commit();
 
 
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.add(R.id.fContainerActTracklist, tf, TRACKLIST_TAG);
-            ft.commit();
-//            fm.executePendingTransactions();
-        }
         Log.d(LOG_TAG, "TracklistActivity onCreate");
     }
 

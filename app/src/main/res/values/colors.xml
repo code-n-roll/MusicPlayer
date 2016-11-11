@@ -6,7 +6,7 @@
     <color name="light_gray_header_color">#646663</color>
     <color name="holo_green_very_light">#BEC2B4</color>
     <color name="dark_gray_header_color">#3F403E</color>
-    <color name="colorBrownPrimaryDark">#795548</color>
-    <color name="colorBrownPrimary">#8D6E63</color>
-    <color name="colorBrownPrimaryDarkPlayer">#31332F</color>
+    <color name="colorBrownPrimaryDark">#3F403E</color><!--#795548-->
+    <color name="colorBrownPrimary">#646663</color><!--#8D6E63-->
+    <color name="colorBrownPrimaryDarkPlayer">#3F403E</color><!--#31332F-->
 </resources>

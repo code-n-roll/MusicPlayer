@@ -53,6 +53,7 @@ public class TracklistFragment extends Fragment {
     public FullscreenPlayerFragment getFpf(){
         return this.fpf;
     }
+    public void setFpf(FullscreenPlayerFragment fpf){this.fpf = fpf;}
     public File getPath(){
         return this.path;
     }
@@ -69,6 +70,7 @@ public class TracklistFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(false);
+
         Log.d(LOG_TAG, "TracklistFragment onCreate");
     }
 
@@ -87,6 +89,8 @@ public class TracklistFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tracklist, container, false);
 
         toolbar = (Toolbar) view.findViewById(R.id.tracklist_toolbar);
+
+
 
         TracklistActivity ta = (TracklistActivity) getActivity();
         ta.setSupportActionBar(toolbar);
@@ -157,20 +161,21 @@ public class TracklistFragment extends Fragment {
                             fpf = new FullscreenPlayerFragment();
                         }
 
-
-                        if ((mf!= null && mf.getCurMediaPlayer() == null) && fpf.getCurMediaPlayer() == null) {
-                            mediaPlayer = new MediaPlayer();
-                            getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
-                            path = Environment.getExternalStoragePublicDirectory(
-                                    Environment.DIRECTORY_MUSIC
-                            );
-                            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                        }
+                        //(mf!= null && mf.getCurMediaPlayer() == null) &&
+//                        if (fpf.getCurMediaPlayer() == null) {
+//                            mediaPlayer = new MediaPlayer();
+//                            getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
+//                            path = Environment.getExternalStoragePublicDirectory(
+//                                    Environment.DIRECTORY_MUSIC
+//                            );
+//                            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+//                            fpf.setCurMediaPlayer(mediaPlayer);
+//                        }
 
                         if (curSelectedSong == justSelectedSongCardView){
                             if (fpf.getResume()) {
                                 fpf.setContinued(true);
-                                ft.replace(R.id.fContainerActTracklist, fpf);
+                                ft.replace(R.id.fContainerActTracklist, fpf, FULLSCREEN_TAG);
                                 ft.addToBackStack(FULLSCREEN_TAG);
                                 ft.commit();
                                 fm.executePendingTransactions();
@@ -180,7 +185,7 @@ public class TracklistFragment extends Fragment {
                             else {
                                 fpf.setContinued(false);
                                 TracklistActivity.setCurSelectedSong(curSelectedSong);
-                                ft.replace(R.id.fContainerActTracklist, fpf);
+                                ft.replace(R.id.fContainerActTracklist, fpf, FULLSCREEN_TAG);
                                 ft.addToBackStack(FULLSCREEN_TAG);
                                 ft.commit();
                                 fm.executePendingTransactions();
@@ -198,7 +203,7 @@ public class TracklistFragment extends Fragment {
                             );
                             File file = new File(path,curSelectedSong.getFilePath());
                             fpf.setFileNewSong(file);
-                            ft.replace(R.id.fContainerActTracklist, fpf);
+                            ft.replace(R.id.fContainerActTracklist, fpf, FULLSCREEN_TAG);
                             ft.addToBackStack(FULLSCREEN_TAG);
                             ft.commit();
                             fm.executePendingTransactions();

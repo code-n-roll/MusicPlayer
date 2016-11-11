@@ -1,13 +1,16 @@
 package ru.startandroid.musicplayer;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
@@ -49,6 +52,8 @@ public class FspPageFragment extends Fragment {
             savedPageNumber = savedInstanceState.getInt(SAVE_PAGE_NUMBER);
         }
 
+
+
         Log.d(LOG_TAG, "savedPageNumber = " + savedPageNumber);
     }
 
@@ -63,6 +68,7 @@ public class FspPageFragment extends Fragment {
         albumCoverImageView = (ImageView) view.findViewById(R.id.fullscreenAlbumCover);
         lyricSong = (TextView) view.findViewById(R.id.lyricSong);
 
+        setAlbumCoverImageViewSize();
 
         if (pageNumber > -1 && pageNumber < TracklistActivity.getSongsCardView().size()){
             setAlbumCoverImageView(TracklistActivity.getSongsCardView().get(pageNumber));
@@ -72,6 +78,15 @@ public class FspPageFragment extends Fragment {
 
         Log.d(LOG_TAG, "FspPageFragment onCreateView: " + pageNumber);
         return view;
+    }
+    public void setAlbumCoverImageViewSize(){
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            DisplayMetrics dm = new DisplayMetrics();
+            getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+            int height = dm.heightPixels - MainActivity.convertDpToPixels(20, getActivity());
+            this.getAlbumCoverImageView().setLayoutParams(new RelativeLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, height));
+        }
     }
     public ImageView getAlbumCoverImageView(){
         return albumCoverImageView;

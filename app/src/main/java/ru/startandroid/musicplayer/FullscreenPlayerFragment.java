@@ -1,6 +1,7 @@
 package ru.startandroid.musicplayer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.media.Image;
 import android.media.MediaPlayer;
@@ -68,6 +69,7 @@ public class FullscreenPlayerFragment extends Fragment {
             fastForwardCall = false, fastBackwardCall = false;
     private FspPageFragment fspPageFragment;
     private FullscreenPlayerAdapter fullscreenPlayerAdapter;
+    private Intent intentPlayerService;
 
     public void setCurrentSong(SongCardView currentSong){ this.currentSong = currentSong;}
     public SongCardView getCurrentSong(){
@@ -128,6 +130,10 @@ public class FullscreenPlayerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(false);
+
+        intentPlayerService = new Intent(getContext(), PlayerService.class);
+        getActivity().startService(intentPlayerService);
+
 
         Log.d(LOG_TAG, "FullscreenPlayerFragment onCreate");
     }
@@ -351,17 +357,11 @@ public class FullscreenPlayerFragment extends Fragment {
         seekBar = (SeekBar) view.findViewById(R.id.seekbarSongTime);
 
 
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-            DisplayMetrics dm = new DisplayMetrics();
-            getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-            int height = dm.heightPixels - MainActivity.convertDpToPixels(20, getActivity());
-            fspPageFragment.getAlbumCoverImageView().setLayoutParams(new RelativeLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, height));
-        }
+
 
         if (savedInstanceState != null){
             SongCardView restoreCurrentSong = (SongCardView)savedInstanceState.getParcelable("currentSong");
-            fspPageFragment.setDataFullscreenPlayer(this, restoreCurrentSong);
+//            fspPageFragment.setDataFullscreenPlayer(this, restoreCurrentSong);
             playImageButton.setSelected(savedInstanceState.getBoolean("statePlayButton"));
             replayImageButton.setSelected(savedInstanceState.getBoolean("stateReplayButton"));
             shuffleImageButton.setSelected(savedInstanceState.getBoolean("stateShuffleButton"));
@@ -372,6 +372,9 @@ public class FullscreenPlayerFragment extends Fragment {
             ((TracklistFragment)getFragmentManager().findFragmentByTag("tracklistFragment")).setCurSelectedSong(restoreCurrentSong);
             currentSong = restoreCurrentSong;
             setSongFullTimeSeekBarProgress();
+            myHandler.postDelayed(UpdateSongTime, 10);
+            myHandler.postDelayed(UpdateSeekBar, 10);
+            fileCurrentSong = new File (MainActivity.getPath(),currentSong.getFilePath());
         }
 
 
@@ -422,6 +425,11 @@ public class FullscreenPlayerFragment extends Fragment {
             public void onClick(View view){
                 fastButtons = true;
                 ArrayList<SongCardView> currentTracklist = TracklistActivity.getSongsCardView();
+                if (shuffleImageButton.isSelected() && !swap) {
+                    Random randomGenerator = new Random();
+                    int i = randomGenerator.nextInt(currentTracklist.size()-1);
+                    currentSong = currentTracklist.get(i);
+                }
                 int curId = currentSong.getId();
                 if (currentTracklist.size() - 1 > curId) {
                     currentSong = currentTracklist.get(curId + 1);
@@ -447,7 +455,7 @@ public class FullscreenPlayerFragment extends Fragment {
                     if (pagerFullscreenPlayer.getCurrentItem() == currentTracklist.size()-1){
                         pagerFullscreenPlayer.setCurrentItem(0, false);
                     } else {
-                        pagerFullscreenPlayer.setCurrentItem(pagerFullscreenPlayer.getCurrentItem() + 1, true);
+                        pagerFullscreenPlayer.setCurrentItem(currentSong.getId(), true);
                     }
                 }
             }
@@ -457,14 +465,19 @@ public class FullscreenPlayerFragment extends Fragment {
             @Override
             public void onClick(View view){
                 fastButtons = true;
-
                 ArrayList<SongCardView> currentTracklist = TracklistActivity.getSongsCardView();
+                if (shuffleImageButton.isSelected() && !swap) {
+                    Random randomGenerator = new Random();
+                    int i = randomGenerator.nextInt(currentTracklist.size()-1);
+                    currentSong = currentTracklist.get(i);
+                }
                 int curId = currentSong.getId();
                 if (curId > 0) {
                     currentSong = currentTracklist.get(curId - 1);
                 } else {
                     currentSong = currentTracklist.get(currentTracklist.size()-1);
                 }
+
                 if (getActivity().getClass() == MainActivity.class){
                     MainActivity.setCurSelectedSong(currentSong);
                 } else if (getActivity().getClass() == TracklistActivity.class){
@@ -480,7 +493,7 @@ public class FullscreenPlayerFragment extends Fragment {
                     if (pagerFullscreenPlayer.getCurrentItem() == 0){
                         pagerFullscreenPlayer.setCurrentItem(currentTracklist.size()-1, false);
                     } else {
-                        pagerFullscreenPlayer.setCurrentItem(pagerFullscreenPlayer.getCurrentItem() - 1, true);
+                        pagerFullscreenPlayer.setCurrentItem(currentSong.getId(), true);
                     }
                 }
             }
@@ -550,8 +563,7 @@ public class FullscreenPlayerFragment extends Fragment {
                     if (fileCurrentSong == null) {
                         fileCurrentSong = new File (MainActivity.getPath(),
                                 currentSong.getFilePath());
-
-                            curMediaPlayer.setDataSource(fileCurrentSong.toString());
+                        curMediaPlayer.setDataSource(fileCurrentSong.toString());
                     }
                     if (filePlayedSong != fileCurrentSong) {
                         ArrayList<SongCardView> list = MainActivity.getListRecentlySongs();
@@ -580,6 +592,7 @@ public class FullscreenPlayerFragment extends Fragment {
                             curMediaPlayer.start();
                             paused = false;
                         }
+                        getActivity().startService(intentPlayerService);
                     } else {
                         curMediaPlayer.pause();
                         curPosition = curMediaPlayer.getCurrentPosition();
