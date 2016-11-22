@@ -1,12 +1,17 @@
 package ru.startandroid.musicplayer;
 
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.res.Configuration;
 import android.media.Image;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.os.Handler;
@@ -50,63 +55,76 @@ public class FullscreenPlayerFragment extends Fragment {
     private ImageButton playImageButton, shuffleImageButton, replayImageButton,
             fastForwardButton, fastBackwardButton;
     private SeekBar seekBar;
-    private TextView timeStart, timeEnd, nameSong, nameArtist;
-    private SongCardView currentSong;
+    private TextView  timeEnd, nameSong, nameArtist;
+    private TextView timeStart;
+    private static SongCardView currentSong;
     private MediaPlayer curMediaPlayer;
-    private boolean resume = false, paused=false,continued = false;
-    private int curPosition, minutes;
-    private double startTime, finalTime, seconds;
+    private static boolean resume = false, paused=false,continued = false;
+    private static int curPosition, minutes;
+    private static double startTime, finalTime, seconds;
     private Handler myHandler = new Handler();
-    private File fileCurrentSong, filePlayedSong;
+    private static File fileCurrentSong, filePlayedSong;
     private String TRACKLIST_TAG = "tracklistFragment",
             PAGER_FULLSCREENPLAYER_TAG = "pagerFullscreenPlayer",
+            TAG_PLAY = "playNotifPlayerReceiver",
+            TAG_PLAY_BUT_PS_TO_F_BR = "playButtonFromPStoFragmentBR",
+            TAG_FORWARD_BUT_PS_TO_F_BR = "forwardButtonFromPStoFragmentBR",
+            TAG_BACKWARD_BUT_PS_TO_F_BR = "backwardButtonFromPStoFragmentBR",
             currentTimeSong;
     private boolean startThreadTime = true, startThreadSeekbar = true;
     private String LOG_TAG = "myLogs";
     private ViewPager pagerFullscreenPlayer;
     private int oldPosition=-1, newPosition=-1;
     private boolean fastButtons = false, swap = false,
-            fastForwardCall = false, fastBackwardCall = false;
+            fastForwardCall = false, fastBackwardCall = false,
+            bound = false;
     private FspPageFragment fspPageFragment;
     private FullscreenPlayerAdapter fullscreenPlayerAdapter;
     private Intent intentPlayerService;
+    ServiceConnection serviceConnection;
+    BroadcastReceiver playButtonFromServiceToFragmentBR,
+    forwardButtonFromServiceToFragmentBR,
+    backwardButtonFromServiceToFragmentBR;
 
-    public void setCurrentSong(SongCardView currentSong){ this.currentSong = currentSong;}
-    public SongCardView getCurrentSong(){
-        return this.currentSong;
+    private PlayerService playerService;
+    private File path;
+
+    public void setPath(File path){
+        this.path = path;
     }
-    public boolean getResume(){
-        return this.resume;
+    public void setCurrentSong(SongCardView currentSong){
+        this.currentSong = currentSong;
     }
-    public Runnable getUpdateSeekBar(){
-        return this.UpdateSeekBar;
+    public static SongCardView getCurrentSong(){
+        return currentSong;
     }
-    public void setPaused(Boolean paused){
-        this.paused = paused;
+    public static boolean getResume(){
+        return resume;
     }
-    public Boolean getPaused(){
-        return this.paused;
+    public static void setPaused(Boolean value){
+        paused = value;
+    }
+    public static Boolean getPaused(){
+        return paused;
     }
     public void setContinued(boolean state){
-        this.continued = state;
+        continued = state;
     }
 
     public MediaPlayer getCurMediaPlayer(){
         return this.curMediaPlayer;
     }
-    public void setCurMediaPlayer(MediaPlayer curMediaPlayer) {
-        this.curMediaPlayer = curMediaPlayer;
+    public void setCurMediaPlayer(MediaPlayer value) {
+        this.curMediaPlayer = value;
     }
-    public ImageButton getFastForwardButton(){
-        return this.fastForwardButton;
+    public static void setFileCurrentSong(File value){
+        fileCurrentSong = value;
     }
-    public void setFileCurrentSong(File file){
-        this.fileCurrentSong = file;
+    public static File getFileCurrentSong(){
+        return fileCurrentSong;
     }
-    public File getFileCurrentSong(){
-        return this.fileCurrentSong;
-    }
-
+    public static File getFilePlayedSong(){return filePlayedSong;}
+    public static void setFilePlayedSong(File value){filePlayedSong = value;}
     public ViewPager getPagerFullscreenPlayer(){
         return this.pagerFullscreenPlayer;
     }
@@ -119,6 +137,27 @@ public class FullscreenPlayerFragment extends Fragment {
     public void setFastBackwardCall(Boolean fastBackwardCall){
         this.fastBackwardCall = fastBackwardCall;
     }
+    public static double getStartTime(){
+        return startTime;
+    }
+    public static void setStartTime(double value){
+        startTime = value;
+    }
+    public static double getFinalTime(){
+        return finalTime;
+    }
+    public static void setFinalTime(double value){
+        finalTime = value;
+    }
+    public static void setCurPosition(int value){
+        curPosition = value;
+    }
+    public static int getCurPosition(){
+        return curPosition;
+    }
+
+
+
 
     @Override
     public void onAttach(Context context){
@@ -131,10 +170,24 @@ public class FullscreenPlayerFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setRetainInstance(false);
 
-        intentPlayerService = new Intent(getContext(), PlayerService.class);
-        getActivity().startService(intentPlayerService);
-
-
+//        if (intentPlayerService == null)
+//            intentPlayerService = new Intent(getActivity(), PlayerService.class);
+//
+//        if (serviceConnection == null)
+//            serviceConnection = new ServiceConnection() {
+//                @Override
+//                public void onServiceConnected(ComponentName name, IBinder binder) {
+//                    Log.d(LOG_TAG, "FullscreenPlayerFragment onServiceConnected");
+//                    playerService = ((PlayerService.PlayerBinder) binder).getService();
+//                    bound = true;
+//                }
+//
+//                @Override
+//                public void onServiceDisconnected(ComponentName name) {
+//                    Log.d(LOG_TAG, "FullscreenPlayerFragment onServiceDisconnected");
+//                    bound = false;
+//                }
+//            };
         Log.d(LOG_TAG, "FullscreenPlayerFragment onCreate");
     }
 
@@ -147,13 +200,19 @@ public class FullscreenPlayerFragment extends Fragment {
     @Override
     public void onStart(){
         super.onStart();
+
         Log.d(LOG_TAG, "FullscreenPlayerFragment onStart");
     }
 
     @Override
     public void onResume(){
         super.onResume();
-        Log.d(LOG_TAG, "FullscreenPlayerFragment onResume");
+//        getActivity().startService(intentPlayerService);
+//        getActivity().bindService(intentPlayerService, serviceConnection, Context.BIND_AUTO_CREATE);
+        if (getActivity().getClass() == TracklistActivity.class){
+            path = ((TracklistActivity)getActivity()).getPlayerService().getPath();
+            Log.d(LOG_TAG, "FullscreenPlayerFragment onResume");
+        }
     }
 
     @Override
@@ -165,6 +224,10 @@ public class FullscreenPlayerFragment extends Fragment {
     @Override
     public void onStop(){
         super.onStop();
+//        if (bound){
+//            getActivity().unbindService(serviceConnection);
+//            bound = false;
+//        }
         Log.d(LOG_TAG, "FullscreenPlayerFragment onStop");
     }
 
@@ -177,6 +240,7 @@ public class FullscreenPlayerFragment extends Fragment {
     @Override
     public void onDestroy(){
         super.onDestroy();
+        getActivity().unregisterReceiver(playButtonFromServiceToFragmentBR);
         Log.d(LOG_TAG, "FullscreenPlayerFragment onDestroy");
     }
 
@@ -190,20 +254,22 @@ public class FullscreenPlayerFragment extends Fragment {
     public Handler getMyHandler(){
         return this.myHandler;
     }
-    public void setResume(boolean state){
-        this.resume = state;
+    public static void setResume(boolean state){
+        resume = state;
     }
 
     public ImageButton getPlayImageButton (){
         return this.playImageButton;
     }
 
-
-
-    public Runnable getUpdateSongTime(){
-        return UpdateSongTime;
+    public ImageButton getReplayImageButton(){
+        return this.replayImageButton;
     }
 
+    public Runnable getUpdateSongTime(){
+        return this.UpdateSongTime;
+    }
+    public Runnable getUpdateSeekBar(){ return this.UpdateSeekBar;}
     static String secondsString, minutesString;
 
     private Runnable UpdateSongTime = new Runnable(){
@@ -351,7 +417,10 @@ public class FullscreenPlayerFragment extends Fragment {
 
 
         if (curMediaPlayer == null) {
-            curMediaPlayer = MainActivity.getMediaPlayer();
+//            curMediaPlayer = playerService.getMediaPlayer();
+            if (getActivity().getClass() == TracklistActivity.class)
+                curMediaPlayer = ((TracklistActivity)getActivity()).getPlayerService().getMediaPlayer();
+
             playImageButton.setSelected(true);
         }
         seekBar = (SeekBar) view.findViewById(R.id.seekbarSongTime);
@@ -374,7 +443,7 @@ public class FullscreenPlayerFragment extends Fragment {
             setSongFullTimeSeekBarProgress();
             myHandler.postDelayed(UpdateSongTime, 10);
             myHandler.postDelayed(UpdateSeekBar, 10);
-            fileCurrentSong = new File (MainActivity.getPath(),currentSong.getFilePath());
+            fileCurrentSong = new File (path,currentSong.getFilePath());
         }
 
 
@@ -444,7 +513,7 @@ public class FullscreenPlayerFragment extends Fragment {
                     TracklistActivity.setCurSelectedSong(currentSong);
                 }
 
-                fileCurrentSong = new File(MainActivity.getPath(),currentSong.getFilePath());
+                fileCurrentSong = new File(path,currentSong.getFilePath());
                 forBackwardTrack(fileCurrentSong);
 
 //                fspPageFragment.setDataFullscreenPlayer(FullscreenPlayerFragment.this, currentSong);
@@ -483,10 +552,9 @@ public class FullscreenPlayerFragment extends Fragment {
                 } else if (getActivity().getClass() == TracklistActivity.class){
                     TracklistActivity.setCurSelectedSong(currentSong);
                 }
-                fileCurrentSong = new File(MainActivity.getPath(),currentSong.getFilePath());
+                fileCurrentSong = new File(path,currentSong.getFilePath());
                 forBackwardTrack(fileCurrentSong);
                 setNameSongArtist(currentSong);
-//                fspPageFragment.setDataFullscreenPlayer(FullscreenPlayerFragment.this, currentSong);
                 setSongFullTimeSeekBarProgress();
                 if (fastButtons && !swap) {
                     oldPosition = currentSong.getId();
@@ -515,6 +583,7 @@ public class FullscreenPlayerFragment extends Fragment {
                 setStateShuffleButton();
             }
         });
+
 
 
         curMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -549,9 +618,35 @@ public class FullscreenPlayerFragment extends Fragment {
             }
         });
 
+        forwardButtonFromServiceToFragmentBR = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                fastForwardButton.callOnClick();
+            }
+        };
+        getActivity().registerReceiver(forwardButtonFromServiceToFragmentBR,
+                new IntentFilter(TAG_FORWARD_BUT_PS_TO_F_BR));
+
+        backwardButtonFromServiceToFragmentBR = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                fastBackwardButton.callOnClick();
+            }
+        };
+        getActivity().registerReceiver(backwardButtonFromServiceToFragmentBR,
+                new IntentFilter(TAG_BACKWARD_BUT_PS_TO_F_BR));
 
 
 
+        playButtonFromServiceToFragmentBR= new BroadcastReceiver(){
+            @Override
+            public void onReceive(Context context, Intent intent){
+                playImageButton.setSelected(!playImageButton.isSelected());
+                setStatePlayButton();
+            }
+        };
+        getActivity().registerReceiver(playButtonFromServiceToFragmentBR,
+                new IntentFilter(TAG_PLAY_BUT_PS_TO_F_BR));
 
 
         playImageButton.setOnClickListener(new View.OnClickListener() {
@@ -559,10 +654,14 @@ public class FullscreenPlayerFragment extends Fragment {
             public void onClick(View view) {
                 playImageButton.setSelected(!playImageButton.isSelected());
                 setStatePlayButton();
+                Intent intent = new Intent(TAG_PLAY);
+                intent.putExtra("fpfCall", "true");
+                intent.putExtra("isPlaying", !playImageButton.isSelected());
+                intent.putExtra("currentSong", currentSong);
+                ((TracklistActivity)getActivity()).sendBroadcast(intent);
                 try {
                     if (fileCurrentSong == null) {
-                        fileCurrentSong = new File (MainActivity.getPath(),
-                                currentSong.getFilePath());
+                        fileCurrentSong = new File (path,currentSong.getFilePath());
                         curMediaPlayer.setDataSource(fileCurrentSong.toString());
                     }
                     if (filePlayedSong != fileCurrentSong) {
@@ -592,7 +691,6 @@ public class FullscreenPlayerFragment extends Fragment {
                             curMediaPlayer.start();
                             paused = false;
                         }
-                        getActivity().startService(intentPlayerService);
                     } else {
                         curMediaPlayer.pause();
                         curPosition = curMediaPlayer.getCurrentPosition();

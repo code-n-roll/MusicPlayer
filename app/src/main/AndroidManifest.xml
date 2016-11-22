@@ -43,10 +43,9 @@
             android:name=".PlayerService"
             android:enabled="true"
             android:exported="true"
-            android:process=":playerService"
-        >
+            >
         </service>
-
+<!--            android:process=":playerService"-->
     </application>
 
 </manifest>

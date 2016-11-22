@@ -1,6 +1,9 @@
 package ru.startandroid.musicplayer;
 
 import android.Manifest;
+import android.content.ComponentName;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.support.v4.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
@@ -35,15 +38,17 @@ public class TracklistFragment extends Fragment {
     private FullscreenPlayerFragment fpf;
     private MainFragment mf;
     private File path;
-    private MediaPlayer mediaPlayer;
     private String FULLSCREEN_TAG = "fullscreenFragment";
     private String LOG_TAG = "myLogs";
     private SongCardView curSelectedSong;
     private FspPageFragment fspPageFragment;
 
-    public MediaPlayer getMediaPlayer(){
-        return this.mediaPlayer;
-    }
+    private Intent intentPlayerService;
+    ServiceConnection serviceConnection;
+    private PlayerService playerService;
+    boolean bound = false;
+
+
     public void setCurSelectedSong(SongCardView item){
         this.curSelectedSong = item;
     }
@@ -70,6 +75,25 @@ public class TracklistFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(false);
+
+//        if (intentPlayerService == null)
+//            intentPlayerService = new Intent(getActivity(), PlayerService.class);
+//
+//        if (serviceConnection == null)
+//            serviceConnection = new ServiceConnection() {
+//                @Override
+//                public void onServiceConnected(ComponentName name, IBinder binder) {
+//                    Log.d(LOG_TAG, "FullscreenPlayerFragment onServiceConnected");
+//                    playerService = ((PlayerService.PlayerBinder) binder).getService();
+//                    bound = true;
+//                }
+//
+//                @Override
+//                public void onServiceDisconnected(ComponentName name) {
+//                    Log.d(LOG_TAG, "FullscreenPlayerFragment onServiceDisconnected");
+//                    bound = false;
+//                }
+//            };
 
         Log.d(LOG_TAG, "TracklistFragment onCreate");
     }
@@ -240,6 +264,8 @@ public class TracklistFragment extends Fragment {
                     }
                 };
         tracklistList.setOnItemLongClickListener(itemLongClickListener);
+
+
 //        registerForContextMenu(tracklistList);
         Log.d(LOG_TAG, "TracklistFragment onCreateView");
         return view;
@@ -254,12 +280,31 @@ public class TracklistFragment extends Fragment {
     @Override
     public void onStart(){
         super.onStart();
+
         Log.d(LOG_TAG, "TracklistFragment onStart");
     }
 
     @Override
     public void onResume(){
         super.onResume();
+
+//        getActivity().startService(intentPlayerService);
+//        getActivity().bindService(intentPlayerService, serviceConnection,0);
+
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        if (playerService != null && playerService.isPlaying) {
+            if (this.getFpf() == null) {
+                this.setFpf(new FullscreenPlayerFragment());
+            }
+            this.getFpf().setContinued(true);
+            ft.replace(R.id.fContainerActTracklist, this.fpf, FULLSCREEN_TAG);
+            ft.addToBackStack(FULLSCREEN_TAG);
+
+            ft.commit();
+        }
+
         Log.d(LOG_TAG, "TracklistFragment onResume");
     }
 
@@ -272,6 +317,10 @@ public class TracklistFragment extends Fragment {
     @Override
     public void onStop(){
         super.onStop();
+//        if (bound){
+//            getActivity().unbindService(serviceConnection);
+//            bound = false;
+//        }
         Log.d(LOG_TAG, "TracklistFragment onStop");
     }
 

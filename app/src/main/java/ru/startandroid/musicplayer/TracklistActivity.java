@@ -1,5 +1,9 @@
 package ru.startandroid.musicplayer;
 
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
@@ -18,7 +22,8 @@ import java.util.ArrayList;
 public class TracklistActivity extends AppCompatActivity
 {
     private String TRACKLIST_TAG = "tracklistFragment",
-                    FULLSCREEN_TAG = "fullscreenFragment";
+                    FULLSCREEN_TAG = "fullscreenFragment",
+                    SHOW_FPF_TAG = "showFpf";
 
 
     private TracklistFragment tf;
@@ -49,7 +54,18 @@ public class TracklistActivity extends AppCompatActivity
         add(new SongCardView(9, "Holiday", "Green Day", R.drawable.uruguay, R.string.stuff, filesNames.get(9)));
     }};
     private String LOG_TAG = "MyLogs";
+    private Intent intentPlayerService;
+    ServiceConnection serviceConnection;
+    private PlayerService playerService;
+    boolean bound = false;
 
+
+    public PlayerService getPlayerService(){
+        return this.playerService;
+    }
+    public Intent getIntentPlayerService(){
+        return this.intentPlayerService;
+    }
     public static void setCurSelectedSong(SongCardView curSelectedSong){
         TracklistActivity.curSelectedSong = curSelectedSong;
     }
@@ -69,6 +85,7 @@ public class TracklistActivity extends AppCompatActivity
     }
 
 
+
     @Override
     protected void onRestart() {
         super.onRestart();
@@ -78,12 +95,15 @@ public class TracklistActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
+        startService(intentPlayerService);
+        bindService(intentPlayerService, serviceConnection,0);
         Log.d(LOG_TAG, "TracklistActivity onStart");
     }
 
     @Override
     public void onResume(){
         super.onResume();
+
         Log.d(LOG_TAG, "TracklistActivity onResume");
 
     }
@@ -97,6 +117,10 @@ public class TracklistActivity extends AppCompatActivity
     @Override
     protected void onStop() {
         super.onStop();
+        if (bound){
+            unbindService(serviceConnection);
+            bound = false;
+        }
         Log.d(LOG_TAG, "TracklistActivity onStop");
     }
     @Override
@@ -112,13 +136,39 @@ public class TracklistActivity extends AppCompatActivity
 
         String showFpf = getIntent().getStringExtra("TAG_SHOW_FPF");
 
+
+        if (intentPlayerService == null)
+            intentPlayerService = new Intent(this, PlayerService.class);
+
+        if (serviceConnection == null)
+            serviceConnection = new ServiceConnection() {
+                @Override
+                public void onServiceConnected(ComponentName name, IBinder binder) {
+                    Log.d(LOG_TAG, "FullscreenPlayerFragment onServiceConnected");
+                    playerService = ((PlayerService.PlayerBinder) binder).getService();
+                    bound = true;
+                }
+
+                @Override
+                public void onServiceDisconnected(ComponentName name) {
+                    Log.d(LOG_TAG, "FullscreenPlayerFragment onServiceDisconnected");
+                    bound = false;
+                }
+            };
+
+        if (savedInstanceState != null){
+            bound = savedInstanceState.getBoolean("bound");
+
+        }
+
+
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
             if (getSupportFragmentManager().findFragmentByTag(TRACKLIST_TAG) == null) {
                 tf = new TracklistFragment();
                 ft.add(R.id.fContainerActTracklist, tf, TRACKLIST_TAG);
-                if (showFpf != null){
+                if (showFpf == SHOW_FPF_TAG || getSupportFragmentManager().findFragmentByTag(FULLSCREEN_TAG) != null){
                     if (tf.getFpf() == null) {
                         tf.setFpf(new FullscreenPlayerFragment());
                     }
@@ -126,13 +176,19 @@ public class TracklistActivity extends AppCompatActivity
                     ft.replace(R.id.fContainerActTracklist, tf.getFpf(), FULLSCREEN_TAG);
                     ft.addToBackStack(FULLSCREEN_TAG);
                 }
-
                 //            fm.executePendingTransactions();
+
+
             }
         ft.commit();
 
 
         Log.d(LOG_TAG, "TracklistActivity onCreate");
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        savedInstanceState.putBoolean("bound", bound);
     }
 
 //    @Override

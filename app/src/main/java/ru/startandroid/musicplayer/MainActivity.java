@@ -1,6 +1,9 @@
 package ru.startandroid.musicplayer;
 
 import android.Manifest;
+import android.content.ComponentName;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.content.Context;
@@ -33,15 +36,21 @@ public class MainActivity extends AppCompatActivity {
 
     }};
     private String LOG_TAG = "MyLogs";
-
-    private static MediaPlayer mediaPlayer;
-    private FullscreenPlayerFragment fpf;
     private static SongCardView curSelectedSong;
-    private static File path;
     private String MAIN_TAG = "MainFragment";
     private MainFragment ma;
 
+    private Intent intentPlayerService;
+    ServiceConnection serviceConnection;
+    boolean bound;
+    private PlayerService playerService;
 
+    public PlayerService getPlayerService(){
+        return this.playerService;
+    }
+    public Intent getIntentPlayerService(){
+        return this.intentPlayerService;
+    }
     public static SongCardView getCurSelectedSong(){
         return curSelectedSong;
     }
@@ -51,31 +60,38 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<SongCardView> getListRecentlySongs(){
         return listRecentlySongs;
     }
-    public static MediaPlayer getMediaPlayer(){
-        return mediaPlayer;
-    }
-    public static File getPath(){
-        return path;
-    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
 
-
+//        if (intentPlayerService == null)
+//            intentPlayerService = new Intent(this, PlayerService.class);
+//
+//        if (serviceConnection == null)
+//            serviceConnection = new ServiceConnection() {
+//                @Override
+//                public void onServiceConnected(ComponentName name, IBinder binder) {
+//                    Log.d(LOG_TAG, "FullscreenPlayerFragment onServiceConnected");
+//                    playerService = ((PlayerService.PlayerBinder) binder).getService();
+//                    bound = true;
+//                }
+//
+//                @Override
+//                public void onServiceDisconnected(ComponentName name) {
+//                    Log.d(LOG_TAG, "FullscreenPlayerFragment onServiceDisconnected");
+//                    bound = false;
+//                }
+//            };
+//        startService(intentPlayerService);
+//        bindService(intentPlayerService, serviceConnection,0);
 
 
         if (getSupportFragmentManager().findFragmentByTag(MAIN_TAG) == null) {
             ma = new MainFragment();
-
-            mediaPlayer = new MediaPlayer();
-            checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
-            path = Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_MUSIC
-            );
-            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             ft.add(R.id.fContainerActMain, ma, MAIN_TAG);
@@ -114,6 +130,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+//        startService(intentPlayerService);
+//        bindService(intentPlayerService, serviceConnection,0);
         Log.d(LOG_TAG, "MainActivity onResume");
     }
 
@@ -126,6 +144,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+//        if (bound){
+//            unbindService(serviceConnection);
+//            bound = false;
+//        }
         Log.d(LOG_TAG, "MainActivity onStop");
     }
 
