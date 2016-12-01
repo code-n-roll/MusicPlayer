@@ -29,7 +29,7 @@
             android:layout_gravity="bottom"
             >
             <TextView
-                android:id="@+id/nameSong"
+                android:id="@+id/mName"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
@@ -40,7 +40,7 @@
                 >
             </TextView>
             <TextView
-                android:id="@+id/nameArtist"
+                android:id="@+id/mNameArtist"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginBottom="10dp"
