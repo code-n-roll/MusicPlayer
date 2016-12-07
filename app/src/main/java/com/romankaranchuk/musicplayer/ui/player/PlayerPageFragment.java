@@ -15,8 +15,9 @@ import android.widget.TextView;
 
 import com.romankaranchuk.musicplayer.R;
 import com.romankaranchuk.musicplayer.data.Song;
-import com.romankaranchuk.musicplayer.ui.main.MainActivity;
 import com.romankaranchuk.musicplayer.ui.tracklist.TracklistActivity;
+import com.romankaranchuk.musicplayer.ui.tracklist.TracklistFragment;
+import com.romankaranchuk.musicplayer.utils.MathUtils;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -25,13 +26,11 @@ import com.squareup.picasso.Picasso;
 
 public class PlayerPageFragment extends Fragment {
     private ImageView albumCoverImageView;
-    private TextView lyricSong, nameSong, nameArtist;
+    private TextView lyricSong;
     private int pageNumber;
-    private static String ARGUMENT_PAGE_NUMBER = "arg_page_number";
-    private static String SAVE_PAGE_NUMBER = "save_page_number",
-    SAVE_ALBUMCOVER = "save_albumcover", SAVE_LYRICSONG = "save_lyric_song";
-    private static String LOG_TAG = "myLogs";
-    private String FULLSCREEN_TAG = "fullscreenFragment";
+    private static String   ARGUMENT_PAGE_NUMBER = "arg_page_number",
+                            SAVE_PAGE_NUMBER = "save_page_number",
+                            LOG_TAG = "myLogs";
 
 
     public PlayerPageFragment(){}
@@ -57,9 +56,6 @@ public class PlayerPageFragment extends Fragment {
         if (savedInstanceState != null){
             savedPageNumber = savedInstanceState.getInt(SAVE_PAGE_NUMBER);
         }
-
-
-
         Log.d(LOG_TAG, "savedPageNumber = " + savedPageNumber);
     }
 
@@ -75,11 +71,10 @@ public class PlayerPageFragment extends Fragment {
 
         setAlbumCoverImageViewSize();
 
-        if (pageNumber > -1 && pageNumber < TracklistActivity.getSongsCardView().size()){
-            setAlbumCoverImageView(TracklistActivity.getSongsCardView().get(pageNumber));
-            setLyricSong(TracklistActivity.getSongsCardView().get(pageNumber));
+        if (pageNumber > -1 && pageNumber < TracklistFragment.getSongs().size()){
+            setAlbumCoverImageView(TracklistFragment.getSongs().get(pageNumber));
+            setLyricSong(TracklistFragment.getSongs().get(pageNumber));
         }
-
 
         Log.d(LOG_TAG, "PlayerPageFragment onCreateView: " + pageNumber);
         return view;
@@ -89,7 +84,7 @@ public class PlayerPageFragment extends Fragment {
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             DisplayMetrics dm = new DisplayMetrics();
             getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-            int height = dm.heightPixels - MainActivity.convertDpToPixels(20, getActivity());
+            int height = dm.heightPixels ;
             getAlbumCoverImageView().setLayoutParams(new RelativeLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, height));
         }
@@ -101,28 +96,13 @@ public class PlayerPageFragment extends Fragment {
     }
     public void setAlbumCoverImageView(Song song){
         Picasso.with(getContext()).load(song.getImagePath()).into(albumCoverImageView);
-
-//        albumCoverImageView.setImageResource(Integer.parseInt(song.getImagePath()));
         albumCoverImageView.setTag(song.getImagePath());
     }
 
     public void setLyricSong(Song song){
-        lyricSong.setText(Integer.parseInt(song.getLyricSong()));
+        lyricSong.setText(song.getLyricsSong());
     }
 
-//    public void setNameSong(Song song){
-//        nameSong.setText(song.getTitle());
-//    }
-//    public void setNameArtist(Song song){
-//        nameArtist.setText(song.getNameArtist());
-//    }
-//    public void setDataFullscreenPlayer(PlayerFragment fpf, Song song){
-//        fpf.setCurrentSong(song);
-//        setAlbumCoverImageView(song);
-//        setLyricSong(song);
-////        setNameArtist(song);
-////        setName(song);
-//    }
 
     @Override
     public void onSaveInstanceState(Bundle outState){
@@ -135,51 +115,41 @@ public class PlayerPageFragment extends Fragment {
         super.onAttach(context);
         Log.d(LOG_TAG, "PlayerPageFragment onAttach: " + pageNumber);
     }
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
         Log.d(LOG_TAG, "PlayerPageFragment onActivityCreated: " + pageNumber);
     }
-
     @Override
     public void onStart(){
         super.onStart();
         Log.d(LOG_TAG, "PlayerPageFragment onStart: " + pageNumber);
     }
-
     @Override
     public void onResume(){
         super.onResume();
         Log.d(LOG_TAG, "PlayerPageFragment onResume: " + pageNumber);
     }
-
     @Override
     public void onPause(){
         super.onPause();
         Log.d(LOG_TAG, "PlayerPageFragment onPause: " + pageNumber);
     }
-
     @Override
     public void onStop(){
         super.onStop();
         Log.d(LOG_TAG, "PlayerPageFragment onStop: " + pageNumber);
     }
-
     @Override
     public void onDestroyView(){
         super.onDestroyView();
         Log.d(LOG_TAG, "PlayerPageFragment onDestroyView: " + pageNumber);
     }
-
-
-
     @Override
     public void onDetach(){
         super.onDetach();
         Log.d(LOG_TAG, "PlayerPageFragment onDetach: " + pageNumber);
     }
-
     @Override
     public void onDestroy() {
         super.onDestroy();

@@ -27,11 +27,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
 import com.romankaranchuk.musicplayer.R;
+import com.romankaranchuk.musicplayer.data.Album;
 import com.romankaranchuk.musicplayer.data.Song;
+import com.romankaranchuk.musicplayer.data.source.MusicRepository;
 import com.romankaranchuk.musicplayer.service.PlayerService;
 import com.romankaranchuk.musicplayer.ui.main.MainActivity;
 import com.romankaranchuk.musicplayer.ui.tracklist.TracklistActivity;
@@ -81,9 +84,10 @@ public class PlayerFragment extends Fragment {
     backwardButtonFromServiceToFragmentBR;
 
     private PlayerService playerService;
-    private File path;
     MediaPlayer.OnCompletionListener onCompletionListenerMediaPlayer;
     View.OnClickListener onClickListenerPlayButton;
+    private ArrayList<Song> mSongs;
+
 
     public static Song getCurrentSong(){
         return currentSong;
@@ -154,6 +158,8 @@ public class PlayerFragment extends Fragment {
         super.onCreate(savedInstanceState);
 //        setRetainInstance(true);
 
+        mSongs = TracklistFragment.getSongs();
+
 
         if (intentPlayerService == null)
             intentPlayerService = new Intent(getActivity(), PlayerService.class);
@@ -168,7 +174,6 @@ public class PlayerFragment extends Fragment {
                     if (playerService.getMediaPlayer() != null && curMediaPlayer == null) {
                         curMediaPlayer = playerService.getMediaPlayer();
                         curMediaPlayer.setOnCompletionListener(onCompletionListenerMediaPlayer);
-                        path = playerService.getPath();
                         playImageButton.setOnClickListener(onClickListenerPlayButton);
                     }
                     handleStateCurMediaPlayer();
@@ -212,12 +217,6 @@ public class PlayerFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
-//        getActivity().startService(intentPlayerService);
-//        getActivity().bindService(intentPlayerService, serviceConnection, Context.BIND_AUTO_CREATE);
-//        if (getActivity().getClass() == TracklistActivity.class){
-//            if (path == null)
-//                path = ((TracklistActivity)getActivity()).getPlayerService().getPath();
-//        }
         Log.d(LOG_TAG, "PlayerFragment onResume");
     }
 
@@ -399,8 +398,8 @@ public class PlayerFragment extends Fragment {
 
 
         currentSong = TracklistActivity.getCurSelectedSong();
-        oldPosition = Integer.parseInt(currentSong.getId());
-        pagerFullscreenPlayer.setCurrentItem(Integer.parseInt(currentSong.getId()));
+        oldPosition = mSongs.indexOf(currentSong);
+        pagerFullscreenPlayer.setCurrentItem(oldPosition);
 
 
         nameSong.setText(currentSong.getTitle());
@@ -423,7 +422,7 @@ public class PlayerFragment extends Fragment {
 //            setSongFullTimeSeekBarProgress();
             myHandler.postDelayed(UpdateSongTime, 10);
             myHandler.postDelayed(UpdateSeekBar, 10);
-            fileCurrentSong = new File (path,currentSong.getPath());
+            fileCurrentSong = new File (currentSong.getPath());
         }
 
 
@@ -473,13 +472,13 @@ public class PlayerFragment extends Fragment {
             @Override
             public void onClick(View view){
                 fastButtons = true;
-                ArrayList<Song> currentTracklist = TracklistActivity.getSongsCardView();
+                ArrayList<Song> currentTracklist = TracklistFragment.getSongs();
                 if (shuffleImageButton.isSelected() && !swap) {
                     Random randomGenerator = new Random();
                     int i = randomGenerator.nextInt(currentTracklist.size()-1);
                     currentSong = currentTracklist.get(i);
                 }
-                int curId = Integer.parseInt(currentSong.getId());
+                int curId = mSongs.indexOf(currentSong);
                 if (currentTracklist.size() - 1 > curId) {
                     currentSong = currentTracklist.get(curId + 1);
                 } else {
@@ -487,24 +486,22 @@ public class PlayerFragment extends Fragment {
                 }
 
 
-                if (getActivity().getClass() == MainActivity.class){
-                    MainActivity.setCurSelectedSong(currentSong);
-                } else if (getActivity().getClass() == TracklistActivity.class){
+                if (getActivity().getClass() == TracklistActivity.class){
                     TracklistActivity.setCurSelectedSong(currentSong);
                 }
 
-                fileCurrentSong = new File(path,currentSong.getPath());
+                fileCurrentSong = new File(currentSong.getPath());
                 forBackwardTrack(fileCurrentSong);
 
 //                playerPageFragment.setDataFullscreenPlayer(PlayerFragment.this, currentSong);
                 setNameSongArtist(currentSong);
                 setSongFullTimeSeekBarProgress();
                 if (fastButtons && !swap) {
-                    oldPosition = Integer.parseInt(currentSong.getId());
+                    oldPosition = mSongs.indexOf(currentSong);
                     if (pagerFullscreenPlayer.getCurrentItem() == currentTracklist.size()-1){
                         pagerFullscreenPlayer.setCurrentItem(0, false);
                     } else {
-                        pagerFullscreenPlayer.setCurrentItem(Integer.parseInt(currentSong.getId()), true);
+                        pagerFullscreenPlayer.setCurrentItem(mSongs.indexOf(currentSong), true);
                     }
                 }
             }
@@ -514,34 +511,32 @@ public class PlayerFragment extends Fragment {
             @Override
             public void onClick(View view){
                 fastButtons = true;
-                ArrayList<Song> currentTracklist = TracklistActivity.getSongsCardView();
+                ArrayList<Song> currentTracklist = TracklistFragment.getSongs();
                 if (shuffleImageButton.isSelected() && !swap) {
                     Random randomGenerator = new Random();
                     int i = randomGenerator.nextInt(currentTracklist.size()-1);
                     currentSong = currentTracklist.get(i);
                 }
-                int curId = Integer.parseInt(currentSong.getId());
+                int curId = mSongs.indexOf(currentSong);
                 if (curId > 0) {
                     currentSong = currentTracklist.get(curId - 1);
                 } else {
                     currentSong = currentTracklist.get(currentTracklist.size()-1);
                 }
 
-                if (getActivity().getClass() == MainActivity.class){
-                    MainActivity.setCurSelectedSong(currentSong);
-                } else if (getActivity().getClass() == TracklistActivity.class){
+                if (getActivity().getClass() == TracklistActivity.class){
                     TracklistActivity.setCurSelectedSong(currentSong);
                 }
-                fileCurrentSong = new File(path,currentSong.getPath());
+                fileCurrentSong = new File(currentSong.getPath());
                 forBackwardTrack(fileCurrentSong);
                 setNameSongArtist(currentSong);
                 setSongFullTimeSeekBarProgress();
                 if (fastButtons && !swap) {
-                    oldPosition = Integer.parseInt(currentSong.getId());
+                    oldPosition = mSongs.indexOf(currentSong);
                     if (pagerFullscreenPlayer.getCurrentItem() == 0){
                         pagerFullscreenPlayer.setCurrentItem(currentTracklist.size()-1, false);
                     } else {
-                        pagerFullscreenPlayer.setCurrentItem(Integer.parseInt(currentSong.getId()), true);
+                        pagerFullscreenPlayer.setCurrentItem(mSongs.indexOf(currentSong), true);
                     }
                 }
             }
@@ -580,8 +575,7 @@ public class PlayerFragment extends Fragment {
                         myHandler.removeCallbacks(UpdateSeekBar);
                         if (shuffleImageButton.isSelected()) {
                             Random randomGenerator = new Random();
-                            ArrayList<Song> currentTracklist =
-                                    TracklistActivity.getSongsCardView();
+                            ArrayList<Song> currentTracklist = TracklistFragment.getSongs();
                             int i = randomGenerator.nextInt(currentTracklist.size()-1);
                             currentSong = currentTracklist.get(i);
                         }
@@ -641,7 +635,7 @@ public class PlayerFragment extends Fragment {
                 getContext().sendBroadcast(intent);
                 try {
                     if (fileCurrentSong == null) {
-                        fileCurrentSong = new File(path, currentSong.getPath());
+                        fileCurrentSong = new File(currentSong.getPath());
                         curMediaPlayer.setDataSource(fileCurrentSong.toString());
                     }
                     if (filePlayedSong != fileCurrentSong) {

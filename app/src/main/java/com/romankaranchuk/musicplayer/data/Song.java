@@ -3,10 +3,11 @@ package com.romankaranchuk.musicplayer.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.romankaranchuk.musicplayer.ui.tracklist.TracklistActivity;
+import com.romankaranchuk.musicplayer.data.source.MusicDataSource;
+import com.romankaranchuk.musicplayer.data.source.MusicRepository;
+import com.romankaranchuk.musicplayer.data.source.local.MusicLocalDataSource;
 import com.romankaranchuk.musicplayer.utils.MusicUtils;
 
-import java.io.File;
 import java.util.UUID;
 
 /**
@@ -22,25 +23,31 @@ public class Song implements Parcelable{
     private int mDuration;
     private String mAlbumId;
 
-    private String mLyricSong;
-
+    private String mLyricsSong;
+    private String mYear;
+    private String mDate;
+    private String mLanguage;
 
     public Song(String name, String path, String imagePath,
-                int duration, String albumId, String lyricSong){
+                int duration, String albumId, String lyricsSong,
+                String year, String dateModified, String language){
         this(UUID.randomUUID().toString(), name, path,
-                imagePath, duration, albumId, lyricSong);
+                imagePath, duration, albumId, lyricsSong, year, dateModified, language);
     }
 
     public Song(String id, String name, String path,
                 String imagePath, int duration, String albumId,
-                String lyricSong){
+                String lyricsSong, String year, String dateModified, String language){
         mId = id;
         mName = name;
         mPath = path;
         mImagePath = imagePath;
         mDuration = duration;
         mAlbumId = albumId;
-        mLyricSong = lyricSong;
+        mLyricsSong = lyricsSong;
+        mYear = year;
+        mDate = dateModified;
+        mLanguage = language;
     }
 
     public void setImagePath(String imagePath){
@@ -53,12 +60,12 @@ public class Song implements Parcelable{
         return this.mPath;
     }
 
-    public String getLyricSong(){
-        return this.mLyricSong;
+    public String getLyricsSong(){
+        return this.mLyricsSong;
     }
 
-    public void setLyricSong(String mLyricSong){
-        this.mLyricSong = mLyricSong;
+    public void setLyricsSong(String mLyricsSong){
+        this.mLyricsSong = mLyricsSong;
     }
 
     public String getName(){
@@ -66,13 +73,16 @@ public class Song implements Parcelable{
     }
 
     public String getTitle(){
-        return MusicUtils.extractSongInfo((new File(TracklistActivity.path,this.getPath())).getPath()).title;
+        return MusicUtils.extractSongInfo(this.getPath()).title;
     }
 
     public String getNameArtist(){
-        return MusicUtils.extractSongInfo((new File(TracklistActivity.path,this.getPath())).getPath()).artist;
+        return MusicUtils.extractSongInfo(this.getPath()).artist;
     }
 
+    public String getYear(){
+        return mYear;
+    }
     public void setName(String mName){
         this.mName = mName;
     }
@@ -89,6 +99,13 @@ public class Song implements Parcelable{
         return this.mAlbumId;
     }
 
+    public String getDate(){
+        return this.mDate;
+    }
+
+    public String getLanguage(){
+        return this.mLanguage;
+    }
     @Override
     public int describeContents() {
         return 0;
@@ -100,7 +117,12 @@ public class Song implements Parcelable{
         parcel.writeString(this.mName);
         parcel.writeString(this.mPath);
         parcel.writeString(this.mImagePath);
-        parcel.writeString(this.mLyricSong);
+        parcel.writeString(this.mLyricsSong);
+        parcel.writeInt(this.mDuration);
+        parcel.writeString(this.mYear);
+        parcel.writeString(this.mAlbumId);
+        parcel.writeString(this.mDate);
+        parcel.writeString(this.mLanguage);
     }
 
     private Song(Parcel parcel){
@@ -108,8 +130,14 @@ public class Song implements Parcelable{
         mName = parcel.readString();
         mPath = parcel.readString();
         mImagePath = parcel.readString();
-        mLyricSong = parcel.readString();
+        mLyricsSong = parcel.readString();
+        mDuration = parcel.readInt();
+        mYear = parcel.readString();
+        mAlbumId = parcel.readString();
+        mDate = parcel.readString();
+        mLanguage = parcel.readString();
     }
+
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator(){
         public Song createFromParcel(Parcel in){

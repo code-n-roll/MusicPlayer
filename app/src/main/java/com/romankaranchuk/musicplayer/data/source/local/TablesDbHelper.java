@@ -26,7 +26,7 @@ import com.romankaranchuk.musicplayer.data.source.local.TablesPersistenceContrac
 
 public class TablesDbHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 16;
+    private static final int DATABASE_VERSION = 1;
 
     private static final String DATABASE_NAME = "music.db";
 
@@ -42,7 +42,7 @@ public class TablesDbHelper extends SQLiteOpenHelper {
                     AlbumEntry.COLUMN_NAME_ALBUM_NAME + TEXT_TYPE + COMMA_SEP +
                     AlbumEntry.COLUMN_NAME_ALBUM_ARTIST + TEXT_TYPE + COMMA_SEP +
                     AlbumEntry.COLUMN_NAME_ALBUM_IMAGE + TEXT_TYPE + COMMA_SEP +
-                    AlbumEntry.COLUMN_NAME_ALBUM_PATH + TEXT_TYPE + COMMA_SEP +
+                    AlbumEntry.COLUMN_NAME_ALBUM_PATH + TEXT_TYPE +
             " );";
     private static final String SQL_CREATE_TABLE_SONGS =
             "CREATE TABLE " + SongEntry.TABLE_NAME + " (" +
@@ -51,23 +51,27 @@ public class TablesDbHelper extends SQLiteOpenHelper {
                     SongEntry.COLUMN_NAME_ALBUM_ID + TEXT_TYPE + COMMA_SEP +
                     SongEntry.COLUMN_NAME_SONG_NAME + TEXT_TYPE + COMMA_SEP +
                     SongEntry.COLUMN_NAME_SONG_IMAGE + TEXT_TYPE + COMMA_SEP +
-                    SongEntry.COLUMN_NAME_SONG_DURATION + TEXT_TYPE + COMMA_SEP +
+                    SongEntry.COLUMN_NAME_SONG_DURATION + INTEGER_TYPE + COMMA_SEP +
                     SongEntry.COLUMN_NAME_SONG_PATH + TEXT_TYPE + COMMA_SEP +
+                    SongEntry.COLUMN_NAME_SONG_LYRICS + TEXT_TYPE + COMMA_SEP +
+                    SongEntry.COLUMN_NAME_SONG_YEAR + TEXT_TYPE + COMMA_SEP +
+                    SongEntry.COLUMN_NAME_SONG_DATE + TEXT_TYPE + COMMA_SEP +
+                    SongEntry.COLUMN_NAME_SONG_LANGUAGE + TEXT_TYPE +
             " );";
 
     TablesDbHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
     public void onCreate(SQLiteDatabase db){
-        db.execSQL(SQL_CREATE_TABLE_ALBUMS);
         db.execSQL(SQL_CREATE_TABLE_SONGS);
+        db.execSQL(SQL_CREATE_TABLE_ALBUMS);
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
         db.execSQL("DROP TABLE IF EXISTS " + SongEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + AlbumEntry.TABLE_NAME);
-        db.execSQL(SQL_CREATE_TABLE_ALBUMS);
         db.execSQL(SQL_CREATE_TABLE_SONGS);
+        db.execSQL(SQL_CREATE_TABLE_ALBUMS);
     }
 
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion){

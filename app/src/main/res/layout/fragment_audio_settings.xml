@@ -18,7 +18,7 @@
         />
 
     <ListView
-        android:id="@+id/list_audiofile_settings"
+        android:id="@+id/list_audio_settings"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"

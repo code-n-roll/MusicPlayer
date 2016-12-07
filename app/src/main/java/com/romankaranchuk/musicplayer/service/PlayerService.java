@@ -122,9 +122,6 @@ public class PlayerService extends Service {
         return this.mediaPlayer;
     }
 
-    public File getPath(){
-        return this.path;
-    }
 
     @TargetApi(23)
     @Override
@@ -136,8 +133,6 @@ public class PlayerService extends Service {
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
-            path = Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_MUSIC);
         }
         Log.d(LOG_TAG,"PlayerService onCreate");
     }
@@ -272,10 +267,7 @@ public class PlayerService extends Service {
             };
 
 
-            Picasso.with(this).
-                    load(currentSong.getImagePath()).
-                    into(target);
-
+            Picasso.with(this).load(currentSong.getImagePath()).into(target);
 //            remoteViewsBigContent.setImageViewResource(R.id.iconAlbumCoverNotifPlayerBig, Integer.parseInt(currentSong.getImagePath()));
 //            remoteViewsContent.setImageViewResource(R.id.iconAlbumCoverNotifPlayer, Integer.parseInt(currentSong.getImagePath()));
             remoteViewsBigContent.setTextViewText(R.id.nameSongFullscreenPlayerNotifPlayerBig, currentSong.getTitle());
@@ -361,7 +353,7 @@ public class PlayerService extends Service {
             boolean resume = PlayerFragment.getResume(),
             paused = PlayerFragment.getPaused();
             if (fileCurrentSong == null) {
-                fileCurrentSong = new File (path,currentSong.getPath());
+                fileCurrentSong = new File (currentSong.getPath());
                 mediaPlayer.setDataSource(fileCurrentSong.toString());
             }
             if (filePlayedSong != fileCurrentSong) {

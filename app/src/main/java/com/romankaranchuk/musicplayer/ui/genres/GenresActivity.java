@@ -5,14 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.romankaranchuk.musicplayer.R;
 import com.romankaranchuk.musicplayer.data.Genre;
@@ -24,28 +19,28 @@ import com.romankaranchuk.musicplayer.ui.tracklist.TracklistActivity;
 
 public class GenresActivity extends AppCompatActivity {
     private Genre[] genres = {
-            new Genre("Alternative/Indie", R.drawable.brasil),
-            new Genre("Blues", R.drawable.brasil),
-            new Genre("Children's Music", R.drawable.brasil),
-            new Genre("Christian/Gospel", R.drawable.brasil),
-            new Genre("Classical", R.drawable.brasil),
-            new Genre("Comedy/Spoken Word/Other", R.drawable.brasil),
-            new Genre("Country", R.drawable.brasil),
-            new Genre("Dance/Electronic", R.drawable.brasil),
-            new Genre("Folk", R.drawable.brasil),
-            new Genre("Hip-Hop/Rap", R.drawable.brasil),
-            new Genre("Jazz", R.drawable.brasil),
-            new Genre("Metal", R.drawable.brasil),
-            new Genre("Pop", R.drawable.brasil),
-            new Genre("R&B/Soul", R.drawable.brasil),
-            new Genre("Reggae", R.drawable.brasil),
-            new Genre("Rock", R.drawable.brasil),
-            new Genre("Seasonal", R.drawable.brasil),
-            new Genre("Soundtracks", R.drawable.brasil),
-            new Genre("Vocal/Easy Listening", R.drawable.brasil),
-            new Genre("World", R.drawable.brasil)
+            new Genre("Alternative/Indie", R.drawable.belarusian),
+            new Genre("Blues", R.drawable.belarusian),
+            new Genre("Children's Music", R.drawable.belarusian),
+            new Genre("Christian/Gospel", R.drawable.belarusian),
+            new Genre("Classical", R.drawable.belarusian),
+            new Genre("Comedy/Spoken Word/Other", R.drawable.belarusian),
+            new Genre("Country", R.drawable.belarusian),
+            new Genre("Dance/Electronic", R.drawable.belarusian),
+            new Genre("Folk", R.drawable.belarusian),
+            new Genre("Hip-Hop/Rap", R.drawable.belarusian),
+            new Genre("Jazz", R.drawable.belarusian),
+            new Genre("Metal", R.drawable.belarusian),
+            new Genre("Pop", R.drawable.belarusian),
+            new Genre("R&B/Soul", R.drawable.belarusian),
+            new Genre("Reggae", R.drawable.belarusian),
+            new Genre("Rock", R.drawable.belarusian),
+            new Genre("Seasonal", R.drawable.belarusian),
+            new Genre("Soundtracks", R.drawable.belarusian),
+            new Genre("Vocal/Easy Listening", R.drawable.belarusian),
+            new Genre("World", R.drawable.belarusian)
     };
-    private GenreAdapter genreAdapter;
+
     private GridView genresList;
     private String LOG_TAG = "MyLogs";
 
@@ -54,16 +49,13 @@ public class GenresActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_genres);
 
-
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.genres_toolbar);
-
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        genresList = (GridView) findViewById(R.id.genres_list);
-        genreAdapter = new GenreAdapter(genres);
 
+        genresList = (GridView) findViewById(R.id.genres_list);
+        GenreListAdapter genreAdapter = new GenreListAdapter(this, R.layout.content_genres, genres);
         genresList.setAdapter(genreAdapter);
 //        genresList.setDivider(null);
 
@@ -76,7 +68,7 @@ public class GenresActivity extends AppCompatActivity {
                     Genre selectedGenre = (Genre)parent.getItemAtPosition(position);
                     switch(selectedGenre.getName()){
                         case "Alternative/Indie": {
-                            openTrackList(genresList);
+//                            openTrackList(genresList);
                             break;
                         }
                         case "Blues":
@@ -120,7 +112,7 @@ public class GenresActivity extends AppCompatActivity {
                         default:
                             break;
                     }
-                };
+                }
             };
 
         genresList.setOnItemClickListener(itemClickListener);
@@ -132,77 +124,34 @@ public class GenresActivity extends AppCompatActivity {
         super.onRestart();
         Log.d(LOG_TAG, "GenresActivity onRestart");
     }
-
     @Override
     protected void onStart() {
         super.onStart();
         Log.d(LOG_TAG, "GenresActivity onStart");
     }
-
     @Override
     protected void onResume() {
         super.onResume();
         Log.d(LOG_TAG, "GenresActivity onResume");
     }
-
     @Override
     protected void onPause() {
         super.onPause();
         Log.d(LOG_TAG, "GenresActivity onPause");
     }
-
     @Override
     protected void onStop() {
         super.onStop();
         Log.d(LOG_TAG, "GenresActivity onStop");
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         Log.d(LOG_TAG, "GenresActivity onDestroy");
     }
 
-    private Genre getModel(int position){
-        return (genreAdapter.getItem(position));
-    }
-    class GenreAdapter extends ArrayAdapter<Genre> {
-        private LayoutInflater layoutInflater;
-
-        GenreAdapter(Genre[] list){
-            super(GenresActivity.this, R.layout.content_genres, list);
-            layoutInflater = LayoutInflater.from(GenresActivity.this);
-        }
-
-        public View getView(int position, View convertView, ViewGroup parent){
-            ViewHolder holder;
-
-            View row = convertView;
-            if (row == null){
-                row = layoutInflater.inflate(R.layout.content_genres, parent, false);
-                holder = new ViewHolder();
-                holder.imageView = (ImageView) row.findViewById(R.id.iconGenre);
-                holder.nameView = (TextView) row.findViewById(R.id.nameGenre);
-                row.setTag(holder);
-            } else {
-                holder = (ViewHolder) row.getTag();
-            }
-
-            Genre genre = getModel(position);
-            holder.imageView.setImageResource(genre.getIconResource());
-            holder.nameView.setText(genre.getName());
-
-            return row;
-        }
-
-        class ViewHolder{
-            public ImageView imageView;
-            public TextView nameView;
-        }
-    }
-
-    public void openTrackList(View view){
-        Intent intent = new Intent(this, TracklistActivity.class);
-        startActivity(intent);
-    }
+//    public void openTrackList(View view){
+//        Intent intent = new Intent(this, TracklistActivity.class);
+//        startActivity(intent);
+//    }
 }

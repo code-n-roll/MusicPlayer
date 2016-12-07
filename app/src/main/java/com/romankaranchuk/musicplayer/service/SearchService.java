@@ -27,7 +27,7 @@ import java.util.List;
 
 public class SearchService extends Service {
     String LOG_TAG = "myLogs";
-    private final SearchBinder binder = new SearchBinder();
+    private final SearchBinder mBinder = new SearchBinder();
     private final MusicRepository mRepository;
     private boolean isSearchActive = false;
 
@@ -37,7 +37,7 @@ public class SearchService extends Service {
     }
 
     public class SearchBinder extends Binder {
-        SearchService getService(){
+        public SearchService getService(){
             return SearchService.this;
         }
     }
@@ -51,14 +51,14 @@ public class SearchService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId){
         Log.d(LOG_TAG, "SearchService onStartCommand");
-        return super.onStartCommand(intent, flags, startId);
+        return START_NOT_STICKY;
     }
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent){
         Log.d(LOG_TAG, "SearchService onBind");
-        return binder;
+        return mBinder;
     }
 
     public void startMusicSearch(){
@@ -110,6 +110,8 @@ public class SearchService extends Service {
                 for (String songFileName: songsFileName){
                     String songPath = albumPath + '/' + songFileName;
                     MusicUtils.SongInfo songInfo = MusicUtils.extractSongInfo(songPath);
+                    MusicUtils.extractSongLyric(songInfo);
+                    MusicUtils.extractSongLanguage(songInfo);
                     songsInfo.add(songInfo);
                 }
 
@@ -117,14 +119,19 @@ public class SearchService extends Service {
 
                 String albumName = firstSongInfo.album;
                 String albumArtist = firstSongInfo.artist;
-                Album album = new Album(albumName, albumArtist, albumPath, MusicUtils.getNextCover());
+                String albumCover = MusicUtils.getNextCover();
+                Album album = new Album(albumName, albumArtist, albumPath, albumCover);
                 ArrayList<Song> songs = new ArrayList<>();
                 for (int i = 0; i < songsInfo.size(); ++i){
                     MusicUtils.SongInfo songInfo = songsInfo.get(i);
                     String songName = songInfo.title;
                     String songPath = albumPath + '/' + songsFileName.get(i);
-                    String albumCover = MusicUtils.getNextCover();
-                    Song song = new Song(songName, songPath, albumCover, songInfo.duration, album.getId(), null);
+                    String songLyrics = songInfo.lyrics;
+                    String songLanguage = songInfo.language;
+                    String songYear = songInfo.year;
+                    String songDate = songInfo.date;
+                    Song song = new Song(songName, songPath, albumCover, songInfo.duration,
+                            album.getId(), songLyrics, songYear, songDate, songLanguage);
                     songs.add(song);
                 }
                 mRepository.saveAlbum(album, songs);

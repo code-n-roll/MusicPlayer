@@ -164,6 +164,14 @@ public class MusicRepository implements MusicDataSource{
         return mCachedAlbums.get(albumId);
     }
 
+    public Song getSong(String songId, String albumId, boolean sortByName){
+        if (mCachedSongs == null){
+            getSongs(albumId, sortByName);
+        }
+
+        return mCachedSongs.get(songId);
+    }
+
     @NonNull
     @Override
     public List<Album> getAlbums() {

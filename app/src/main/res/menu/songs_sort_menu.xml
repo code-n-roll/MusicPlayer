@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <item
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:id="@+id/songs_sort_menu"
+        android:title="Sort songs by"
+        app:showAsAction="always"
+        >
+        <menu xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/content_songs_sort_menu"
+            >
+            <item
+                android:id="@+id/songs_sort_by_name"
+                android:title="By name"
+                />
+            <item
+                android:id="@+id/songs_sort_by_duration"
+                android:title="By duration"
+                />
+            <item
+                android:id="@+id/songs_sort_by_year"
+                android:title="By year"
+                />
+            <item
+                android:id="@+id/songs_sort_by_date_modified"
+                android:title="By date modified"
+                />
+            <item
+                android:id="@+id/songs_sort_by_format"
+                android:title="By format"
+                />
+            <item
+                android:id="@+id/songs_sort_by_language"
+                android:title="By language"
+                />
+        </menu>
+    </item>
+</menu>

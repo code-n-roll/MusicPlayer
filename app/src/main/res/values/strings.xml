@@ -1,10 +1,15 @@
 <resources>
+    <string name="search_music">Search music</string>
+    <string name="read_storage_not_granted">
+        Check permission for read storage!
+        Read storage not granted.
+    </string>
     <string name="app_name">MusicPlayer</string>
     <string name="hw">Hello world!</string>
     <string name="albums">ALBUMS</string>
     <string name="artists">ARTISTS</string>
     <string name="genres">GENRES</string>
-    <string name="folders">FOLDERS</string>
+    <string name="songs">SONGS</string>
     <string name="playlists">PLAYLISTS</string>
     <string name="more">MORE</string>
     <string name="recent_songs">Recently played songs</string>
@@ -14,6 +19,7 @@
     <string name="title_activity_tracklist">Top charts</string>
     <string name="hay">How are you?</string>
     <string name="audiofile_setting">Audio file</string>
+    <string name="edit_audio">Edit audio</string>
     <string name="edit">Edit</string>
     <string name="delete_song">Delete</string>
     <string name="delete_song_cache">Delete from cache</string>

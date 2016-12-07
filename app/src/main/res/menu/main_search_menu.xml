@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:android2="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:icon="@android:drawable/ic_menu_search"
+        android2:showAsAction="always"
+        android:id="@+id/albums_search_menu"
+        android:title="@string/search_music" />
+
+</menu>

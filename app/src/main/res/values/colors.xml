@@ -9,4 +9,6 @@
     <color name="colorBrownPrimaryDark">#3F403E</color><!--#795548-->
     <color name="colorBrownPrimary">#646663</color><!--#8D6E63-->
     <color name="colorBrownPrimaryDarkPlayer">#3F403E</color><!--#31332F-->
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
 </resources>

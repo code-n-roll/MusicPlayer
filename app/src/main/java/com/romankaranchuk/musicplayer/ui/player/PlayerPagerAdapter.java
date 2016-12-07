@@ -19,7 +19,6 @@ public class PlayerPagerAdapter extends FragmentPagerAdapter {
         return 10;
     }
 
-
     @Override
     public Fragment getItem(int position){
         return PlayerPageFragment.newInstance(position);

@@ -29,39 +29,40 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/albums"
-                android:id="@+id/albums"
-                android:layout_margin="10dp"
+                android:text="@string/playlists"
+                android:id="@+id/playlists"
+                android:layout_margin="5dp"
                 />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/artists"
                 android:id="@+id/artists"
-                android:layout_margin="10dp"
+                android:layout_margin="5dp"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/albums"
+                android:id="@+id/albums"
+                android:layout_margin="5dp"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/songs"
+                android:id="@+id/songs"
+                android:layout_margin="5dp"
                 />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/genres"
                 android:id="@+id/genres"
-                android:layout_margin="10dp"
-                android:onClick="openAllGenres"
+                android:layout_margin="5dp"
                 />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/folders"
-                android:id="@+id/folders"
-                android:layout_margin="10dp"
-                />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/playlists"
-                android:id="@+id/playlists"
-                android:layout_margin="10dp"
-                />
+
+
         </LinearLayout>
     </HorizontalScrollView>
 

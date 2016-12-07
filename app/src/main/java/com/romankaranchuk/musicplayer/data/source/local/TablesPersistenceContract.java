@@ -27,5 +27,9 @@ final class TablesPersistenceContract {
         static final String COLUMN_NAME_SONG_PATH = "song_path";
         static final String COLUMN_NAME_SONG_DURATION = "song_duration";
         static final String COLUMN_NAME_SONG_IMAGE = "song_image";
+        static final String COLUMN_NAME_SONG_LYRICS = "song_lyrics";
+        static final String COLUMN_NAME_SONG_YEAR = "song_year";
+        static final String COLUMN_NAME_SONG_DATE = "song_date";
+        static final String COLUMN_NAME_SONG_LANGUAGE = "song_language";
     }
 }

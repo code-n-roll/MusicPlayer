@@ -43,7 +43,7 @@ public class MusicLocalDataSource implements MusicDataSource{
     private boolean isEntryExist(SQLiteDatabase db, String tableName, String fieldName, String entryId){
         Cursor c = null;
         try{
-            String query = "SELECT COUNT(*) FROM " + tableName + " WHERE" + fieldName + " = ?";
+            String query = "SELECT COUNT(*) FROM " + tableName + " WHERE " + fieldName + " = ?";
             c = db.rawQuery(query, new String[]{entryId});
             return c.moveToFirst() && c.getInt(0) != 0;
         }
@@ -94,7 +94,10 @@ public class MusicLocalDataSource implements MusicDataSource{
             values.put(SongEntry.COLUMN_NAME_SONG_PATH, song.getPath());
             values.put(SongEntry.COLUMN_NAME_SONG_DURATION, song.getDuration());
             values.put(SongEntry.COLUMN_NAME_SONG_IMAGE, song.getImagePath());
-
+            values.put(SongEntry.COLUMN_NAME_SONG_LYRICS, song.getLyricsSong());
+            values.put(SongEntry.COLUMN_NAME_SONG_YEAR, song.getYear());
+            values.put(SongEntry.COLUMN_NAME_SONG_DATE, song.getDate());
+            values.put(SongEntry.COLUMN_NAME_SONG_LANGUAGE, song.getLanguage());
             db.insert(SongEntry.TABLE_NAME, null, values);
         }
         db.close();
@@ -142,8 +145,7 @@ public class MusicLocalDataSource implements MusicDataSource{
                 AlbumEntry.COLUMN_NAME_ALBUM_IMAGE
         };
 
-        Cursor c = db.query(
-                AlbumEntry.TABLE_NAME, projection, null, null, null, null, null);
+        Cursor c = db.query(AlbumEntry.TABLE_NAME, projection, null, null, null, null, null);
         if (c != null && c.getCount() > 0){
             while(c.moveToNext()){
                 String albumId =
@@ -178,7 +180,11 @@ public class MusicLocalDataSource implements MusicDataSource{
                 SongEntry.COLUMN_NAME_SONG_NAME,
                 SongEntry.COLUMN_NAME_SONG_PATH,
                 SongEntry.COLUMN_NAME_SONG_DURATION,
-                SongEntry.COLUMN_NAME_SONG_IMAGE
+                SongEntry.COLUMN_NAME_SONG_IMAGE,
+                SongEntry.COLUMN_NAME_SONG_LYRICS,
+                SongEntry.COLUMN_NAME_SONG_YEAR,
+                SongEntry.COLUMN_NAME_SONG_DATE,
+                SongEntry.COLUMN_NAME_SONG_LANGUAGE
         };
 
         String selection = SongEntry.COLUMN_NAME_ALBUM_ID + " LIKE ?";
@@ -201,7 +207,12 @@ public class MusicLocalDataSource implements MusicDataSource{
                 String songPath = c.getString(c.getColumnIndexOrThrow(SongEntry.COLUMN_NAME_SONG_PATH));
                 int songDuration = c.getInt(c.getColumnIndexOrThrow(SongEntry.COLUMN_NAME_SONG_DURATION));
                 String songImagePath = c.getString(c.getColumnIndexOrThrow(SongEntry.COLUMN_NAME_SONG_IMAGE));
-                Song song = new Song(songId, songName, songPath, songImagePath, songDuration, albumId, null);
+                String songLyrics = c.getString(c.getColumnIndexOrThrow(SongEntry.COLUMN_NAME_SONG_LYRICS));
+                String songYear = c.getString(c.getColumnIndexOrThrow(SongEntry.COLUMN_NAME_SONG_YEAR));
+                String songDate = c.getString(c.getColumnIndexOrThrow(SongEntry.COLUMN_NAME_SONG_DATE));
+                String songLanguage = c.getString(c.getColumnIndexOrThrow(SongEntry.COLUMN_NAME_SONG_LANGUAGE));
+                Song song = new Song(songId, songName, songPath, songImagePath, songDuration,
+                        albumId, songLyrics, songYear, songDate, songLanguage);
                 songs.add(song);
             }
         }
@@ -217,13 +228,17 @@ public class MusicLocalDataSource implements MusicDataSource{
     public ArrayList<Integer> printAllSongs() {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
-        String table = AlbumEntry.TABLE_NAME + " AS ALBUM INNER JOIN " + SongEntry.TABLE_NAME +" AS SONG"+
+        String table = AlbumEntry.TABLE_NAME + " AS ALBUM INNER JOIN " + SongEntry.TABLE_NAME +" AS SONG "+
                 "ON ALBUM." + AlbumEntry.COLUMN_NAME_ENTRY_ID +" = SONG." + SongEntry.COLUMN_NAME_ALBUM_ID;
         String columns[] = {
                 "ALBUM." + AlbumEntry.COLUMN_NAME_ALBUM_NAME +" AS ALBUM",
                 "ALBUM." + AlbumEntry.COLUMN_NAME_ALBUM_ARTIST +" AS ARTIST",
                 "SONG." + SongEntry.COLUMN_NAME_SONG_NAME + " AS NAME",
-                "SONG." + SongEntry.COLUMN_NAME_SONG_DURATION + " AS DURATION"
+                "SONG." + SongEntry.COLUMN_NAME_SONG_DURATION + " AS DURATION",
+                "SONG." + SongEntry.COLUMN_NAME_SONG_LYRICS + " AS LYRICS",
+                "SONG." + SongEntry.COLUMN_NAME_SONG_YEAR + " AS YEAR",
+                "SONG." + SongEntry.COLUMN_NAME_SONG_DATE + " AS DATE",
+                "SONG." + SongEntry.COLUMN_NAME_SONG_LANGUAGE + " AS LANGUAGE "
         };
         Cursor c = db.query(table, columns, null, null, null, null, null);
         ArrayList<Integer> durations = logCursor(c);
@@ -245,7 +260,7 @@ public class MusicLocalDataSource implements MusicDataSource{
                     str = "";
                     for (String cn : c.getColumnNames()){
                         str = str.concat(cn + " = " + c.getString(c.getColumnIndex(cn)) + "; ");
-                        durations.add(c.getInt(c.getColumnIndex("Duratoins")));
+                        durations.add(c.getInt(c.getColumnIndex("DURATION")));
                     }
                     Log.d(LOG_TAG, str);
                 } while (c.moveToNext());

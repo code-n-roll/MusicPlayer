@@ -17,7 +17,6 @@
             android:id="@+id/fullscreenAlbumCover"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/columbia"
             android:scaleType="fitXY"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
@@ -32,6 +31,11 @@
             android:text="@string/stuff"
             android:textColor="@android:color/white"
             android:layout_below="@id/fullscreenAlbumCover"
+            android:textSize="17sp"
+            android:paddingTop="15dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="15dp"
             />
     </RelativeLayout>
 </ScrollView>
