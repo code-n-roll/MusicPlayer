@@ -38,7 +38,6 @@
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_menu(cut).png" 
     alt="screenshot_tracklist_fragment_sort_menu(cut).png" width="250x" height="whatever" align=right>
-    
   </tr>
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_by_lang(cut).png" 
