@@ -94,14 +94,10 @@
   
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_notification_small_lockscreen(cut).png" 
-    alt="screenshot_player_notification_small_lockscreen(cut).png" width="250x" height="whatever" align=right>  
-  </tr>   
+    alt="screenshot_player_notification_small_lockscreen(cut).png" width="250x" height="whatever" align=left>  
+  </tr>  
+  
   <tr>
-    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_notification_big(cut).png" 
-    alt="screenshot_player_notification_big(cut).png" width="250x" height="whatever" align=right>
-  </tr>
-
-<tr align=left>
   <p>
     If we go out to lockscreen while notification player big/small is not canceled. Then we can **control player from lockscreen**.
     Notif player big/small will start on each calls play button or clicks by songcard (that is same) if it was canceled.
@@ -116,3 +112,10 @@
     To be continued...
   </p>
 </tr>
+
+  <tr>
+    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_notification_big(cut).png" 
+    alt="screenshot_player_notification_big(cut).png" width="250x" height="whatever" align=left>
+  </tr>
+
+
