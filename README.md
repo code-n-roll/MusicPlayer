@@ -44,10 +44,6 @@
     alt="screenshot_tracklist_fragment_sort_by_year.png" width="70x" height="whatever" align=right>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_by_format(cut).png" 
     alt="screenshot_tracklist_fragment_sort_by_format(cut).png" width="70x" height="whatever" align=right>
-    <p> 
-    We have interesting **sort by: name, duration, year, format, language**. Each from last three sorts accompanied extra info which
-    appear on right-top corner of songcard.
-    </p>
   </tr>
  
  
