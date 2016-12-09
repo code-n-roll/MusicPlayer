@@ -34,16 +34,7 @@
     </p>
   </tr>
 
-<table>
-  <tr>
-    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_fragment_landscape.png" 
-    alt="screenshot_player_fragment_landscape.png" width="500x" height="whatever" align=right>
-    <p> 
-    How we can see player look very nice and with landscape orientation. 
-    Let's back to SONGS section and stop more detail on sort by in right-top corner.
-    </p>
-  </tr>
-</table>
+
 
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_menu(cut).png" 
@@ -76,7 +67,6 @@
   </tr>
 
  
-<table align=right>
  <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_edit_song_title_name_artist(cut).png" 
     alt="screenshot_edit_song_title_name_artist(cut).png" width="250x" height="whatever" align=right>
@@ -86,7 +76,15 @@
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_file_settings_menu(cut).png" 
     alt="screenshot_file_settings_menu(cut).png" width="250x" height="whatever" align=right>
   </tr>
-</table>
+  
+  <tr>
+    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_fragment_landscape.png" 
+    alt="screenshot_player_fragment_landscape.png" width="444x" height="whatever" align=right>
+  </tr>
+  <p> 
+    How we can see player look very nice and with landscape orientation. 
+    Let's back to SONGS section and stop more detail on sort by in right-top corner.
+  </p>
   
 <table align=left>
   <tr>
@@ -105,7 +103,8 @@
     Notif player big/small will start on each calls play button or clicks by songcard (that is same) if it was canceled.
     Cancel notif player big call pause music in fullscreen player, self and notif player small cancel. 
   </p>
-  
+</tr>
+<tr>
   <p>
     Also we can **control player in android fast tools blind** it's notif player big. Where have cancel button for notif 
     player big/small cancel. Click by notif player big **call fullscreen player with saved state**.
