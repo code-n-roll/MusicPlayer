@@ -65,16 +65,13 @@
     data base cache-memory. With next search we can restore/update audio.
     </p>
   </tr>
-  
-  
-  
  
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_edit_song_title_name_artist(cut).png" 
     alt="screenshot_file_settings_menu(cut).png" width="250x" height="whatever" align=left>
     
   </tr>
-  <br>
+ 
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_fragment_landscape.png" 
     alt="screenshot_player_fragment_landscape.png" width="444x" height="whatever" align=right>
