@@ -2,25 +2,26 @@
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment.png" 
     alt="screenshot_tracklist_fragment.png" width="250x" height="whatever" align=left>
-    <p>_**Feel Music! Player**_ for everybody who live music. Why? Let's see more carefully and will understand it.</p>
     <p>
-    In **SONGS** section we have all songs founded on our device with short info: photo, song title, name artist, duration.<br/>
-    **Photo taken from internet** based on song file meta-data and save in memory-cache.<br/>
-    Other info taken from song file meta-data and it can be easy modified by: long press on song card->edit->confirmation.<br/>
+    _**Feel Music! Player**_ for everybody who live music. Why? Let's see more carefully and will understand it.<br>
+    In **SONGS** section we have all songs founded on our device with short info: photo, song title, name artist, duration.
+    **Photo taken from internet** based on song file meta-data and save in memory-cache.
+    Other info taken from song file meta-data and it can be easy modified by: long press on song card->edit->confirmation.
     What can be help for more **detail search** info about song for example: **lyrics, language, year** and other.
     </p>
   </tr>
 
   <tr>
-    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_fragment_portrait.png" 
+    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_fragment_portrait.png"
     alt="screenshot_player_fragment_portrait.png" width="250x" height="whatever" align=right>
-    <p> 
-    Click on song card will open fullscreen player and will call **player notification big** in status bar and 
+    <p>
+    Click on song card will open fullscreen player and will call **player notification big** in status bar and
     player notification **small on lockscreen**.
-    And also it will change wallpaper on lockscreen to albumcover selected song with **saving lockscreen old wallpaper**. 
+    And also it will change wallpaper on lockscreen to albumcover selected song with **saving lockscreen old wallpaper**.
     Everything in order. Standard buttons with same logic: play/pause, replay, shuffle. Seekbar for navigation on song-track.
-    Time begin/end of song playing. For **change song** you can use **fast forward/backward buttons** or **swipe left/right** on albumcover image.
-    </p>    
+    Time begin/end of song playing. For **change song** you can use **fast forward/backward buttons** or **swipe left/right**
+    on albumcover image.
+    </p>
   </tr>
 
   <tr>
