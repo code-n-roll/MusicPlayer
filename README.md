@@ -57,23 +57,9 @@
  
 </table>
    
- <tr>   
-    <p>
-    Also by long click on songcard we have audio settings such as: edit, delete, delete from cache.
-    Long click by edit will open submenu for edit song title and name artist with confirmation. And then we **can find lyrics, language** and 
-    other info with help search **via internet**. Long click by delete will remove from storage. And by delete from cache will remove from 
-    data base cache-memory. With next search we can restore/update audio.
-    </p>
-  </tr>
+ 
 
-<tr>
-    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_fragment_landscape.png" 
-    alt="screenshot_player_fragment_landscape.png" width="444x" height="whatever" align=right>
-  </tr>
-  <p> 
-    How we can see player look very nice and with landscape orientation. 
-    Let's back to SONGS section and stop more detail on sort by in right-top corner.
-  </p>
+
 
  
  <tr>
@@ -86,9 +72,26 @@
     alt="screenshot_file_settings_menu(cut).png" width="250x" height="whatever" align=right>
   </tr>
   
+  <tr>   
+    <p>
+    Also by long click on songcard we have audio settings such as: edit, delete, delete from cache.
+    Long click by edit will open submenu for edit song title and name artist with confirmation. And then we **can find lyrics, language** and 
+    other info with help search **via internet**. Long click by delete will remove from storage. And by delete from cache will remove from 
+    data base cache-memory. With next search we can restore/update audio.
+    </p>
+  </tr>
   
   
-<table>
+  <tr>
+    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_fragment_landscape.png" 
+    alt="screenshot_player_fragment_landscape.png" width="444x" height="whatever" align=right>
+  </tr>
+  <p> 
+    How we can see player look very nice and with landscape orientation. 
+    Let's back to SONGS section and stop more detail on sort by in right-top corner.
+  </p>
+  
+  
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_notification_small_lockscreen(cut).png" 
     alt="screenshot_player_notification_small_lockscreen(cut).png" width="250x" height="whatever" align=right>  
@@ -97,9 +100,8 @@
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_notification_big(cut).png" 
     alt="screenshot_player_notification_big(cut).png" width="250x" height="whatever" align=right>
   </tr>
-</table>
 
-<tr>
+<tr align=left>
   <p>
     If we go out to lockscreen while notification player big/small is not canceled. Then we can **control player from lockscreen**.
     Notif player big/small will start on each calls play button or clicks by songcard (that is same) if it was canceled.
