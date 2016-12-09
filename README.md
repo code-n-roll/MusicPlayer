@@ -54,15 +54,9 @@
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_by_format(cut).png" 
     alt="screenshot_tracklist_fragment_sort_by_format(cut).png" width="80x" height="whatever" >
   </tr>
- 
 </table>
-   
  
-
-
-
- 
- <tr>
+  <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_edit_song_title_name_artist(cut).png" 
     alt="screenshot_edit_song_title_name_artist(cut).png" width="250x" height="whatever" align=right>
   </tr>
@@ -75,8 +69,8 @@
   <tr>   
     <p>
     Also by long click on songcard we have audio settings such as: edit, delete, delete from cache.
-    Long click by edit will open submenu for edit song title and name artist with confirmation. And then we **can find lyrics, language** and 
-    other info with help search **via internet**. Long click by delete will remove from storage. And by delete from cache will remove from 
+    Long click by edit will open submenu for edit song title and name artist with confirmation. And then we **can find lyrics,               language** and 
+    other info with help search **via internet**. Long click by delete will remove from storage. And by delete from cache will remove       from 
     data base cache-memory. With next search we can restore/update audio.
     </p>
   </tr>
