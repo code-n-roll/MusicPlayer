@@ -42,7 +42,6 @@
     We have interesting **sort by: name, duration, year, format, language**. Each from last three sorts accompanied extra info which
     appear on right-top corner of songcard.
     </p>
-    <br><br><br><br><br><br><br><br>
   </tr>
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_by_lang(cut).png" 
@@ -55,7 +54,7 @@
   </tr>
  
   <tr>
-    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_edit_song_title_name_artist(cut).png" 
+    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_file_settings_menu(cut).png" 
     alt="screenshot_edit_song_title_name_artist(cut).png" width="250x" height="whatever" align=left>
   </tr>
   
@@ -70,13 +69,13 @@
     </p>
   </tr>
   <tr>
-    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_file_settings_menu(cut).png" 
+    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_edit_song_title_name_artist(cut).png" 
     alt="screenshot_file_settings_menu(cut).png" width="250x" height="whatever" align=left>
   </tr>
   <br>
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_fragment_landscape.png" 
-    alt="screenshot_player_fragment_landscape.png" width="444x" height="whatever" align=left>
+    alt="screenshot_player_fragment_landscape.png" width="444x" height="whatever" align=right>
   </tr>
   <p> 
     How we can see player look very nice and with landscape orientation. 
@@ -86,7 +85,7 @@
   
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_notification_small_lockscreen(cut).png" 
-    alt="screenshot_player_notification_small_lockscreen(cut).png" width="250x" height="whatever" align=right>  
+    alt="screenshot_player_notification_small_lockscreen(cut).png" width="250x" height="whatever" align=left>  
   </tr>  
   
   <tr>
@@ -100,7 +99,7 @@
 
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_notification_big(cut).png" 
-    alt="screenshot_player_notification_big(cut).png" width="250x" height="whatever" align=left>
+    alt="screenshot_player_notification_big(cut).png" width="250x" height="whatever" align=right>
   </tr>
   
   <tr>
