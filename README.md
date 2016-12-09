@@ -44,7 +44,7 @@
   </tr>
 
   <tr>
-    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_menu.png" 
+    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_menu(cut).png" 
     alt="screenshot_tracklist_fragment_sort_by_format.png" width="250x" height="whatever" align=left>
     <p> 
     We have interesting **sort by: name, duration, year, format, language**. Each from last three sorts accompanied extra info which
@@ -72,16 +72,16 @@
   </tr>
  
  <tr>
-    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_edit_song_title_name_artist.png" 
+    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_edit_song_title_name_artist(cut).png" 
     alt="screenshot_file_settings_menu.png" width="250x" height="whatever" align=right>
   </tr>
   <tr>
-    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_file_settings_menu.png" 
+    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_file_settings_menu(cut).png" 
     alt="screenshot_edit_song_title_name_artist.png" width="250x" height="whatever" align=right>
   </tr>
   
   <tr>
-    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_notification_small_lockscreen.png" 
+    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_notification_small_lockscreen(cut).png" 
     alt="screenshot_player_fragment_landscape.png" width="250x" height="whatever" align=left>
     <p>
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
@@ -92,7 +92,7 @@
   </tr>
       
   <tr>
-    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_notification_big.png" 
+    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_notification_big(cut).png" 
     alt="screenshot_tracklist_fragment.png" width="250x" height="whatever" align=right>
     <p>
     Also we can **control player in android fast tools blind** it's notif player big. Where have cancel button for notif 
