@@ -84,7 +84,7 @@
   
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_fragment_landscape.png" 
-    alt="screenshot_player_fragment_landscape.png" width="444x" height="whatever" align=right>
+    alt="screenshot_player_fragment_landscape.png" width="444x" height="whatever" align=left>
   </tr>
   <p> 
     How we can see player look very nice and with landscape orientation. 
@@ -94,7 +94,7 @@
   
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_notification_small_lockscreen(cut).png" 
-    alt="screenshot_player_notification_small_lockscreen(cut).png" width="250x" height="whatever" align=left>  
+    alt="screenshot_player_notification_small_lockscreen(cut).png" width="250x" height="whatever" align=right>  
   </tr>  
   
   <tr>
@@ -104,7 +104,14 @@
     Cancel notif player big call pause music in fullscreen player, self and notif player small cancel. 
   </p>
 </tr>
-<tr>
+
+
+  <tr>
+    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_notification_big(cut).png" 
+    alt="screenshot_player_notification_big(cut).png" width="250x" height="whatever" align=left>
+  </tr>
+  
+  <tr>
   <p>
     Also we can **control player in android fast tools blind** it's notif player big. Where have cancel button for notif 
     player big/small cancel. Click by notif player big **call fullscreen player with saved state**.
@@ -112,10 +119,5 @@
     To be continued...
   </p>
 </tr>
-
-  <tr>
-    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_notification_big(cut).png" 
-    alt="screenshot_player_notification_big(cut).png" width="250x" height="whatever" align=left>
-  </tr>
 
 
