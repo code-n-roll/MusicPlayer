@@ -1,9 +1,9 @@
 # Feel Music! Player
   <tr>
+    <p>_**Feel Music! Player**_ for everybody who live music. Why? Let's see more carefully and will understand it.</p>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment.png" 
     alt="screenshot_tracklist_fragment.png" width="250x" height="whatever" align=left>
     <p>
-    _**Feel Music! Player**_ for everybody who live music. Why? Let's see more carefully and will understand it.<br>
     In **SONGS** section we have all songs founded on our device with short info: photo, song title, name artist, duration.
     **Photo taken from internet** based on song file meta-data and save in memory-cache.
     Other info taken from song file meta-data and it can be easy modified by: long press on song card->edit->confirmation.
@@ -44,7 +44,7 @@
     alt="screenshot_tracklist_fragment_sort_by_year.png" width="70x" height="whatever" align=right>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_by_format(cut).png" 
     alt="screenshot_tracklist_fragment_sort_by_format(cut).png" width="70x" height="whatever" align=right>
-    <p align=center> 
+    <p> 
     We have interesting **sort by: name, duration, year, format, language**. Each from last three sorts accompanied extra info which
     appear on right-top corner of songcard.
     </p>
