@@ -41,6 +41,7 @@
     <p> 
     We have interesting **sort by: name, duration, year, format, language**. Each from last three sorts accompanied extra info which
     appear on right-top corner of songcard.
+    <br><br><br><br><br>
     </p>
   </tr>
   <tr>
@@ -66,6 +67,7 @@
     Long click by edit will open submenu for edit song title and name artist with confirmation. And then we **can find lyrics,               language** and 
     other info with help search **via internet**. Long click by delete will remove from storage. And by delete from cache will remove       from 
     data base cache-memory. With next search we can restore/update audio.
+    <br><br>
     </p>
   </tr>
   <tr>
