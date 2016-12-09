@@ -38,7 +38,7 @@
 
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_menu(cut).png" 
-    alt="screenshot_tracklist_fragment_sort_menu(cut).png" width="250x" height="whatever" align=left>
+    alt="screenshot_tracklist_fragment_sort_menu(cut).png" width="250x" height="whatever" align=right>
     <p> 
     We have interesting **sort by: name, duration, year, format, language**. Each from last three sorts accompanied extra info which
     appear on right-top corner of songcard.
@@ -66,6 +66,15 @@
     </p>
   </tr>
 
+<tr>
+    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_fragment_landscape.png" 
+    alt="screenshot_player_fragment_landscape.png" width="444x" height="whatever" align=right>
+  </tr>
+  <p> 
+    How we can see player look very nice and with landscape orientation. 
+    Let's back to SONGS section and stop more detail on sort by in right-top corner.
+  </p>
+
  
  <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_edit_song_title_name_artist(cut).png" 
@@ -77,14 +86,7 @@
     alt="screenshot_file_settings_menu(cut).png" width="250x" height="whatever" align=right>
   </tr>
   
-  <tr>
-    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_fragment_landscape.png" 
-    alt="screenshot_player_fragment_landscape.png" width="444x" height="whatever" align=right>
-  </tr>
-  <p> 
-    How we can see player look very nice and with landscape orientation. 
-    Let's back to SONGS section and stop more detail on sort by in right-top corner.
-  </p>
+  
   
 <table align=left>
   <tr>
