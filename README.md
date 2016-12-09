@@ -41,7 +41,7 @@
     We have interesting **sort by: name, duration, year, format, language**. Each from last three sorts accompanied extra info which
     appear on right-top corner of songcard.
     </p>
-    <br>
+    <br><br><br>
   </tr>
 
   <tr>
@@ -55,7 +55,7 @@
  
  
   <tr>
-  <br><br><br><br>
+  <br><br>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_file_settings_menu(cut).png" 
     alt="screenshot_edit_song_title_name_artist(cut).png" width="250x" height="whatever" align=left>
     <p>
