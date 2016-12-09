@@ -37,13 +37,14 @@
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_menu(cut).png" 
     alt="screenshot_tracklist_fragment_sort_menu(cut).png" width="250x" height="whatever" align=right>
+    <br><br><br><br><br><br><br><br><br>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_by_lang(cut).png" 
     alt="screenshot_tracklist_fragment_sort_by_lang.png" width="70x" height="whatever" align=right>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_by_year(cut).png" 
     alt="screenshot_tracklist_fragment_sort_by_year.png" width="70x" height="whatever" align=right>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_by_format(cut).png" 
     alt="screenshot_tracklist_fragment_sort_by_format(cut).png" width="70x" height="whatever" align=right>
-    <p> 
+    <p align=center> 
     We have interesting **sort by: name, duration, year, format, language**. Each from last three sorts accompanied extra info which
     appear on right-top corner of songcard.
     </p>
@@ -64,7 +65,6 @@
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_edit_song_title_name_artist(cut).png" 
     alt="screenshot_file_settings_menu(cut).png" width="250x" height="whatever" align=left>
-    
   </tr>
  
   <tr>
@@ -73,19 +73,19 @@
     <p> 
     How we can see player look very nice and with landscape orientation. 
     Let's back to SONGS section and stop more detail on sort by in right-top corner.
-  </p>
-  </tr>
+    </p>
+</tr>
   
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_notification_small_lockscreen(cut).png" 
     alt="screenshot_player_notification_small_lockscreen(cut).png" width="250x" height="whatever" align=left>  
-  <p>
-    If we go out to lockscreen while notification player big/small is not canceled. Then we can **control player from lockscreen**.
+    <p>
+    If we go out to lockscreen while notification player big/small is not canceled.
+    Then we can **control player from lockscreen**.
     Notif player big/small will start on each calls play button or clicks by songcard (that is same) if it was canceled.
     Cancel notif player big call pause music in fullscreen player, self and notif player small cancel. 
-  </p>
-</tr>
-
+    </p>
+  </tr>
 
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_notification_big(cut).png" 
@@ -93,9 +93,9 @@
     <p>
     Also we can **control player in android fast tools blind** it's notif player big. Where have cancel button for notif 
     player big/small cancel. Click by notif player big **call fullscreen player with saved state**.
-    <br>
+      <br>
     To be continued...
-  </p>
+    </p>
   </tr>
   
   
