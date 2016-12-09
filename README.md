@@ -1,7 +1,7 @@
 # Feel Music! Player
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment.png" 
-    alt="screenshot_player_fragment_lyrics.png" width="250x" height="whatever" align=left>
+    alt="screenshot_tracklist_fragment.png" width="250x" height="whatever" align=left>
     <p>_**Feel Music! Player**_ for everybody who live music. Why? Let's see more carefully and will understand it.</p>
     <p>
     In **SONGS** section we have all songs founded on our device with short info: photo, song title, name artist, duration.<br/>
@@ -26,7 +26,7 @@
 
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_fragment_lyrics.png" 
-    alt="screenshot_player_notification_big.png" width="250x" height="whatever" align=left>
+    alt="screenshot_player_fragment_lyrics.png" width="250x" height="whatever" align=left>
     <p>
     For **taking song lyrics** you can **swipe up** on albumcover image. Lyrics search via internet with help **Musixmatch.com** is
     the world's largest lyrics catalog, search based on song title and name artist + MM API, then on link to MM site lyrics
@@ -45,7 +45,7 @@
 
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_menu(cut).png" 
-    alt="screenshot_tracklist_fragment_sort_by_format.png" width="250x" height="whatever" align=left>
+    alt="screenshot_tracklist_fragment_sort_menu(cut).png" width="250x" height="whatever" align=left>
     <p> 
     We have interesting **sort by: name, duration, year, format, language**. Each from last three sorts accompanied extra info which
     appear on right-top corner of songcard.
@@ -61,7 +61,7 @@
  
  <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_by_format(cut).png" 
-    alt="screenshot_tracklist_fragment_sort_menu.png" width="80x" height="whatever" align=left>
+    alt="screenshot_tracklist_fragment_sort_by_format(cut).png" width="80x" height="whatever" align=left>
     <p>
     Also by long click on songcard we have audio settings such as: edit, delete, delete from cache.
     Long click by edit will open submenu for edit song title and name artist with confirmation. And then we **can find lyrics, language** and 
@@ -72,11 +72,11 @@
  
  <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_edit_song_title_name_artist(cut).png" 
-    alt="screenshot_file_settings_menu.png" width="250x" height="whatever" align=right>
+    alt="screenshot_edit_song_title_name_artist(cut).png" width="250x" height="whatever" align=right>
   </tr>
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_file_settings_menu(cut).png" 
-    alt="screenshot_edit_song_title_name_artist.png" width="250x" height="whatever" align=right>
+    alt="screenshot_file_settings_menu(cut).png" width="250x" height="whatever" align=right>
   </tr>
   
   <tr>
@@ -91,7 +91,7 @@
       
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_notification_big(cut).png" 
-    alt="screenshot_tracklist_fragment.png" width="250x" height="whatever" align=left>
+    alt="screenshot_player_notification_big(cut).png" width="250x" height="whatever" align=left>
     <p>
     Also we can **control player in android fast tools blind** it's notif player big. Where have cancel button for notif 
     player big/small cancel. Click by notif player big **call fullscreen player with saved state**.
