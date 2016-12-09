@@ -41,7 +41,7 @@
     <p> 
     We have interesting **sort by: name, duration, year, format, language**. Each from last three sorts accompanied extra info which
     appear on right-top corner of songcard.
-    <br><br><br><br><br>
+    <br><br><br><br><br><br><br><br>
     </p>
   </tr>
   <tr>
