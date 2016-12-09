@@ -22,6 +22,7 @@
     Time begin/end of song playing. For **change song** you can use **fast forward/backward buttons** or **swipe left/right**
     on albumcover image.
     </p>
+    <br>
   </tr>
 
   <tr>
