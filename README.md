@@ -88,14 +88,14 @@
   
   
   
-<table align=left>
+<table>
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_notification_small_lockscreen(cut).png" 
-    alt="screenshot_player_notification_small_lockscreen(cut).png" width="250x" height="whatever" align=left>  
+    alt="screenshot_player_notification_small_lockscreen(cut).png" width="250x" height="whatever" align=right>  
   </tr>   
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_notification_big(cut).png" 
-    alt="screenshot_player_notification_big(cut).png" width="250x" height="whatever" align=left>
+    alt="screenshot_player_notification_big(cut).png" width="250x" height="whatever" align=right>
   </tr>
 </table>
 
