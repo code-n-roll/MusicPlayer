@@ -36,7 +36,7 @@
 
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_fragment_landscape.png" 
-    alt="screenshot_player_notification_small_lockscreen.png" width="500x" height="whatever" align=right>
+    alt="screenshot_player_fragment_landscape.png" width="500x" height="whatever">
     <p> 
     How we can see player look very nice and with landscape orientation. 
     Let's back to SONGS section and stop more detail on sort by in right-top corner.
@@ -81,7 +81,7 @@
   
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_notification_small_lockscreen(cut).png" 
-    alt="screenshot_player_fragment_landscape.png" width="250x" height="whatever" align=left>
+    alt="screenshot_player_notification_small_lockscreen(cut).png" width="250x" height="whatever" align=left>
     <p>
     If we go out to lockscreen while notification player big/small is not canceled. Then we can **control player from lockscreen**.
     Notif player big/small will start on each calls play button or clicks by songcard (that is same) if it was canceled.
@@ -91,7 +91,7 @@
       
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_notification_big(cut).png" 
-    alt="screenshot_tracklist_fragment.png" width="250x" height="whatever" align=bottom>
+    alt="screenshot_tracklist_fragment.png" width="250x" height="whatever" align=left>
     <p>
     Also we can **control player in android fast tools blind** it's notif player big. Where have cancel button for notif 
     player big/small cancel. Click by notif player big **call fullscreen player with saved state**.
