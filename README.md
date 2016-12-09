@@ -46,16 +46,15 @@
   </tr>
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_by_lang(cut).png" 
-    alt="screenshot_tracklist_fragment_sort_by_lang.png" width="80x" height="whatever" align=right>
+    alt="screenshot_tracklist_fragment_sort_by_lang.png" width="70x" height="whatever" align=right>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_by_year(cut).png" 
-    alt="screenshot_tracklist_fragment_sort_by_year.png" width="80x" height="whatever" align=right>
+    alt="screenshot_tracklist_fragment_sort_by_year.png" width="70x" height="whatever" align=right>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_by_format(cut).png" 
-    alt="screenshot_tracklist_fragment_sort_by_format(cut).png" width="80x" height="whatever" align=right>
+    alt="screenshot_tracklist_fragment_sort_by_format(cut).png" width="70x" height="whatever" align=right>
     
   </tr>
  
   <tr>
-    <br><br><br>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_file_settings_menu(cut).png" 
     alt="screenshot_edit_song_title_name_artist(cut).png" width="250x" height="whatever" align=left>
     <p>
@@ -81,14 +80,9 @@
   </p>
   </tr>
   
-  
-  
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_notification_small_lockscreen(cut).png" 
     alt="screenshot_player_notification_small_lockscreen(cut).png" width="250x" height="whatever" align=left>  
-  </tr>  
-  
-  <tr>
   <p>
     If we go out to lockscreen while notification player big/small is not canceled. Then we can **control player from lockscreen**.
     Notif player big/small will start on each calls play button or clicks by songcard (that is same) if it was canceled.
