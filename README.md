@@ -34,14 +34,16 @@
     </p>
   </tr>
 
+<table>
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_fragment_landscape.png" 
-    alt="screenshot_player_fragment_landscape.png" width="500x" height="whatever">
+    alt="screenshot_player_fragment_landscape.png" width="500x" height="whatever" align=right>
     <p> 
     How we can see player look very nice and with landscape orientation. 
     Let's back to SONGS section and stop more detail on sort by in right-top corner.
     </p>
   </tr>
+</table>
 
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_menu(cut).png" 
@@ -70,14 +72,17 @@
     </p>
   </tr>
  
+<table align=right>
  <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_edit_song_title_name_artist(cut).png" 
     alt="screenshot_edit_song_title_name_artist(cut).png" width="250x" height="whatever" align=right>
   </tr>
+  
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_file_settings_menu(cut).png" 
     alt="screenshot_file_settings_menu(cut).png" width="250x" height="whatever" align=right>
   </tr>
+</table>
   
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_notification_small_lockscreen(cut).png" 
