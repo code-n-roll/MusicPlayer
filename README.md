@@ -54,16 +54,15 @@
 
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_by_lang(cut).png" 
-    alt="screenshot_tracklist_fragment_sort_by_lang.png" width="whatever" height="444x" align=left>
+    alt="screenshot_tracklist_fragment_sort_by_lang.png" width="80x" height="whatever" align=left>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_by_year(cut).png" 
-    alt="screenshot_tracklist_fragment_sort_by_year.png" width="whatever" height="444x" align=left>
+    alt="screenshot_tracklist_fragment_sort_by_year.png" width="80x" height="whatever" align=left>
   </tr>
  
  <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_by_format(cut).png" 
-    alt="screenshot_tracklist_fragment_sort_menu.png" width="whatever" height="444x" align=left>
+    alt="screenshot_tracklist_fragment_sort_menu.png" width="80x" height="whatever" align=left>
     <p>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     Also by long click on songcard we have audio settings such as: edit, delete, delete from cache.
     Long click by edit will open submenu for edit song title and name artist with confirmation. And then we **can find lyrics, language** and 
     other info with help search **via internet**. Long click by delete will remove from storage. And by delete from cache will remove from 
@@ -84,7 +83,6 @@
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_notification_small_lockscreen(cut).png" 
     alt="screenshot_player_fragment_landscape.png" width="250x" height="whatever" align=left>
     <p>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     If we go out to lockscreen while notification player big/small is not canceled. Then we can **control player from lockscreen**.
     Notif player big/small will start on each calls play button or clicks by songcard (that is same) if it was canceled.
     Cancel notif player big call pause music in fullscreen player, self and notif player small cancel. 
@@ -93,7 +91,7 @@
       
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_notification_big(cut).png" 
-    alt="screenshot_tracklist_fragment.png" width="250x" height="whatever" align=right>
+    alt="screenshot_tracklist_fragment.png" width="250x" height="whatever" align=bottom>
     <p>
     Also we can **control player in android fast tools blind** it's notif player big. Where have cancel button for notif 
     player big/small cancel. Click by notif player big **call fullscreen player with saved state**.
