@@ -53,15 +53,15 @@
   </tr>
 
   <tr>
-    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_by_lang.png" 
-    alt="screenshot_tracklist_fragment_sort_by_lang.png" width="250x" height="whatever" align=left>
-    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_by_year.png" 
-    alt="screenshot_tracklist_fragment_sort_by_year.png" width="250x" height="whatever" align=left>
+    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_by_lang(cut).png" 
+    alt="screenshot_tracklist_fragment_sort_by_lang.png" width="whatever" height="444x" align=left>
+    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_by_year(cut).png" 
+    alt="screenshot_tracklist_fragment_sort_by_year.png" width="whatever" height="444x" align=left>
   </tr>
  
  <tr>
-    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_by_format.png" 
-    alt="screenshot_tracklist_fragment_sort_menu.png" width="250x" height="whatever" align=left>
+    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_by_format(cut).png" 
+    alt="screenshot_tracklist_fragment_sort_menu.png" width="whatever" height="444x" align=left>
     <p>
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     Also by long click on songcard we have audio settings such as: edit, delete, delete from cache.
