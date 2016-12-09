@@ -55,7 +55,7 @@
  
  
   <tr>
-  <br><br>
+  <br><br><br>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_file_settings_menu(cut).png" 
     alt="screenshot_edit_song_title_name_artist(cut).png" width="250x" height="whatever" align=left>
     <p>
