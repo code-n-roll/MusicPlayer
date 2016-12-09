@@ -54,16 +54,19 @@
     </p>
   </tr>
 
-  <tr>
+<table>
+  <tr align=right>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_by_lang(cut).png" 
-    alt="screenshot_tracklist_fragment_sort_by_lang.png" width="80x" height="whatever" align=left>
+    alt="screenshot_tracklist_fragment_sort_by_lang.png" width="80x" height="whatever" >
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_by_year(cut).png" 
-    alt="screenshot_tracklist_fragment_sort_by_year.png" width="80x" height="whatever" align=left>
+    alt="screenshot_tracklist_fragment_sort_by_year.png" width="80x" height="whatever" >
+    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_by_format(cut).png" 
+    alt="screenshot_tracklist_fragment_sort_by_format(cut).png" width="80x" height="whatever" >
   </tr>
  
- <tr>
-    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_by_format(cut).png" 
-    alt="screenshot_tracklist_fragment_sort_by_format(cut).png" width="80x" height="whatever" align=left>
+</table>
+   
+ <tr>   
     <p>
     Also by long click on songcard we have audio settings such as: edit, delete, delete from cache.
     Long click by edit will open submenu for edit song title and name artist with confirmation. And then we **can find lyrics, language** and 
@@ -71,6 +74,7 @@
     data base cache-memory. With next search we can restore/update audio.
     </p>
   </tr>
+
  
 <table align=right>
  <tr>
@@ -87,22 +91,25 @@
 <table align=left>
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_notification_small_lockscreen(cut).png" 
-    alt="screenshot_player_notification_small_lockscreen(cut).png" width="250x" height="whatever" align=left>
-    <p>
-    If we go out to lockscreen while notification player big/small is not canceled. Then we can **control player from lockscreen**.
-    Notif player big/small will start on each calls play button or clicks by songcard (that is same) if it was canceled.
-    Cancel notif player big call pause music in fullscreen player, self and notif player small cancel. 
-    </p>
-  </tr>
-      
+    alt="screenshot_player_notification_small_lockscreen(cut).png" width="250x" height="whatever" align=left>  
+  </tr>   
   <tr>
     <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_notification_big(cut).png" 
     alt="screenshot_player_notification_big(cut).png" width="250x" height="whatever" align=left>
-    <p>
+  </tr>
+</table>
+
+<tr>
+  <p>
+    If we go out to lockscreen while notification player big/small is not canceled. Then we can **control player from lockscreen**.
+    Notif player big/small will start on each calls play button or clicks by songcard (that is same) if it was canceled.
+    Cancel notif player big call pause music in fullscreen player, self and notif player small cancel. 
+  </p>
+  
+  <p>
     Also we can **control player in android fast tools blind** it's notif player big. Where have cancel button for notif 
     player big/small cancel. Click by notif player big **call fullscreen player with saved state**.
     <br>
     To be continued...
-    </p>
-  </tr>
-</table>
+  </p>
+</tr>
