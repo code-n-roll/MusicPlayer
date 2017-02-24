@@ -143,11 +143,21 @@ public class MainFragment extends Fragment {
         openSongs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openCube();
+//                openCube();
+                openPlayer();
             }
         });
 
         return view;
+    }
+    public void openPlayer(){
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        if (getActivity().getSupportFragmentManager().findFragmentByTag(TRACKLIST_TAG) == null) {
+            TracklistFragment tracklist = new TracklistFragment();
+            ft.replace(R.id.fContainerActMain, tracklist, TRACKLIST_TAG);
+            ft.addToBackStack(TRACKLIST_TAG);
+        }
+        ft.commit();
     }
 
     public void openCube(){

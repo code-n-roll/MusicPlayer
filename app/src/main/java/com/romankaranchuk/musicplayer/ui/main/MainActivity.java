@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
-            case R.id.albums_search_menu:
+            case R.id.action_add_audio_files_from_sd:
                 requestPermAndSearchMusic();
                 return true;
         }
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_search_menu, menu);
+        inflater.inflate(R.menu.main_options_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

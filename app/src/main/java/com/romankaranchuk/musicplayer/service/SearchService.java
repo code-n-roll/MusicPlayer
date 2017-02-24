@@ -134,8 +134,10 @@ public class SearchService extends Service {
                             album.getId(), songLyrics, songYear, songDate, songLanguage);
                     songs.add(song);
                 }
+                int oldRepSize = mRepository.getAlbums().size();
                 mRepository.saveAlbum(album, songs);
-                sendBroadcast(new Intent("updateSongs"));
+                if (oldRepSize != mRepository.getAlbums().size())
+                    sendBroadcast(new Intent("updateSongs"));
             }
             isSearchActive = false;
             stopSelf();

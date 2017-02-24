@@ -129,14 +129,14 @@ public class TracklistFragment extends Fragment implements
         ma.getSupportActionBar().setDisplayShowHomeEnabled(true);
         restoreDefaultToolbar(ma);
 
-//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getActivity(), MainActivity.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//                startActivity(intent);
-//            }
-//        });
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+            }
+        });
 
         mMainHandler = new Handler(getContext().getMainLooper());
 
@@ -150,7 +150,6 @@ public class TracklistFragment extends Fragment implements
                     , mSongs);
         }
         tracklistList.setAdapter(songListAdapter);
-        MainActivity.setCurSelectedSong(mSongs.get(0));
 //        tracklistList.setDivider(null);
 
 
@@ -172,9 +171,6 @@ public class TracklistFragment extends Fragment implements
                     FragmentManager fm = getActivity().getSupportFragmentManager();
                     FragmentTransaction ft = fm.beginTransaction();
 
-//                    if (fpf == null){
-//                        fpf = new PlayerFragment();
-//                    }
                     fpf = PlayerFragment.getSingleton();
 
                     if (curSelectedSong == justSelectedSong){
@@ -195,11 +191,11 @@ public class TracklistFragment extends Fragment implements
                     } else {
                         curSelectedSong = justSelectedSong;
                         MainActivity.setCurSelectedSong(curSelectedSong);
-                        fpf.setFileNewSong(new File(curSelectedSong.getPath()));
+                        if (fpf.getCurMediaPlayer() != null)
+                            fpf.setFileNewSong(new File(curSelectedSong.getPath()));
                         ft.replace(R.id.fContainerActMain, fpf, FULLSCREEN_TAG);
                         ft.addToBackStack(FULLSCREEN_TAG);
                         ft.commit();
-//                        fm.executePendingTransactions();
 
 
 //                        fpf.getPagerFullscreenPlayer().setCurrentItem(mSongs.indexOf(curSelectedSong));

@@ -147,10 +147,6 @@ public class PlayerFragment extends Fragment {
         return mInstance;
     }
 
-    public static PlayerFragment newInstance(){
-        return new PlayerFragment();
-    }
-
     @Override
     public void onAttach(Context context){
         super.onAttach(context);
@@ -180,15 +176,15 @@ public class PlayerFragment extends Fragment {
                         playImageButton.setOnClickListener(onClickListenerPlayButton);
                     }
 
-//                    handleStateCurMediaPlayer();
-//
-//                    if (!playImageButton.isSelected() && !continued) {
-//                        playImageButton.setSelected(true);
-//                        playImageButton.callOnClick();
-//                    }
-//                    setSongFullTimeSeekBarProgress();
-//                    myHandler.postDelayed(UpdateSongTime, 10);
-//                    myHandler.postDelayed(UpdateSeekBar, 10);
+                    handleStateCurMediaPlayer();
+
+                    if (!playImageButton.isSelected() && !continued) {
+                        playImageButton.setSelected(true);
+                        playImageButton.callOnClick();
+                    }
+                    setSongFullTimeSeekBarProgress();
+                    myHandler.postDelayed(UpdateSongTime, 10);
+                    myHandler.postDelayed(UpdateSeekBar, 10);
 
                     bound = true;
                 }

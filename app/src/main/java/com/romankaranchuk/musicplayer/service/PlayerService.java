@@ -158,16 +158,16 @@ public class PlayerService extends Service {
         unregisterReceiver(playNotifPlayerReceiver);
         unregisterReceiver(forwardNotifPlayerReceiver);
         unregisterReceiver(backwardNotifPlayerReceiver);
-        try {
-            wallpaperManager.clear(WallpaperManager.FLAG_LOCK);
-            wallpaperManager.setBitmap(
-                    oldWallpaper,
-                    null,
-                    false,
-                    WallpaperManager.FLAG_LOCK);
-        } catch (IOException e){
-            e.printStackTrace();
-        }
+//        try {
+//            wallpaperManager.clear(WallpaperManager.FLAG_LOCK);
+//            wallpaperManager.setBitmap(
+//                    oldWallpaper,
+//                    null,
+//                    false,
+//                    WallpaperManager.FLAG_LOCK);
+//        } catch (IOException e){
+//            e.printStackTrace();
+//        }
         Log.d(LOG_TAG, "PlayerService onDestroy");
     }
 

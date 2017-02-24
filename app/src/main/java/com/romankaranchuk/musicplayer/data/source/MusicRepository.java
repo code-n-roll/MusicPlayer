@@ -103,10 +103,10 @@ public class MusicRepository implements MusicDataSource{
         if (mCachedAlbums == null){
             mCachedAlbums = new LinkedHashMap<>();
         }
-        mCachedAlbums.put(album.getId(), album);
 
         boolean successState = mTablesLocalDataSource.saveAlbum(album, songs);
         if (successState){
+            mCachedAlbums.put(album.getId(), album);
             notifyAlbumsChanged();
         }
         return successState;
