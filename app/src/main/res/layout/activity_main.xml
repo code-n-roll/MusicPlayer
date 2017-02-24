@@ -6,6 +6,4 @@
     android:orientation="vertical"
     android:id="@+id/fContainerActMain"
     >
-
-
 </LinearLayout>

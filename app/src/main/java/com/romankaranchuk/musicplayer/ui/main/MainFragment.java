@@ -1,8 +1,6 @@
 package com.romankaranchuk.musicplayer.ui.main;
 
 import android.annotation.TargetApi;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.content.Context;
@@ -12,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -22,13 +21,10 @@ import java.util.LinkedList;
 
 import com.romankaranchuk.musicplayer.R;
 import com.romankaranchuk.musicplayer.data.Song;
-import com.romankaranchuk.musicplayer.service.PlayerService;
+import com.romankaranchuk.musicplayer.ui.cube.CubeFragment;
 import com.romankaranchuk.musicplayer.ui.player.PlayerFragment;
 import com.romankaranchuk.musicplayer.ui.tracklist.SongListAdapter;
-import com.romankaranchuk.musicplayer.ui.tracklist.TracklistActivity;
-import com.romankaranchuk.musicplayer.utils.MathUtils;
-import com.romankaranchuk.musicplayer.utils.NetworkUtils;
-import com.romankaranchuk.musicplayer.utils.SearchLyricUtils;
+import com.romankaranchuk.musicplayer.ui.tracklist.TracklistFragment;
 
 /**
  * Created by NotePad.by on 28.10.2016.
@@ -38,9 +34,9 @@ public class MainFragment extends Fragment {
     Toolbar toolbar;
     SongListAdapter songListAdapter;
     private PlayerFragment fpf;
-    private String FULLSCREEN_TAG = "fullscreenFragment";
+    private String FULLSCREEN_TAG = "fullscreenFragment", CUBE_TAG ="cubeFragment";
     private Song curSelectedSong;
-    private String LOG_TAG = "myLogs";
+    private String LOG_TAG = "myLogs", TRACKLIST_TAG = "TRACKLIST_TAG";
 
 
 
@@ -75,20 +71,19 @@ public class MainFragment extends Fragment {
         ma.setSupportActionBar(toolbar);
         ma.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         ma.getSupportActionBar().setDisplayShowHomeEnabled(false);
-
         restoreDefaultToolbar(ma);
 
 
 
         LinkedList<Song> listRecSongs = MainActivity.getListRecentlySongs();
-        songListAdapter = new SongListAdapter(getActivity(),R.layout.content_recently_songs, listRecSongs);
-        recentlySongListView.setAdapter(songListAdapter);
+//        songListAdapter = new SongListAdapter(getActivity(),R.layout.content_recently_songs, listRecSongs);
+//        recentlySongListView.setAdapter(songListAdapter);
 
-        recentlySongListView.setNumColumns(listRecSongs.size());
-        ViewGroup.LayoutParams layoutParams = recentlySongListView.getLayoutParams();
-        layoutParams.width = MathUtils.convertDpToPixels(123, getActivity())*listRecSongs.size();
-        layoutParams.height = MathUtils.convertDpToPixels(210, getActivity());
-        recentlySongListView.setLayoutParams(layoutParams);
+//        recentlySongListView.setNumColumns(listRecSongs.size());
+//        ViewGroup.LayoutParams layoutParams = recentlySongListView.getLayoutParams();
+//        layoutParams.width = MathUtils.convertDpToPixels(123, getActivity())*listRecSongs.size();
+//        layoutParams.height = MathUtils.convertDpToPixels(210, getActivity());
+//        recentlySongListView.setLayoutParams(layoutParams);
 
 
 
@@ -148,16 +143,21 @@ public class MainFragment extends Fragment {
         openSongs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openTrackList(v);
+                openCube();
             }
         });
 
         return view;
     }
 
-    public void openTrackList(View view){
-        Intent intent = new Intent(getActivity(), TracklistActivity.class);
-        startActivity(intent);
+    public void openCube(){
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        if (getActivity().getSupportFragmentManager().findFragmentByTag(TRACKLIST_TAG) == null) {
+            CubeFragment cube = new CubeFragment();
+            ft.replace(R.id.fContainerActMain, cube, CUBE_TAG);
+            ft.addToBackStack(CUBE_TAG);
+        }
+        ft.commit();
     }
 
     @TargetApi(19)

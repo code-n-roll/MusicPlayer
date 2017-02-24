@@ -33,15 +33,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.main.MainActivity" />
         </activity>
-        <activity
-            android:name=".ui.tracklist.TracklistActivity"
-            android:label="@string/title_activity_tracklist"
-            android:parentActivityName=".ui.genres.GenresActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.genres.GenresActivity" />
-        </activity>
 
         <service
             android:name=".service.PlayerService"

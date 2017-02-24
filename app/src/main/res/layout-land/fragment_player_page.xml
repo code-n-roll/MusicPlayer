@@ -10,8 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/dark_gray_header_color"
-
         >
         <ImageView
             android:id="@+id/fullscreenAlbumCover"

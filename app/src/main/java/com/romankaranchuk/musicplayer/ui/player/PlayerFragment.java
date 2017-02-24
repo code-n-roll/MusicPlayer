@@ -25,19 +25,14 @@ import android.widget.TextView;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
 import com.romankaranchuk.musicplayer.R;
-import com.romankaranchuk.musicplayer.data.Album;
 import com.romankaranchuk.musicplayer.data.Song;
-import com.romankaranchuk.musicplayer.data.source.MusicRepository;
 import com.romankaranchuk.musicplayer.service.PlayerService;
 import com.romankaranchuk.musicplayer.ui.main.MainActivity;
-import com.romankaranchuk.musicplayer.ui.tracklist.TracklistActivity;
 import com.romankaranchuk.musicplayer.ui.tracklist.TracklistFragment;
 
 import static android.support.v4.view.ViewPager.SCROLL_STATE_IDLE;
@@ -62,7 +57,7 @@ public class PlayerFragment extends Fragment {
     private static double startTime, finalTime, seconds;
     private Handler myHandler = new Handler();
     private static File fileCurrentSong, filePlayedSong;
-    private String TRACKLIST_TAG = "tracklistFragment",
+    private String TRACKLIST_TAG = "TRACKLIST_TAG",
             PAGER_FULLSCREENPLAYER_TAG = "pagerFullscreenPlayer",
             TAG_PLAY = "playNotifPlayerReceiver",
             TAG_PLAY_BUT_PS_TO_F_BR = "playButtonFromPStoFragmentBR",
@@ -87,7 +82,7 @@ public class PlayerFragment extends Fragment {
     MediaPlayer.OnCompletionListener onCompletionListenerMediaPlayer;
     View.OnClickListener onClickListenerPlayButton;
     private ArrayList<Song> mSongs;
-
+    private static PlayerFragment mInstance;
 
     public static Song getCurrentSong(){
         return currentSong;
@@ -145,7 +140,16 @@ public class PlayerFragment extends Fragment {
     }
 
 
+    public static PlayerFragment getSingleton(){
+        if (mInstance == null){
+            return new PlayerFragment();
+        }
+        return mInstance;
+    }
 
+    public static PlayerFragment newInstance(){
+        return new PlayerFragment();
+    }
 
     @Override
     public void onAttach(Context context){
@@ -158,7 +162,6 @@ public class PlayerFragment extends Fragment {
         super.onCreate(savedInstanceState);
 //        setRetainInstance(true);
 
-        mSongs = TracklistFragment.getSongs();
 
 
         if (intentPlayerService == null)
@@ -176,14 +179,16 @@ public class PlayerFragment extends Fragment {
                         curMediaPlayer.setOnCompletionListener(onCompletionListenerMediaPlayer);
                         playImageButton.setOnClickListener(onClickListenerPlayButton);
                     }
-                    handleStateCurMediaPlayer();
 
-                    if (!playImageButton.isSelected() && !continued) {
-                        playImageButton.setSelected(true);
-                        playImageButton.callOnClick();
-                    }
-                    setSongFullTimeSeekBarProgress();
-
+//                    handleStateCurMediaPlayer();
+//
+//                    if (!playImageButton.isSelected() && !continued) {
+//                        playImageButton.setSelected(true);
+//                        playImageButton.callOnClick();
+//                    }
+//                    setSongFullTimeSeekBarProgress();
+//                    myHandler.postDelayed(UpdateSongTime, 10);
+//                    myHandler.postDelayed(UpdateSeekBar, 10);
 
                     bound = true;
                 }
@@ -217,6 +222,7 @@ public class PlayerFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
+
         Log.d(LOG_TAG, "PlayerFragment onResume");
     }
 
@@ -248,7 +254,6 @@ public class PlayerFragment extends Fragment {
         getContext().unregisterReceiver(playButtonFromServiceToFragmentBR);
         getContext().unregisterReceiver(forwardButtonFromServiceToFragmentBR);
         getContext().unregisterReceiver(backwardButtonFromServiceToFragmentBR);
-
         Log.d(LOG_TAG, "PlayerFragment onDestroy");
     }
 
@@ -327,6 +332,7 @@ public class PlayerFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_player, container, false);
 
+
         Window w = getActivity().getWindow();
         w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
                 WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -349,6 +355,7 @@ public class PlayerFragment extends Fragment {
 
         playImageButton = (ImageButton) view.findViewById(R.id.playPauseSongButton);
 
+
         shuffleImageButton = (ImageButton) view.findViewById(R.id.shuffleButton);
         replayImageButton = (ImageButton) view.findViewById(R.id.replayButton);
         fastForwardButton = (ImageButton) view.findViewById(R.id.toNextSongButton);
@@ -356,8 +363,36 @@ public class PlayerFragment extends Fragment {
 
 
         pagerFullscreenPlayer = (ViewPager) view.findViewById(R.id.pagerFullscreenPlayer);
+
         playerPagerAdapter = new PlayerPagerAdapter(getChildFragmentManager());
         pagerFullscreenPlayer.setAdapter(playerPagerAdapter);
+        pagerFullscreenPlayer.setPageTransformer(true, new ViewPager.PageTransformer() {
+            private static final float MIN_SCALE = 0.75f;
+
+            @Override
+            public void transformPage(View page, float position) {
+                int pageWidth = page.getWidth();
+
+                if (position < -1){
+                    page.setAlpha(0);
+                } else if (position <= 0){
+                    page.setAlpha(1);
+                    page.setTranslationX(0);
+                    page.setScaleX(1);
+                    page.setScaleY(1);
+                } else if (position <= 1){
+                    page.setAlpha(1- position);
+
+                    page.setTranslationX(pageWidth * -position);
+
+                    float scaleFactor = MIN_SCALE + (1 - MIN_SCALE) * (1 - Math.abs(position));
+                    page.setScaleX(scaleFactor);
+                    page.setScaleY(scaleFactor);
+                } else {
+                    page.setAlpha(0);
+                }
+            }
+        });
         pagerFullscreenPlayer.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
@@ -373,7 +408,9 @@ public class PlayerFragment extends Fragment {
             @Override
             public void onPageScrolled(int position, float positionOffset,
                                        int positionOffsetPixels) {
-                Log.d(LOG_TAG, "onPageScrolled, position = " + position);
+                Log.d(LOG_TAG, "onPageScrolled, position = " + position +
+                                " positionOffset = "+positionOffset +
+                                " positionOffsetPixels = " + positionOffsetPixels);
             }
 
             @Override
@@ -397,14 +434,18 @@ public class PlayerFragment extends Fragment {
         });
 
 
-        currentSong = TracklistActivity.getCurSelectedSong();
+        currentSong = MainActivity.getCurSelectedSong();
+        if (mSongs == null){
+            mSongs = TracklistFragment.getSongs();
+        }
         oldPosition = mSongs.indexOf(currentSong);
-        pagerFullscreenPlayer.setCurrentItem(oldPosition);
 
+        pagerFullscreenPlayer.setCurrentItem(oldPosition,false);
 
-        nameSong.setText(currentSong.getTitle());
-        nameArtist.setText(currentSong.getNameArtist());
-
+        if (currentSong != null) {
+            nameSong.setText(currentSong.getTitle());
+            nameArtist.setText(currentSong.getNameArtist());
+        }
         seekBar = (SeekBar) view.findViewById(R.id.seekbarSongTime);
 
         if (savedInstanceState != null){
@@ -417,7 +458,7 @@ public class PlayerFragment extends Fragment {
             continued = true;
             paused = savedInstanceState.getBoolean("statePaused");
             resume = savedInstanceState.getBoolean("stateResume");
-            ((TracklistFragment)getFragmentManager().findFragmentByTag("tracklistFragment")).setCurSelectedSong(restoreCurrentSong);
+//            ((TracklistFragment)getFragmentManager().findFragmentByTag(TRACKLIST_TAG)).setCurSelectedSong(restoreCurrentSong);
             currentSong = restoreCurrentSong;
 //            setSongFullTimeSeekBarProgress();
             myHandler.postDelayed(UpdateSongTime, 10);
@@ -486,9 +527,7 @@ public class PlayerFragment extends Fragment {
                 }
 
 
-                if (getActivity().getClass() == TracklistActivity.class){
-                    TracklistActivity.setCurSelectedSong(currentSong);
-                }
+                MainActivity.setCurSelectedSong(currentSong);
 
                 fileCurrentSong = new File(currentSong.getPath());
                 forBackwardTrack(fileCurrentSong);
@@ -524,9 +563,8 @@ public class PlayerFragment extends Fragment {
                     currentSong = currentTracklist.get(currentTracklist.size()-1);
                 }
 
-                if (getActivity().getClass() == TracklistActivity.class){
-                    TracklistActivity.setCurSelectedSong(currentSong);
-                }
+                MainActivity.setCurSelectedSong(currentSong);
+
                 fileCurrentSong = new File(currentSong.getPath());
                 forBackwardTrack(fileCurrentSong);
                 setNameSongArtist(currentSong);
@@ -623,63 +661,73 @@ public class PlayerFragment extends Fragment {
                 new IntentFilter(TAG_PLAY_BUT_PS_TO_F_BR));
 
 
-        onClickListenerPlayButton = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                playImageButton.setSelected(!playImageButton.isSelected());
-                setStatePlayButton();
-                Intent intent = new Intent(TAG_PLAY);
-                intent.putExtra("fpfCall", "true");
-                intent.putExtra("isPlaying", !playImageButton.isSelected());
-                intent.putExtra("currentSong", currentSong);
-                getContext().sendBroadcast(intent);
-                try {
-                    if (fileCurrentSong == null) {
-                        fileCurrentSong = new File(currentSong.getPath());
-                        curMediaPlayer.setDataSource(fileCurrentSong.toString());
-                    }
-                    if (filePlayedSong != fileCurrentSong) {
-                        LinkedList<Song> list = MainActivity.getListRecentlySongs();
-                        if (list.size() == 0 || list.get(0) != currentSong) {
-                            list.addFirst(currentSong);
-                            filePlayedSong = fileCurrentSong;
+        if (onClickListenerPlayButton == null) {
+            onClickListenerPlayButton = new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    playImageButton.setSelected(!playImageButton.isSelected());
+                    setStatePlayButton();
+                    Intent intent = new Intent(TAG_PLAY);
+                    intent.putExtra("fpfCall", "true");
+                    intent.putExtra("isPlaying", !playImageButton.isSelected());
+                    intent.putExtra("currentSong", currentSong);
+                    if (getContext() != null)
+                        getContext().sendBroadcast(intent);
+                    try {
+                        if (fileCurrentSong == null) {
+                            fileCurrentSong = new File(currentSong.getPath());
+                            curMediaPlayer.setDataSource(fileCurrentSong.toString());
                         }
-                    }
-                    if (playImageButton.isSelected()) {
-                        if (!resume) {
-                            curMediaPlayer.prepare();
-                            curMediaPlayer.start();
+                        if (filePlayedSong != fileCurrentSong) {
+                            LinkedList<Song> list = MainActivity.getListRecentlySongs();
+                            if (list.size() == 0 || list.get(0) != currentSong) {
+                                list.addFirst(currentSong);
+                                filePlayedSong = fileCurrentSong;
+                            }
+                        }
+                        if (playImageButton.isSelected()) {
+                            if (!resume) {
+                                curMediaPlayer.prepare();
+                                curMediaPlayer.start();
 
-                            startTime = curMediaPlayer.getCurrentPosition();
-                            finalTime = curMediaPlayer.getDuration();
-                            seekBar.setMax((int) finalTime);
-                            seekBar.setProgress((int) startTime);
-                            myHandler.postDelayed(UpdateSongTime, 10);
-                            myHandler.postDelayed(UpdateSeekBar, 10);
-                            resume = true;
-                            paused = false;
+                                startTime = curMediaPlayer.getCurrentPosition();
+                                finalTime = curMediaPlayer.getDuration();
+                                seekBar.setMax((int) finalTime);
+                                seekBar.setProgress((int) startTime);
+                                myHandler.postDelayed(UpdateSongTime, 10);
+                                myHandler.postDelayed(UpdateSeekBar, 10);
+                                resume = true;
+                                paused = false;
+                            } else {
+                                curMediaPlayer.seekTo(curPosition);
+                                curMediaPlayer.start();
+                                paused = false;
+                            }
+
+                            if (playerService == null) {
+                                getContext().startService(intentPlayerService);
+                                getContext().bindService(intentPlayerService, serviceConnection, 0);
+                            }
                         } else {
-                            curMediaPlayer.seekTo(curPosition);
-                            curMediaPlayer.start();
-                            paused = false;
-                        }
-                        getContext().startService(intentPlayerService);
-                        getContext().bindService(intentPlayerService, serviceConnection,0);
-                    } else {
                         curMediaPlayer.pause();
                         curPosition = curMediaPlayer.getCurrentPosition();
                         paused = true;
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
-            }
-        };
-
+            };
+        }
+        if (curMediaPlayer != null){
+            playImageButton.setOnClickListener(onClickListenerPlayButton);
+            curMediaPlayer.setOnCompletionListener(onCompletionListenerMediaPlayer);
+        }
 
         Log.d(LOG_TAG, "PlayerFragment onCreateView");
         return view;
     }
+
 
     public void handleStateCurMediaPlayer(){
         if (!playImageButton.isSelected() && !paused && !continued) {
@@ -719,20 +767,19 @@ public class PlayerFragment extends Fragment {
     public void setFileNewSong(File file){
         setFileCurrentSong(file);
         try {
-            MediaPlayer curMediaPlayer = getCurMediaPlayer();
             if (curMediaPlayer.isPlaying())
             {
                 curMediaPlayer.pause();
                 curMediaPlayer.stop();
                 setResume(false);
-                getMyHandler().removeCallbacks(getUpdateSongTime());
-                getMyHandler().removeCallbacks(getUpdateSeekBar());
+                myHandler.removeCallbacks(getUpdateSongTime());
+                myHandler.removeCallbacks(getUpdateSeekBar());
             }
             if (getPaused()){
                 curMediaPlayer.stop();
                 setResume(false);
-                getMyHandler().removeCallbacks(getUpdateSongTime());
-                getMyHandler().removeCallbacks(getUpdateSeekBar());
+                myHandler.removeCallbacks(getUpdateSongTime());
+                myHandler.removeCallbacks(getUpdateSeekBar());
                 setPaused(false);
             }
 
@@ -745,26 +792,25 @@ public class PlayerFragment extends Fragment {
 
     public void forBackwardTrack(File file){
         try {
-            MediaPlayer curMediaPlayer = getCurMediaPlayer();
             if (curMediaPlayer.isPlaying()) {
                 curMediaPlayer.pause();
                 curMediaPlayer.stop();
-                getPlayImageButton().setSelected(!getPlayImageButton().isSelected());
+                playImageButton.setSelected(!playImageButton.isSelected());
                 setStatePlayButton();
                 setResume(false);
-                getMyHandler().removeCallbacks(getUpdateSongTime());
-                getMyHandler().removeCallbacks(getUpdateSeekBar());
+                myHandler.removeCallbacks(getUpdateSongTime());
+                myHandler.removeCallbacks(getUpdateSeekBar());
                 curMediaPlayer.reset();
                 curMediaPlayer.setDataSource(file.toString());
             } else {
                 curMediaPlayer.stop();
                 setResume(false);
-                getMyHandler().removeCallbacks(getUpdateSongTime());
-                getMyHandler().removeCallbacks(getUpdateSeekBar());
+                myHandler.removeCallbacks(getUpdateSongTime());
+                myHandler.removeCallbacks(getUpdateSeekBar());
                 curMediaPlayer.reset();
                 curMediaPlayer.setDataSource(file.toString());
             }
-            getPlayImageButton().callOnClick();
+            playImageButton.callOnClick();
         }catch (IOException e){
             e.printStackTrace();
         }

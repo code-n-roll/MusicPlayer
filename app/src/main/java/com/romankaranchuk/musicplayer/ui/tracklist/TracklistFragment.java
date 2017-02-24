@@ -1,6 +1,8 @@
 package com.romankaranchuk.musicplayer.ui.tracklist;
 
 import android.annotation.TargetApi;
+import android.content.BroadcastReceiver;
+import android.content.IntentFilter;
 import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.content.Context;
@@ -60,6 +62,7 @@ public class TracklistFragment extends Fragment implements
     private List<Album> mAlbums;
     private static ArrayList<Song> mSongs;
     private static int sortBy;
+    BroadcastReceiver updateSongs;
 
     public void setCurSelectedSong(Song item){
         this.curSelectedSong = item;
@@ -74,29 +77,43 @@ public class TracklistFragment extends Fragment implements
         return sortBy;
     }
 
+
+    public static TracklistFragment newInstance(){
+        return new TracklistFragment();
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        updateSongs = new BroadcastReceiver(){
+            @Override
+            public void onReceive(Context context, Intent intent){
+                loadAndSortSongs(1);
+                songListAdapter.notifyDataSetChanged();
+            }
+        };
+        getContext().registerReceiver(updateSongs,
+                new IntentFilter("updateSongs"));
 
         MusicDataSource localDataSource = MusicLocalDataSource.getInstance(getContext());
         mRepository = MusicRepository.getInstance(localDataSource);
         mRepository.addContentObserver(this);
 
 //        ArrayList<Integer> durations = JniUtils.printAllSongs(TracklistFragment.getSongs());
-        ArrayList<Integer> durations = mRepository.printAllSongs();
-        JniUtils.checkJNI(durations);
+//        ArrayList<Integer> durations = mRepository.printAllSongs(); //NDK
+//        JniUtils.checkJNI(durations); //NDK
         Log.d(LOG_TAG, "TracklistFragment onCreate");
     }
 
 
     @TargetApi(19)
-    public void restoreDefaultToolbar(TracklistActivity ta){
-        WindowManager.LayoutParams attrs = ta.getWindow().getAttributes();
+    public void restoreDefaultToolbar(MainActivity ma){
+        WindowManager.LayoutParams attrs = ma.getWindow().getAttributes();
         attrs.flags &= (~WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         attrs.flags &= (~WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        ta.getWindow().setAttributes(attrs);
-        ta.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        ma.getWindow().setAttributes(attrs);
+        ma.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
     }
 
     @Override
@@ -105,23 +122,23 @@ public class TracklistFragment extends Fragment implements
         View view = inflater.inflate(R.layout.fragment_tracklist, container, false);
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.tracklist_toolbar);
 
-        TracklistActivity ta = (TracklistActivity) getActivity();
-        ta.setSupportActionBar(toolbar);
-        if (ta.getSupportActionBar() != null) {
-            ta.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            ta.getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-        restoreDefaultToolbar(ta);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
-            }
-        });
+        MainActivity ma = (MainActivity) getActivity();
+        ma.setSupportActionBar(toolbar);
+        ma.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ma.getSupportActionBar().setDisplayShowHomeEnabled(true);
+        restoreDefaultToolbar(ma);
 
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getActivity(), MainActivity.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//                startActivity(intent);
+//            }
+//        });
+
+        mMainHandler = new Handler(getContext().getMainLooper());
 
         final GridView tracklistList = (GridView) view.findViewById(R.id.tracklist_list);
 //        songsCardView = TracklistActivity.getSongsCardView();
@@ -133,15 +150,17 @@ public class TracklistFragment extends Fragment implements
                     , mSongs);
         }
         tracklistList.setAdapter(songListAdapter);
-
+        MainActivity.setCurSelectedSong(mSongs.get(0));
 //        tracklistList.setDivider(null);
+
+
 
         AdapterView.OnItemClickListener itemClickListener = new
             AdapterView.OnItemClickListener(){
                 @Override
                 public void onItemClick(AdapterView<?> parent, View v, int position,
                                         long id){
-                    curSelectedSong = TracklistActivity.getCurSelectedSong();
+                    curSelectedSong = MainActivity.getCurSelectedSong();
                     if ( curSelectedSong == null)
                         setCurSelectedSong((Song)
                                 parent.getItemAtPosition(position));
@@ -153,38 +172,39 @@ public class TracklistFragment extends Fragment implements
                     FragmentManager fm = getActivity().getSupportFragmentManager();
                     FragmentTransaction ft = fm.beginTransaction();
 
-                    if (fpf == null){
-                        fpf = new PlayerFragment();
-                    }
-
+//                    if (fpf == null){
+//                        fpf = new PlayerFragment();
+//                    }
+                    fpf = PlayerFragment.getSingleton();
 
                     if (curSelectedSong == justSelectedSong){
                         if (fpf.getResume()) {
                             fpf.setContinued(true);
-                            ft.replace(R.id.fContainerActTracklist, fpf, FULLSCREEN_TAG);
+                            ft.replace(R.id.fContainerActMain, fpf, FULLSCREEN_TAG);
                             ft.addToBackStack(FULLSCREEN_TAG);
                             ft.commit();
                         }
                         else {
                             fpf.setContinued(false);
-                            TracklistActivity.setCurSelectedSong(curSelectedSong);
-                            ft.replace(R.id.fContainerActTracklist, fpf, FULLSCREEN_TAG);
+                            MainActivity.setCurSelectedSong(curSelectedSong);
+                            ft.replace(R.id.fContainerActMain, fpf, FULLSCREEN_TAG);
                             ft.addToBackStack(FULLSCREEN_TAG);
                             ft.commit();
                         }
 
                     } else {
                         curSelectedSong = justSelectedSong;
-                        TracklistActivity.setCurSelectedSong(curSelectedSong);
-                        File file = new File(curSelectedSong.getPath());
-                        fpf.setFileNewSong(file);
-                        ft.replace(R.id.fContainerActTracklist, fpf, FULLSCREEN_TAG);
+                        MainActivity.setCurSelectedSong(curSelectedSong);
+                        fpf.setFileNewSong(new File(curSelectedSong.getPath()));
+                        ft.replace(R.id.fContainerActMain, fpf, FULLSCREEN_TAG);
                         ft.addToBackStack(FULLSCREEN_TAG);
                         ft.commit();
+//                        fm.executePendingTransactions();
 
-                        fpf.getPagerFullscreenPlayer().setCurrentItem(Integer.parseInt(curSelectedSong.getId()));
-                        fpf.setFastForwardCall(false);
-                        fpf.setFastBackwardCall(false);
+
+//                        fpf.getPagerFullscreenPlayer().setCurrentItem(mSongs.indexOf(curSelectedSong));
+//                        fpf.setFastForwardCall(false);
+//                        fpf.setFastBackwardCall(false);
                     }
                 }
             };
@@ -253,6 +273,7 @@ public class TracklistFragment extends Fragment implements
     }
     @Override
     public void onDestroy(){
+        getContext().unregisterReceiver(updateSongs);
         super.onDestroy();
         Log.d(LOG_TAG, "TracklistFragment onDestroy");
     }
@@ -272,17 +293,20 @@ public class TracklistFragment extends Fragment implements
         });
     }
 
+
+
+
     private void loadAlbums(){
         mAlbums = mRepository.getAlbums();
     }
     private void loadAndSortSongs(int sortBy){
-        if (mAlbums == null){
-            loadAlbums();
-        }
-        if (mSongs == null) {
+        loadAlbums();
+        if (mSongs == null){
             mSongs = new ArrayList<>();
-            for (Album album : mAlbums) {
-                for (Song song : mRepository.getSongs(album.getId(), false)) {
+        }
+        for (Album album : mAlbums) {
+            for (Song song : mRepository.getSongs(album.getId(), false)) {
+                if (!mSongs.contains(song)) {
                     mSongs.add(song);
                 }
             }
@@ -340,6 +364,8 @@ public class TracklistFragment extends Fragment implements
         inflater.inflate(R.menu.songs_sort_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
+
+
 }
 
 

@@ -107,7 +107,8 @@ public final class MusicUtils {
         songInfo.title = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
         songInfo.album = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM);
         String duration = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-        songInfo.duration = Integer.parseInt(duration);
+        if (duration != null)
+            songInfo.duration = Integer.parseInt(duration);
         songInfo.year = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_YEAR);
         songInfo.date = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DATE);
         if (songInfo.artist == null){

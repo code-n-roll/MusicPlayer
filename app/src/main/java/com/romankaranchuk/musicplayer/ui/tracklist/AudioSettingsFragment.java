@@ -24,7 +24,8 @@ public class AudioSettingsFragment extends DialogFragment implements
 
     String LOG_TAG = "myLogs",
             SELECTED_SONG = "selectedSong",
-            LIST_SONGS = "songsSongCardView";
+            LIST_SONGS = "songsSongCardView",
+    TRACKLIST_TAG = "TRACKLIST_TAG";
     ArrayList<String> itemsSettings = new ArrayList<String>(){{
         add("Edit");
         add("Delete");
@@ -77,8 +78,10 @@ public class AudioSettingsFragment extends DialogFragment implements
                 break;
             }
             case "Delete": {
+                TracklistFragment someFragment = (TracklistFragment)
+                        getActivity().getSupportFragmentManager().findFragmentByTag(TRACKLIST_TAG);
                 SongListAdapter adapter =
-                        ((TracklistActivity) getActivity()).getSongCardViewAdapter();
+                        someFragment.getSongListAdapter();
                 Bundle args = getArguments();
                 Song selected = args.getParcelable(SELECTED_SONG);
                 ArrayList<Song> list = args.getParcelableArrayList(LIST_SONGS);

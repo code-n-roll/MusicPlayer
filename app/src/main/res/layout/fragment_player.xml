@@ -8,13 +8,19 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/pagerFullscreenPlayer"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="402dp"
         android:overScrollMode="never"
         android:layout_marginBottom="-11dp"
-
+        android:background="@color/dark_gray_header_color"
         >
-
     </android.support.v4.view.ViewPager>
+
+    <LinearLayout
+        android:id="@+id/bottom_fullscreen_player_part"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,6 +43,7 @@
             android:thumbOffset="-1dp"
             android:progressDrawable="@drawable/progress"
             android:splitTrack="false"
+            android:background="@drawable/seekbar_fix"
             />
 
         <FrameLayout
@@ -44,6 +51,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             tools:targetApi="17"
+            android:background="@color/white"
             >
             <TextView
                 android:layout_width="wrap_content"
@@ -67,6 +75,12 @@
         </FrameLayout>
     </LinearLayout>
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -74,7 +88,6 @@
         android:layout_marginLeft="15dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="30dp"
-
         >
 
         <TextView
@@ -161,5 +174,7 @@
             android:layout_marginLeft="50dp"
             android:layout_marginStart="50dp"
             />
+    </LinearLayout>
+    </LinearLayout>
     </LinearLayout>
 </LinearLayout>

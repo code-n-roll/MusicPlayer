@@ -15,9 +15,7 @@ import android.widget.TextView;
 
 import com.romankaranchuk.musicplayer.R;
 import com.romankaranchuk.musicplayer.data.Song;
-import com.romankaranchuk.musicplayer.ui.tracklist.TracklistActivity;
 import com.romankaranchuk.musicplayer.ui.tracklist.TracklistFragment;
-import com.romankaranchuk.musicplayer.utils.MathUtils;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -76,6 +74,8 @@ public class PlayerPageFragment extends Fragment {
             setLyricSong(TracklistFragment.getSongs().get(pageNumber));
         }
 
+
+
         Log.d(LOG_TAG, "PlayerPageFragment onCreateView: " + pageNumber);
         return view;
     }
@@ -90,6 +90,9 @@ public class PlayerPageFragment extends Fragment {
         }
     }
 
+    public TextView getLyricSong(){
+        return lyricSong;
+    }
 
     public ImageView getAlbumCoverImageView(){
         return albumCoverImageView;

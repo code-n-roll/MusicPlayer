@@ -30,7 +30,6 @@
             android:paddingBottom="15dp"
             android:text="@string/stuff"
             android:textColor="@android:color/white"
-            android:background="@color/dark_gray_header_color"
             android:textSize="17sp"
             />
     </LinearLayout>

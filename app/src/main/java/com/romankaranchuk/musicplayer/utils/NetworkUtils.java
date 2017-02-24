@@ -28,7 +28,7 @@ public final class NetworkUtils {
 //    http://api.musixmatch.com/ws/1.1/matcher.lyrics.get?
 //        q_track=stressed%20out&
 //        q_artist=twenty%20one%20pilots&
-//        apikey=53f81a46c21c1a24961ef593d74dd870&format=xml
+//        apikey=&format=xml
     //http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect?artist=michael%20jackson&song=bad
     public static String getLyrics(String artist, String song) {
         // construct the REST query URL
@@ -163,7 +163,7 @@ public final class NetworkUtils {
                 + artist
                 + "&q_track="
                 + song
-                + "&apikey=53f81a46c21c1a24961ef593d74dd870"
+                + "&apikey=your_api"
                 + "&format=xml";
         // open the URL and get a stream to read from
         StringBuilder buf = new StringBuilder();

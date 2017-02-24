@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Environment;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -19,19 +20,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.LinkedList;
 
 import com.romankaranchuk.musicplayer.R;
 import com.romankaranchuk.musicplayer.data.Song;
 import com.romankaranchuk.musicplayer.service.SearchService;
 import com.romankaranchuk.musicplayer.ui.genres.GenresActivity;
-import com.romankaranchuk.musicplayer.ui.tracklist.TracklistActivity;
+import com.romankaranchuk.musicplayer.ui.player.PlayerFragment;
+import com.romankaranchuk.musicplayer.ui.tracklist.TracklistFragment;
 
 
 public class MainActivity extends AppCompatActivity {
     private static LinkedList<Song> listRecentlySongs = new LinkedList<Song>(){{}};
     private String  LOG_TAG = "MyLogs",
-                    MAIN_TAG = "MainFragment";
+                    MAIN_TAG = "MainFragment",
+                    TRACKLIST_TAG = "TRACKLIST_TAG",
+                    PLAYER_TAG = "PLAYER_TAG";
 
     private static String[] PERMISSIONS;
 
@@ -48,6 +53,21 @@ public class MainActivity extends AppCompatActivity {
     private SearchService mSearchService;
     private boolean mServiceBound;
 
+    private static Song curSelectedSong;
+    public static File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
+    MainFragment mainFragment;
+    TracklistFragment tracklistFragment;
+    PlayerFragment playerFragment;
+
+
+    public static void setCurSelectedSong(Song song) {
+        curSelectedSong = song;
+    }
+    public static Song getCurSelectedSong() {
+        return curSelectedSong;
+    }
+
+
     public static LinkedList<Song> getListRecentlySongs(){
         return listRecentlySongs;
     }
@@ -59,15 +79,28 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        MainFragment mainFragment =
-                (MainFragment) getSupportFragmentManager().findFragmentById(R.id.fContainerActMain);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-        if (mainFragment == null) {
+        if (getSupportFragmentManager().findFragmentById(R.id.fContainerActMain) != null) {
+            if (getSupportFragmentManager().findFragmentById(R.id.fContainerActMain).getClass() == MainFragment.class) {
+                mainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.fContainerActMain);
+                if (mainFragment == null) {
+                    mainFragment = MainFragment.newInstance();
+                }
+                transaction.replace(R.id.fContainerActMain, mainFragment, MAIN_TAG);
+            } else if (getSupportFragmentManager().findFragmentById(R.id.fContainerActMain).getClass() == TracklistFragment.class) {
+                tracklistFragment = (TracklistFragment) getSupportFragmentManager().findFragmentById(R.id.fContainerActMain);
+                if (tracklistFragment == null) {
+                    tracklistFragment = TracklistFragment.newInstance();
+                }
+                transaction.replace(R.id.fContainerActMain, tracklistFragment, TRACKLIST_TAG);
+            }
+        } else {
             mainFragment = MainFragment.newInstance();
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.add(R.id.fContainerActMain, mainFragment, MAIN_TAG);
-            transaction.commit();
+            transaction.replace(R.id.fContainerActMain, mainFragment, MAIN_TAG);
         }
+        transaction.commit();
+
 
         Log.d(LOG_TAG, "MainActivity onCreate");
     }
@@ -81,12 +114,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void openAllGenres(View view){
-        Intent intent = new Intent(this, GenresActivity.class);
-        startActivity(intent);
-    }
-
-
 
 
     @Override
@@ -94,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         if (mServiceBound){
             unbindService(mSearchConnection);
+            mServiceBound = false;
         }
         Log.d(LOG_TAG, "MainActivity onStop");
     }

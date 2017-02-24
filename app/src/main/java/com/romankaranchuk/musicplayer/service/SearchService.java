@@ -135,8 +135,8 @@ public class SearchService extends Service {
                     songs.add(song);
                 }
                 mRepository.saveAlbum(album, songs);
+                sendBroadcast(new Intent("updateSongs"));
             }
-
             isSearchActive = false;
             stopSelf();
         }

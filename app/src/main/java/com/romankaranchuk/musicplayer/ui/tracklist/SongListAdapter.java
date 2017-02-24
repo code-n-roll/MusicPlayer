@@ -1,10 +1,13 @@
 package com.romankaranchuk.musicplayer.ui.tracklist;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,7 +33,7 @@ import org.w3c.dom.Text;
 public class SongListAdapter extends ArrayAdapter<Song> {
     private LayoutInflater layoutInflater;
     private int resource;
-
+    private boolean firstCreating = true;
 
 
     public SongListAdapter(Context context, int resource, LinkedList<Song> list){
@@ -51,10 +54,10 @@ public class SongListAdapter extends ArrayAdapter<Song> {
     }
 
     @NonNull
-    public View getView(int position, View convertView, @NonNull ViewGroup parent){
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         ViewHolder holder;
         View row = convertView;
-        if (row == null){
+        if (row == null) {
             row = layoutInflater.inflate(resource, parent, false);
             holder = new ViewHolder();
             holder.albumCoverView = (ImageView) row.findViewById(R.id.iconAlbumCover);
@@ -71,7 +74,6 @@ public class SongListAdapter extends ArrayAdapter<Song> {
         Song song = getModel(position);
 
 
-
         Picasso.with(getContext()).load(song.getImagePath()).into(holder.albumCoverView);
 
         holder.durationView.setText(MathUtils.convertMillisToMin(song.getDuration()));
@@ -83,18 +85,32 @@ public class SongListAdapter extends ArrayAdapter<Song> {
         } else if (TracklistFragment.getSortBy() == 3) {
             holder.yearView.setText(song.getDate());
             holder.languageView.setImageBitmap(null);
-        }else if (TracklistFragment.getSortBy() == 4) {
-            holder.yearView.setText(song.getPath().substring(song.getPath().lastIndexOf(".")+1));
+        } else if (TracklistFragment.getSortBy() == 4) {
+            holder.yearView.setText(song.getPath().substring(song.getPath().lastIndexOf(".") + 1));
             holder.languageView.setImageBitmap(null);
-        }  else if (TracklistFragment.getSortBy() == 5) {
+        } else if (TracklistFragment.getSortBy() == 5) {
             holder.yearView.setText("");
             holder.languageView.setImageResource(
                     getContext().getResources().getIdentifier(
                             song.getLanguage().toLowerCase(), "drawable", getContext().getPackageName()));
-        }  else {
+        } else {
             holder.yearView.setText("");
             holder.languageView.setImageBitmap(null);
         }
+
+
+        if (firstCreating) {
+            Animation roll_up = AnimationUtils.loadAnimation(getContext(), R.anim.songcard_roll_up);
+            roll_up.setStartOffset(position * 50);
+
+            row.startAnimation(roll_up);
+        }
+        if (position == getCount()-1){
+            firstCreating = false;
+        }
+
+
+
         return row;
     }
 

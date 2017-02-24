@@ -1,6 +1,5 @@
 package com.romankaranchuk.musicplayer.ui.genres;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,7 +10,6 @@ import android.widget.GridView;
 
 import com.romankaranchuk.musicplayer.R;
 import com.romankaranchuk.musicplayer.data.Genre;
-import com.romankaranchuk.musicplayer.ui.tracklist.TracklistActivity;
 
 /**
  * Created by NotePad.by on 14.10.2016.
@@ -68,7 +66,7 @@ public class GenresActivity extends AppCompatActivity {
                     Genre selectedGenre = (Genre)parent.getItemAtPosition(position);
                     switch(selectedGenre.getName()){
                         case "Alternative/Indie": {
-//                            openTrackList(genresList);
+//                            openCube(genresList);
                             break;
                         }
                         case "Blues":
@@ -149,9 +147,4 @@ public class GenresActivity extends AppCompatActivity {
         super.onDestroy();
         Log.d(LOG_TAG, "GenresActivity onDestroy");
     }
-
-//    public void openTrackList(View view){
-//        Intent intent = new Intent(this, TracklistActivity.class);
-//        startActivity(intent);
-//    }
 }

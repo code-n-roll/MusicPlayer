@@ -13,17 +13,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:overScrollMode="never"
+        android:background="@color/dark_gray_header_color"
         >
-
     </android.support.v4.view.ViewPager>
 
+
     <LinearLayout
+        android:id="@+id/right_fullscreen_player_part"
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center_horizontal"
         android:layout_gravity="right"
+        android:background="@color/white"
         >
 
         <LinearLayout

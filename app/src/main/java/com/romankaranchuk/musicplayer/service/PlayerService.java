@@ -38,7 +38,6 @@ import com.romankaranchuk.musicplayer.ui.player.PlayerFragment;
 import com.romankaranchuk.musicplayer.ui.main.MainActivity;
 import com.romankaranchuk.musicplayer.R;
 import com.romankaranchuk.musicplayer.data.Song;
-import com.romankaranchuk.musicplayer.ui.tracklist.TracklistActivity;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -104,7 +103,7 @@ public class PlayerService extends Service {
         @TargetApi(24)
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            new SetLockscreen().execute(bitmap);
+//            new SetLockscreen().execute(bitmap);
         }
 
         @Override
@@ -128,6 +127,9 @@ public class PlayerService extends Service {
     public void onCreate(){
         super.onCreate();
         nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        if (currentSong == null){
+            currentSong = PlayerFragment.getCurrentSong();
+        }
         sendNotification();
         if (PlayerFragment.getCurMediaPlayer() == null) {
             mediaPlayer = new MediaPlayer();
@@ -144,6 +146,7 @@ public class PlayerService extends Service {
         if (mediaPlayer == null){
             mediaPlayer = PlayerFragment.getCurMediaPlayer();
         }
+
 //        sendBroadcast(new Intent(TAG_RESTORE_FPF_PS_TO_F_BR));
         return super.onStartCommand(intent, flags, startId);
     }
@@ -177,13 +180,15 @@ public class PlayerService extends Service {
 
 //        try {
 //            int resId = getResources().getIdentifier("brasil", "drawable", getPackageName());
-        if (oldWallpaper == null) {
-            wallpaperManager = WallpaperManager.getInstance(getApplicationContext());
-            FileDescriptor fdOldWallpaper =
-                    wallpaperManager.getWallpaperFile(WallpaperManager.FLAG_LOCK).getFileDescriptor();
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            oldWallpaper = BitmapFactory.decodeFileDescriptor(fdOldWallpaper, null, options);
-        }
+
+//        if (oldWallpaper == null) {
+//            wallpaperManager = WallpaperManager.getInstance(getApplicationContext());
+//            FileDescriptor fdOldWallpaper =
+//                    wallpaperManager.getWallpaperFile(WallpaperManager.FLAG_LOCK).getFileDescriptor();
+//            BitmapFactory.Options options = new BitmapFactory.Options();
+//            oldWallpaper = BitmapFactory.decodeFileDescriptor(fdOldWallpaper, null, options);
+//        }
+
 //            wallpaperManager.setResource(resId, WallpaperManager.FLAG_LOCK);
 //        } catch (IOException e) {
 //            e.printStackTrace();
@@ -194,11 +199,11 @@ public class PlayerService extends Service {
 //        addListenersOnRemoteViewsContent(remoteViewsContent);
 
 
-        Intent intent = new Intent(this, TracklistActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("TAG_SHOW_FPF", "showFpf");
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(TracklistActivity.class);
+        stackBuilder.addParentStack(MainActivity.class);
         stackBuilder.addNextIntent(intent);
 
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(
@@ -285,7 +290,8 @@ public class PlayerService extends Service {
             @Override
             public void onReceive(Context context, Intent intent){
                 Toast.makeText(context,"notification big was deleted", Toast.LENGTH_SHORT).show();
-                playNotifPlayerReceiver.onReceive(context,intent);
+                if (isPlaying)
+                    playNotifPlayerReceiver.onReceive(context,intent);
                 nm.cancel(1);
                 stopSelf();
             }
@@ -303,6 +309,8 @@ public class PlayerService extends Service {
                     currentSong = intent.getParcelableExtra("currentSong");
                     isPlaying = intent.getBooleanExtra("isPlaying", false);
                 }
+
+
                 changePlayButtonImage(remoteViewsContent, remoteViewsBigContent);
 
                 if (intent.getStringExtra("fpfCall") == null) {
