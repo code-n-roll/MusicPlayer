@@ -81,24 +81,24 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-        if (getSupportFragmentManager().findFragmentById(R.id.fContainerActMain) != null) {
-            if (getSupportFragmentManager().findFragmentById(R.id.fContainerActMain).getClass() == MainFragment.class) {
-                mainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.fContainerActMain);
-                if (mainFragment == null) {
-                    mainFragment = MainFragment.newInstance();
-                }
-                transaction.replace(R.id.fContainerActMain, mainFragment, MAIN_TAG);
-            } else if (getSupportFragmentManager().findFragmentById(R.id.fContainerActMain).getClass() == TracklistFragment.class) {
+//        if (getSupportFragmentManager().findFragmentById(R.id.fContainerActMain) != null) {
+//            if (getSupportFragmentManager().findFragmentById(R.id.fContainerActMain).getClass() == MainFragment.class) {
+//                mainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.fContainerActMain);
+//                if (mainFragment == null) {
+//                    mainFragment = MainFragment.newInstance();
+//                }
+//                transaction.replace(R.id.fContainerActMain, mainFragment, MAIN_TAG);
+//            } else if (getSupportFragmentManager().findFragmentById(R.id.fContainerActMain).getClass() == TracklistFragment.class) {
                 tracklistFragment = (TracklistFragment) getSupportFragmentManager().findFragmentById(R.id.fContainerActMain);
                 if (tracklistFragment == null) {
                     tracklistFragment = TracklistFragment.newInstance();
                 }
                 transaction.replace(R.id.fContainerActMain, tracklistFragment, TRACKLIST_TAG);
-            }
-        } else {
-            mainFragment = MainFragment.newInstance();
-            transaction.replace(R.id.fContainerActMain, mainFragment, MAIN_TAG);
-        }
+//            }
+//        } else {
+//            mainFragment = MainFragment.newInstance();
+//            transaction.replace(R.id.fContainerActMain, mainFragment, MAIN_TAG);
+//        }
         transaction.commit();
 
 

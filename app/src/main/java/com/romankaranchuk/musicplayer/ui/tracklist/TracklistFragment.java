@@ -125,8 +125,8 @@ public class TracklistFragment extends Fragment implements
 
         MainActivity ma = (MainActivity) getActivity();
         ma.setSupportActionBar(toolbar);
-        ma.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ma.getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        ma.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        ma.getSupportActionBar().setDisplayShowHomeEnabled(true);
         restoreDefaultToolbar(ma);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -171,7 +171,8 @@ public class TracklistFragment extends Fragment implements
                     FragmentManager fm = getActivity().getSupportFragmentManager();
                     FragmentTransaction ft = fm.beginTransaction();
 
-                    fpf = PlayerFragment.getSingleton();
+                    if (fpf == null)
+                        fpf = PlayerFragment.getSingleton();
 
                     if (curSelectedSong == justSelectedSong){
                         if (fpf.getResume()) {
