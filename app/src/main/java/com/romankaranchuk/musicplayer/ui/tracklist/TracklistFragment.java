@@ -78,9 +78,6 @@ public class TracklistFragment extends Fragment implements
     }
 
 
-    public static TracklistFragment newInstance(){
-        return new TracklistFragment();
-    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

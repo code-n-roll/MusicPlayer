@@ -39,13 +39,6 @@ public class MainFragment extends Fragment {
     private String LOG_TAG = "myLogs", TRACKLIST_TAG = "TRACKLIST_TAG";
 
 
-
-    public MainFragment() {}
-
-    public static MainFragment newInstance(){
-        return new MainFragment();
-    }
-
     @Override
     public void onAttach(Context context){
         super.onAttach(context);

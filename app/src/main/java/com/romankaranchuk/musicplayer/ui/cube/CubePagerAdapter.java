@@ -18,7 +18,7 @@ public class CubePagerAdapter extends FragmentPagerAdapter{
     @Override
     public Fragment getItem(int position) {
         if (position == 0) {
-            return TracklistFragment.newInstance();
+            return new TracklistFragment();
         } else if (position == 1){
             return PlayerFragment.getSingleton();
         }

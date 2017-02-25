@@ -9,6 +9,7 @@ import android.os.Environment;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
     private String  LOG_TAG = "MyLogs",
                     MAIN_TAG = "MainFragment",
                     TRACKLIST_TAG = "TRACKLIST_TAG",
-                    PLAYER_TAG = "PLAYER_TAG";
+                    FULLSCREEN_TAG = "fullscreenFragment",
+                    CURRENT_TAG;
 
     private static String[] PERMISSIONS;
 
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private static Song curSelectedSong;
     public static File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
     MainFragment mainFragment;
-    TracklistFragment tracklistFragment;
+    Fragment currentFragment;
     PlayerFragment playerFragment;
 
 
@@ -80,25 +82,17 @@ public class MainActivity extends AppCompatActivity {
 
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-//        if (getSupportFragmentManager().findFragmentById(R.id.fContainerActMain) != null) {
-//            if (getSupportFragmentManager().findFragmentById(R.id.fContainerActMain).getClass() == MainFragment.class) {
-//                mainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.fContainerActMain);
-//                if (mainFragment == null) {
-//                    mainFragment = MainFragment.newInstance();
-//                }
-//                transaction.replace(R.id.fContainerActMain, mainFragment, MAIN_TAG);
-//            } else if (getSupportFragmentManager().findFragmentById(R.id.fContainerActMain).getClass() == TracklistFragment.class) {
-                tracklistFragment = (TracklistFragment) getSupportFragmentManager().findFragmentById(R.id.fContainerActMain);
-                if (tracklistFragment == null) {
-                    tracklistFragment = TracklistFragment.newInstance();
-                }
-                transaction.replace(R.id.fContainerActMain, tracklistFragment, TRACKLIST_TAG);
-//            }
-//        } else {
-//            mainFragment = MainFragment.newInstance();
-//            transaction.replace(R.id.fContainerActMain, mainFragment, MAIN_TAG);
-//        }
+            if (getSupportFragmentManager().findFragmentByTag(FULLSCREEN_TAG) != null){
+                currentFragment = getSupportFragmentManager().findFragmentByTag(FULLSCREEN_TAG);
+                CURRENT_TAG = FULLSCREEN_TAG;
+            } else if (getSupportFragmentManager().findFragmentByTag(TRACKLIST_TAG) != null){
+                currentFragment = getSupportFragmentManager().findFragmentByTag(TRACKLIST_TAG);
+                CURRENT_TAG = TRACKLIST_TAG;
+            } else {
+                currentFragment = new TracklistFragment();
+                CURRENT_TAG = TRACKLIST_TAG;
+            }
+            transaction.replace(R.id.fContainerActMain, currentFragment, CURRENT_TAG);
         transaction.commit();
 
 
