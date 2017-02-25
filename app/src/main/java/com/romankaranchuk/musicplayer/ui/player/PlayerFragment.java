@@ -57,17 +57,14 @@ public class PlayerFragment extends Fragment {
     private static double startTime, finalTime, seconds;
     private Handler myHandler = new Handler();
     private static File fileCurrentSong, filePlayedSong;
-    private String TRACKLIST_TAG = "TRACKLIST_TAG",
-            PAGER_FULLSCREENPLAYER_TAG = "pagerFullscreenPlayer",
-            TAG_PLAY = "playNotifPlayerReceiver",
+    private String TAG_PLAY = "playNotifPlayerReceiver",
             TAG_PLAY_BUT_PS_TO_F_BR = "playButtonFromPStoFragmentBR",
             TAG_FORWARD_BUT_PS_TO_F_BR = "forwardButtonFromPStoFragmentBR",
             TAG_BACKWARD_BUT_PS_TO_F_BR = "backwardButtonFromPStoFragmentBR",
-            currentTimeSong;
-    private boolean startThreadTime = true, startThreadSeekbar = true;
-    private String LOG_TAG = "myLogs";
+            currentTimeSong,
+            LOG_TAG = "myLogs";
     private ViewPager pagerFullscreenPlayer;
-    private int oldPosition=-1, newPosition=-1;
+    private int oldPosition=-1;
     private boolean fastButtons = false, swap = false,
             fastForwardCall = false, fastBackwardCall = false,
             bound = false;
@@ -82,7 +79,7 @@ public class PlayerFragment extends Fragment {
     MediaPlayer.OnCompletionListener onCompletionListenerMediaPlayer;
     View.OnClickListener onClickListenerPlayButton;
     private ArrayList<Song> mSongs;
-    private static PlayerFragment mInstance;
+    static String secondsString, minutesString;
 
     public static Song getCurrentSong(){
         return currentSong;
@@ -111,15 +108,6 @@ public class PlayerFragment extends Fragment {
     }
     public static File getFilePlayedSong(){return filePlayedSong;}
     public static void setFilePlayedSong(File value){filePlayedSong = value;}
-    public ViewPager getPagerFullscreenPlayer(){
-        return this.pagerFullscreenPlayer;
-    }
-    public void setFastForwardCall(Boolean fastForwardCall){
-        this.fastForwardCall = fastForwardCall;
-    }
-    public void setFastBackwardCall(Boolean fastBackwardCall){
-        this.fastBackwardCall = fastBackwardCall;
-    }
     public static double getStartTime(){
         return startTime;
     }
@@ -139,13 +127,13 @@ public class PlayerFragment extends Fragment {
         return curPosition;
     }
 
-
-    public static PlayerFragment getSingleton(){
-        if (mInstance == null){
-            return new PlayerFragment();
-        }
-        return mInstance;
+    public static void setResume(boolean state){
+        resume = state;
     }
+    public Runnable getUpdateSongTime(){
+        return this.UpdateSongTime;
+    }
+    public Runnable getUpdateSeekBar(){ return this.UpdateSeekBar;}
 
     @Override
     public void onAttach(Context context){
@@ -156,8 +144,6 @@ public class PlayerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setRetainInstance(true);
-
 
 
         if (intentPlayerService == null)
@@ -182,6 +168,7 @@ public class PlayerFragment extends Fragment {
                         playImageButton.setSelected(true);
                         playImageButton.callOnClick();
                     }
+
                     setSongFullTimeSeekBarProgress();
                     myHandler.postDelayed(UpdateSongTime, 10);
                     myHandler.postDelayed(UpdateSeekBar, 10);
@@ -216,31 +203,6 @@ public class PlayerFragment extends Fragment {
     }
 
     @Override
-    public void onResume(){
-        super.onResume();
-
-        Log.d(LOG_TAG, "PlayerFragment onResume");
-    }
-
-    @Override
-    public void onPause(){
-        super.onPause();
-        Log.d(LOG_TAG, "PlayerFragment onPause");
-    }
-
-    @Override
-    public void onStop(){
-        super.onStop();
-        Log.d(LOG_TAG, "PlayerFragment onStop");
-    }
-
-    @Override
-    public void onDestroyView(){
-        super.onDestroyView();
-        Log.d(LOG_TAG, "PlayerFragment onDestroyView");
-    }
-
-    @Override
     public void onDestroy(){
         super.onDestroy();
         if (bound){
@@ -259,27 +221,6 @@ public class PlayerFragment extends Fragment {
         Log.d(LOG_TAG, "PlayerFragment onDetach");
     }
 
-
-    public Handler getMyHandler(){
-        return this.myHandler;
-    }
-    public static void setResume(boolean state){
-        resume = state;
-    }
-
-    public ImageButton getPlayImageButton (){
-        return this.playImageButton;
-    }
-
-    public ImageButton getReplayImageButton(){
-        return this.replayImageButton;
-    }
-
-    public Runnable getUpdateSongTime(){
-        return this.UpdateSongTime;
-    }
-    public Runnable getUpdateSeekBar(){ return this.UpdateSeekBar;}
-    static String secondsString, minutesString;
 
     private Runnable UpdateSongTime = new Runnable(){
         public void run(){
@@ -341,30 +282,25 @@ public class PlayerFragment extends Fragment {
         nameArtist.setSingleLine(true);
         nameArtist.setSelected(true);
 
-
-
         timeStart = (TextView) view.findViewById(R.id.textViewStart);
         timeEnd = (TextView) view.findViewById(R.id.textViewEnd);
         timeStart.setText(currentTimeSong);
 
-
-
         playImageButton = (ImageButton) view.findViewById(R.id.playPauseSongButton);
-
-
         shuffleImageButton = (ImageButton) view.findViewById(R.id.shuffleButton);
         replayImageButton = (ImageButton) view.findViewById(R.id.replayButton);
         fastForwardButton = (ImageButton) view.findViewById(R.id.toNextSongButton);
         fastBackwardButton = (ImageButton) view.findViewById(R.id.toPreviousSongButton);
-
-
         pagerFullscreenPlayer = (ViewPager) view.findViewById(R.id.pagerFullscreenPlayer);
 
-        playerPagerAdapter = new PlayerPagerAdapter(getChildFragmentManager());
+        if (mSongs == null){
+            mSongs = TracklistFragment.getSongs();
+        }
+        playerPagerAdapter = new PlayerPagerAdapter(getChildFragmentManager(),mSongs);
+
         pagerFullscreenPlayer.setAdapter(playerPagerAdapter);
         pagerFullscreenPlayer.setPageTransformer(true, new ViewPager.PageTransformer() {
             private static final float MIN_SCALE = 0.75f;
-
             @Override
             public void transformPage(View page, float position) {
                 int pageWidth = page.getWidth();
@@ -389,6 +325,7 @@ public class PlayerFragment extends Fragment {
                 }
             }
         });
+
         pagerFullscreenPlayer.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
@@ -431,11 +368,7 @@ public class PlayerFragment extends Fragment {
 
 
         currentSong = MainActivity.getCurSelectedSong();
-        if (mSongs == null){
-            mSongs = TracklistFragment.getSongs();
-        }
         oldPosition = mSongs.indexOf(currentSong);
-
         pagerFullscreenPlayer.setCurrentItem(oldPosition,false);
 
         if (currentSong != null) {
@@ -461,7 +394,6 @@ public class PlayerFragment extends Fragment {
             myHandler.postDelayed(UpdateSeekBar, 10);
             fileCurrentSong = new File (currentSong.getPath());
         }
-
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -503,8 +435,6 @@ public class PlayerFragment extends Fragment {
             }
         });
 
-
-
         fastForwardButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -528,7 +458,6 @@ public class PlayerFragment extends Fragment {
                 fileCurrentSong = new File(currentSong.getPath());
                 forBackwardTrack(fileCurrentSong);
 
-//                playerPageFragment.setDataFullscreenPlayer(PlayerFragment.this, currentSong);
                 setNameSongArtist(currentSong);
                 setSongFullTimeSeekBarProgress();
                 if (fastButtons && !swap) {
@@ -846,11 +775,6 @@ public class PlayerFragment extends Fragment {
             playImageButton.setImageResource(R.drawable.play_button);
         }
     }
-
-
-
-
-
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState){

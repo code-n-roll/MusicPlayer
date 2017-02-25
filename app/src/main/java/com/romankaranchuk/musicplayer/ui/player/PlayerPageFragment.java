@@ -1,6 +1,5 @@
 package com.romankaranchuk.musicplayer.ui.player;
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -74,8 +73,6 @@ public class PlayerPageFragment extends Fragment {
             setLyricSong(TracklistFragment.getSongs().get(pageNumber));
         }
 
-
-
         Log.d(LOG_TAG, "PlayerPageFragment onCreateView: " + pageNumber);
         return view;
     }
@@ -88,10 +85,6 @@ public class PlayerPageFragment extends Fragment {
             getAlbumCoverImageView().setLayoutParams(new RelativeLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, height));
         }
-    }
-
-    public TextView getLyricSong(){
-        return lyricSong;
     }
 
     public ImageView getAlbumCoverImageView(){
@@ -114,48 +107,8 @@ public class PlayerPageFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context){
-        super.onAttach(context);
-        Log.d(LOG_TAG, "PlayerPageFragment onAttach: " + pageNumber);
-    }
-    @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
         Log.d(LOG_TAG, "PlayerPageFragment onActivityCreated: " + pageNumber);
-    }
-    @Override
-    public void onStart(){
-        super.onStart();
-        Log.d(LOG_TAG, "PlayerPageFragment onStart: " + pageNumber);
-    }
-    @Override
-    public void onResume(){
-        super.onResume();
-        Log.d(LOG_TAG, "PlayerPageFragment onResume: " + pageNumber);
-    }
-    @Override
-    public void onPause(){
-        super.onPause();
-        Log.d(LOG_TAG, "PlayerPageFragment onPause: " + pageNumber);
-    }
-    @Override
-    public void onStop(){
-        super.onStop();
-        Log.d(LOG_TAG, "PlayerPageFragment onStop: " + pageNumber);
-    }
-    @Override
-    public void onDestroyView(){
-        super.onDestroyView();
-        Log.d(LOG_TAG, "PlayerPageFragment onDestroyView: " + pageNumber);
-    }
-    @Override
-    public void onDetach(){
-        super.onDetach();
-        Log.d(LOG_TAG, "PlayerPageFragment onDetach: " + pageNumber);
-    }
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d(LOG_TAG, "PlayerPageFragment onDestroy: " + pageNumber);
     }
 }

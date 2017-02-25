@@ -9,7 +9,6 @@ import android.os.Environment;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import java.io.File;
@@ -27,18 +25,14 @@ import java.util.LinkedList;
 import com.romankaranchuk.musicplayer.R;
 import com.romankaranchuk.musicplayer.data.Song;
 import com.romankaranchuk.musicplayer.service.SearchService;
-import com.romankaranchuk.musicplayer.ui.genres.GenresActivity;
-import com.romankaranchuk.musicplayer.ui.player.PlayerFragment;
 import com.romankaranchuk.musicplayer.ui.tracklist.TracklistFragment;
 
 
 public class MainActivity extends AppCompatActivity {
     private static LinkedList<Song> listRecentlySongs = new LinkedList<Song>(){{}};
     private String  LOG_TAG = "MyLogs",
-                    MAIN_TAG = "MainFragment",
-                    TRACKLIST_TAG = "TRACKLIST_TAG",
-                    FULLSCREEN_TAG = "fullscreenFragment",
-                    CURRENT_TAG;
+                    TRACKLIST_TAG = "tracklistFragment",
+                    FULLSCREEN_TAG = "fullscreenFragment";
 
     private static String[] PERMISSIONS;
 
@@ -56,10 +50,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean mServiceBound;
 
     private static Song curSelectedSong;
-    public static File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
-    MainFragment mainFragment;
-    Fragment currentFragment;
-    PlayerFragment playerFragment;
+    public static File path =
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
 
 
     public static void setCurSelectedSong(Song song) {
@@ -83,16 +75,14 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             if (getSupportFragmentManager().findFragmentByTag(FULLSCREEN_TAG) != null){
-                currentFragment = getSupportFragmentManager().findFragmentByTag(FULLSCREEN_TAG);
-                CURRENT_TAG = FULLSCREEN_TAG;
+                transaction.replace(R.id.fContainerActMain,
+                        getSupportFragmentManager().findFragmentByTag(FULLSCREEN_TAG), FULLSCREEN_TAG);
             } else if (getSupportFragmentManager().findFragmentByTag(TRACKLIST_TAG) != null){
-                currentFragment = getSupportFragmentManager().findFragmentByTag(TRACKLIST_TAG);
-                CURRENT_TAG = TRACKLIST_TAG;
+                transaction.replace(R.id.fContainerActMain,
+                        getSupportFragmentManager().findFragmentByTag(TRACKLIST_TAG), TRACKLIST_TAG);
             } else {
-                currentFragment = new TracklistFragment();
-                CURRENT_TAG = TRACKLIST_TAG;
+                transaction.replace(R.id.fContainerActMain, new TracklistFragment(), TRACKLIST_TAG);
             }
-            transaction.replace(R.id.fContainerActMain, currentFragment, CURRENT_TAG);
         transaction.commit();
 
 
@@ -175,30 +165,4 @@ public class MainActivity extends AppCompatActivity {
             mServiceBound = false;
         }
     };
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.d(LOG_TAG, "MainActivity onRestart");
-    }
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(LOG_TAG, "MainActivity onStart");
-    }
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(LOG_TAG, "MainActivity onResume");
-    }
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d(LOG_TAG, "MainActivity onPause");
-    }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d(LOG_TAG, "MainActivity onDestroy");
-    }
 }

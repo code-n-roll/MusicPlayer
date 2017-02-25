@@ -48,14 +48,11 @@ public class TracklistFragment extends Fragment implements
     MusicRepository.AlbumsRepositoryObserver {
 
     private SongListAdapter songListAdapter;
-    private ArrayList<Song> songsCardView;
     private PlayerFragment fpf;
-    private String FULLSCREEN_TAG = "fullscreenFragment",
-                    TRACKLIST_TAG = "tracklistFragment",
-                    SHOW_FPF_TAG = "showFpf",
+    private String  FULLSCREEN_TAG = "fullscreenFragment",
                     SELECTED_SONG = "selectedSong",
-                    LIST_SONGS = "songsSongCardView";
-    private String LOG_TAG = "myLogs";
+                    LIST_SONGS = "songsSongCardView",
+                    LOG_TAG = "myLogs";
     private Song curSelectedSong;
     private MusicRepository mRepository;
     private Handler mMainHandler;
@@ -138,7 +135,6 @@ public class TracklistFragment extends Fragment implements
         mMainHandler = new Handler(getContext().getMainLooper());
 
         final GridView tracklistList = (GridView) view.findViewById(R.id.tracklist_list);
-//        songsCardView = TracklistActivity.getSongsCardView();
         loadAndSortSongs(1);
 
         if (songListAdapter == null) {
@@ -168,11 +164,10 @@ public class TracklistFragment extends Fragment implements
                     FragmentManager fm = getActivity().getSupportFragmentManager();
                     FragmentTransaction ft = fm.beginTransaction();
 
-                    if (fpf == null)
-                        fpf = PlayerFragment.getSingleton();
+                    fpf = new PlayerFragment();
 
                     if (curSelectedSong == justSelectedSong){
-                        if (fpf.getResume()) {
+                        if (PlayerFragment.getResume()) {
                             fpf.setContinued(true);
                             ft.replace(R.id.fContainerActMain, fpf, FULLSCREEN_TAG);
                             ft.addToBackStack(FULLSCREEN_TAG);
@@ -189,16 +184,12 @@ public class TracklistFragment extends Fragment implements
                     } else {
                         curSelectedSong = justSelectedSong;
                         MainActivity.setCurSelectedSong(curSelectedSong);
-                        if (fpf.getCurMediaPlayer() != null)
+                        if (PlayerFragment.getCurMediaPlayer() != null) {
                             fpf.setFileNewSong(new File(curSelectedSong.getPath()));
+                        }
                         ft.replace(R.id.fContainerActMain, fpf, FULLSCREEN_TAG);
                         ft.addToBackStack(FULLSCREEN_TAG);
                         ft.commit();
-
-
-//                        fpf.getPagerFullscreenPlayer().setCurrentItem(mSongs.indexOf(curSelectedSong));
-//                        fpf.setFastForwardCall(false);
-//                        fpf.setFastBackwardCall(false);
                     }
                 }
             };
@@ -230,52 +221,14 @@ public class TracklistFragment extends Fragment implements
         return view;
     }
 
-    @Override
-    public void onAttach(Context context){
-        super.onAttach(context);
-        Log.d(LOG_TAG, "TracklistFragment onAttach");
-    }
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState){
-        super.onActivityCreated(savedInstanceState);
-        Log.d(LOG_TAG, "TracklistFragment onActivityCreated");
-    }
-    @Override
-    public void onStart(){
-        super.onStart();
-        Log.d(LOG_TAG, "TracklistFragment onStart");
-    }
-    @Override
-    public void onResume(){
-        super.onResume();
-        Log.d(LOG_TAG, "TracklistFragment onResume");
-    }
-    @Override
-    public void onPause(){
-        super.onPause();
-        Log.d(LOG_TAG, "TracklistFragment onPause");
-    }
-    @Override
-    public void onStop(){
-        super.onStop();
-        Log.d(LOG_TAG, "TracklistFragment onStop");
-    }
-    @Override
-    public void onDestroyView(){
-        super.onDestroyView();
-        Log.d(LOG_TAG, "TracklistFragment onDestroyView");
-    }
+
     @Override
     public void onDestroy(){
         getContext().unregisterReceiver(updateSongs);
         super.onDestroy();
         Log.d(LOG_TAG, "TracklistFragment onDestroy");
     }
-    @Override
-    public void onDetach(){
-        super.onDetach();
-        Log.d(LOG_TAG, "TracklistFragment onDetach");
-    }
+
 
     @Override
     public void onAlbumsChanged() {
@@ -358,33 +311,4 @@ public class TracklistFragment extends Fragment implements
         inflater.inflate(R.menu.songs_sort_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
-
-
 }
-
-
-/*@Override
-    public void onCreateContextMenu(ContextMenu menu, View v,
-                                    ContextMenu.ContextMenuInfo menuInfo){
-        super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater = getActivity().getMenuInflater();
-        inflater.inflate(R.menu.song_cardview_menu, menu);
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item){
-        AdapterView.AdapterContextMenuInfo info =
-                (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        switch(item.getItemId()){
-            case R.id.edit_song_name:
-                return true;
-            case R.id.delete_song:
-                return true;
-            case R.id.delete_song_cache:
-                return true;
-            default:
-                return super.onContextItemSelected(item);
-        }
-    }*/
-
-

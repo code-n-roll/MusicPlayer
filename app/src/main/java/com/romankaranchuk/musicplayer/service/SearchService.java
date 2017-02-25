@@ -68,10 +68,6 @@ public class SearchService extends Service {
         }
     }
 
-    public boolean isSearchActive(){
-        return isSearchActive;
-    }
-
     private class MusicSearcher implements Runnable {
 
         private void iterateFiles(File[] files, HashMap<String, List<String>> music){
@@ -149,5 +145,4 @@ public class SearchService extends Service {
         super.onDestroy();
         Log.d(LOG_TAG, "SearchService onDestroy");
     }
-
 }

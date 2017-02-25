@@ -50,10 +50,6 @@ public class Song implements Parcelable{
         mLanguage = language;
     }
 
-    public void setImagePath(String imagePath){
-        this.mImagePath = imagePath;
-    }
-
     public String getId(){ return this.mId;}
 
     public String getPath(){
@@ -62,10 +58,6 @@ public class Song implements Parcelable{
 
     public String getLyricsSong(){
         return this.mLyricsSong;
-    }
-
-    public void setLyricsSong(String mLyricsSong){
-        this.mLyricsSong = mLyricsSong;
     }
 
     public String getName(){

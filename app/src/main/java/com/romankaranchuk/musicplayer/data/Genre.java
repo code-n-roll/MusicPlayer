@@ -16,16 +16,10 @@ public class Genre {
     public String getName(){
         return name;
     }
-
     public void setName(String name){
         this.name = name;
     }
-
     public int getIconResource(){
         return iconResource;
-    }
-
-    public void setIconResource(int iconResource){
-        this.iconResource = iconResource;
     }
 }

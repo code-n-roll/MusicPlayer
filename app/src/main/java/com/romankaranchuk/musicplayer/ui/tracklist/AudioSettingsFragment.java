@@ -108,39 +108,4 @@ public class AudioSettingsFragment extends DialogFragment implements
         super.onCreate(savedInstanceState);
         Log.d(LOG_TAG, "AudioSettingFragment onCreate");
     }
-    @Override
-    public void onStart(){
-        super.onStart();
-        Log.d(LOG_TAG, "AudioSettingFragment onStart");
-    }
-    @Override
-    public void onResume(){
-        super.onResume();
-        Log.d(LOG_TAG, "AudioSettingFragment onResume");
-    }
-    @Override
-    public void onPause(){
-        super.onPause();
-        Log.d(LOG_TAG, "AudioSettingFragment onPause");
-    }
-    @Override
-    public void onStop(){
-        super.onStop();
-        Log.d(LOG_TAG, "AudioSettingFragment onStop");
-    }
-    @Override
-    public void onDestroyView(){
-        super.onDestroyView();
-        Log.d(LOG_TAG, "AudioSettingFragment onDestroyView");
-    }
-    @Override
-    public void onDestroy(){
-        super.onDestroy();
-        Log.d(LOG_TAG, "AudioSettingFragment onDestroy");
-    }
-    @Override
-    public void onDetach(){
-        super.onDetach();
-        Log.d(LOG_TAG, "AudioSettingFragment onDetach");
-    }
 }

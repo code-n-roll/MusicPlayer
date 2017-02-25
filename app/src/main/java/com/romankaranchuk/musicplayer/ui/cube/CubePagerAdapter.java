@@ -20,7 +20,7 @@ public class CubePagerAdapter extends FragmentPagerAdapter{
         if (position == 0) {
             return new TracklistFragment();
         } else if (position == 1){
-            return PlayerFragment.getSingleton();
+            return new PlayerFragment();
         }
         return null;
     }

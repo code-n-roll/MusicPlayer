@@ -48,9 +48,12 @@ public class PlayerService extends Service {
     BroadcastReceiver cancelNotifPlayerReceiver, playNotifPlayerReceiver,
             forwardNotifPlayerReceiver, backwardNotifPlayerReceiver;
 
-    String  TAG_CANCEL_BIG = "cancelNotifPlayerReceiver", TAG_FORWARD = "forwardNotifPlayerReceiver",
-            TAG_PLAY = "playNotifPlayerReceiver",TAG_BACKWARD = "backwardNotifPlayerReceiver",
-            LOG_TAG = "myLogs", TAG_PLAY_BUT_PS_TO_F_BR = "playButtonFromPStoFragmentBR",
+    String  TAG_CANCEL_BIG = "cancelNotifPlayerReceiver",
+            TAG_FORWARD = "forwardNotifPlayerReceiver",
+            TAG_PLAY = "playNotifPlayerReceiver",
+            TAG_BACKWARD = "backwardNotifPlayerReceiver",
+            LOG_TAG = "myLogs",
+            TAG_PLAY_BUT_PS_TO_F_BR = "playButtonFromPStoFragmentBR",
             TAG_FORWARD_BUT_PS_TO_F_BR = "forwardButtonFromPStoFragmentBR",
             TAG_BACKWARD_BUT_PS_TO_F_BR = "backwardButtonFromPStoFragmentBR",
             TAG_RESTORE_FPF_PS_TO_F_BR="restoreFpfFromPStoF";
@@ -358,8 +361,7 @@ public class PlayerService extends Service {
             int curPosition = PlayerFragment.getCurPosition();
             double startTime = PlayerFragment.getStartTime(),
                     finalTime = PlayerFragment.getFinalTime();
-            boolean resume = PlayerFragment.getResume(),
-            paused = PlayerFragment.getPaused();
+            boolean resume = PlayerFragment.getResume();
             if (fileCurrentSong == null) {
                 fileCurrentSong = new File (currentSong.getPath());
                 mediaPlayer.setDataSource(fileCurrentSong.toString());

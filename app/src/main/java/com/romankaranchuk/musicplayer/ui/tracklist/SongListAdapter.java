@@ -36,13 +36,6 @@ public class SongListAdapter extends ArrayAdapter<Song> {
     private boolean firstCreating = true;
 
 
-    public SongListAdapter(Context context, int resource, LinkedList<Song> list){
-        super(context, resource, list);
-        layoutInflater = LayoutInflater.from(context);
-        this.resource = resource;
-
-    }
-
     public SongListAdapter(Context context, int resource, ArrayList<Song> list){
         super(context, resource, list);
         layoutInflater = LayoutInflater.from(context);
@@ -108,8 +101,6 @@ public class SongListAdapter extends ArrayAdapter<Song> {
         if (position == getCount()-1){
             firstCreating = false;
         }
-
-
 
         return row;
     }
