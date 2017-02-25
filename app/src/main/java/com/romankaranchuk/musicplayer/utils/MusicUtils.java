@@ -3,6 +3,7 @@ package com.romankaranchuk.musicplayer.utils;
 import android.media.MediaMetadataRetriever;
 import android.provider.MediaStore;
 
+import com.romankaranchuk.musicplayer.R;
 import com.romankaranchuk.musicplayer.data.Song;
 
 import java.io.FileInputStream;
@@ -69,6 +70,7 @@ public final class MusicUtils {
         public String year;
         public String date;
         public String language;
+        public String cover;
     }
 
 
@@ -127,5 +129,11 @@ public final class MusicUtils {
     }
     public static void extractSongLanguage(SongInfo songInfo){
         songInfo.language = new SearchLanguageUtils().doInBackground(songInfo.artist,songInfo.title);
+    }
+    public static void extractSongCover(SongInfo songInfo){
+        songInfo.cover = new SearchCoverUtils().doInBackground(songInfo.artist, songInfo.title);
+        if (songInfo.cover.isEmpty()){
+            songInfo.cover = String.valueOf(R.drawable.unknown_album_cover);
+        }
     }
 }

@@ -38,6 +38,7 @@ import com.romankaranchuk.musicplayer.ui.player.PlayerFragment;
 import com.romankaranchuk.musicplayer.ui.main.MainActivity;
 import com.romankaranchuk.musicplayer.R;
 import com.romankaranchuk.musicplayer.data.Song;
+import com.romankaranchuk.musicplayer.utils.MathUtils;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -275,6 +276,13 @@ public class PlayerService extends Service {
             };
 
 
+            if (MathUtils.tryParse(currentSong.getImagePath()) != -1){
+                remoteViewsBigContent.setViewPadding(R.id.iconAlbumCoverNotifPlayerBig,80,80,80,80);
+                remoteViewsContent.setViewPadding(R.id.iconAlbumCoverNotifPlayer,40,40,40,40);
+            } else {
+                remoteViewsBigContent.setViewPadding(R.id.iconAlbumCoverNotifPlayerBig,0,0,0,0);
+                remoteViewsContent.setViewPadding(R.id.iconAlbumCoverNotifPlayer,0,0,0,0);
+            }
             Picasso.with(this).load(currentSong.getImagePath()).into(target);
 //            remoteViewsBigContent.setImageViewResource(R.id.iconAlbumCoverNotifPlayerBig, Integer.parseInt(currentSong.getImagePath()));
 //            remoteViewsContent.setImageViewResource(R.id.iconAlbumCoverNotifPlayer, Integer.parseInt(currentSong.getImagePath()));

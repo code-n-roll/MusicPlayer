@@ -13,18 +13,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import com.romankaranchuk.musicplayer.R;
 import com.romankaranchuk.musicplayer.data.Song;
-import com.romankaranchuk.musicplayer.data.source.MusicDataSource;
-import com.romankaranchuk.musicplayer.data.source.MusicRepository;
-import com.romankaranchuk.musicplayer.data.source.local.MusicLocalDataSource;
 import com.romankaranchuk.musicplayer.utils.MathUtils;
-import com.romankaranchuk.musicplayer.utils.SearchLyricUtils;
+
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
 
 /**
  * Created by NotePad.by on 17.10.2016.
@@ -66,8 +61,14 @@ public class SongListAdapter extends ArrayAdapter<Song> {
 
         Song song = getModel(position);
 
-
-        Picasso.with(getContext()).load(song.getImagePath()).into(holder.albumCoverView);
+        int idDrawable = MathUtils.tryParse(song.getImagePath());
+        if (idDrawable == R.drawable.unknown_album_cover){
+            Picasso.with(getContext()).load(idDrawable).into(holder.albumCoverView);
+            holder.albumCoverView.setPadding(40,40,40,40);
+        } else {
+            Picasso.with(getContext()).load(song.getImagePath()).into(holder.albumCoverView);
+            holder.albumCoverView.setPadding(0,0,0,0);
+        }
 
         holder.durationView.setText(MathUtils.convertMillisToMin(song.getDuration()));
         holder.nameSongView.setText(song.getTitle());

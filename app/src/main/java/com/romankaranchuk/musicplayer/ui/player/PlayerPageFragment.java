@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.romankaranchuk.musicplayer.R;
 import com.romankaranchuk.musicplayer.data.Song;
 import com.romankaranchuk.musicplayer.ui.tracklist.TracklistFragment;
+import com.romankaranchuk.musicplayer.utils.MathUtils;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -93,6 +94,8 @@ public class PlayerPageFragment extends Fragment {
     public void setAlbumCoverImageView(Song song){
         Picasso.with(getContext()).load(song.getImagePath()).into(albumCoverImageView);
         albumCoverImageView.setTag(song.getImagePath());
+        if (MathUtils.tryParse(song.getImagePath()) != -1)
+            albumCoverImageView.setScaleType(ImageView.ScaleType.CENTER);
     }
 
     public void setLyricSong(Song song){

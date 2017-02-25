@@ -108,6 +108,7 @@ public class SearchService extends Service {
                     MusicUtils.SongInfo songInfo = MusicUtils.extractSongInfo(songPath);
                     MusicUtils.extractSongLyric(songInfo);
                     MusicUtils.extractSongLanguage(songInfo);
+                    MusicUtils.extractSongCover(songInfo);
                     songsInfo.add(songInfo);
                 }
 
@@ -115,7 +116,8 @@ public class SearchService extends Service {
 
                 String albumName = firstSongInfo.album;
                 String albumArtist = firstSongInfo.artist;
-                String albumCover = MusicUtils.getNextCover();
+
+                String albumCover = firstSongInfo.cover;//MusicUtils.getNextCover();
                 Album album = new Album(albumName, albumArtist, albumPath, albumCover);
                 ArrayList<Song> songs = new ArrayList<>();
                 for (int i = 0; i < songsInfo.size(); ++i){

@@ -138,9 +138,10 @@ public class TracklistFragment extends Fragment implements
         loadAndSortSongs(1);
 
         if (songListAdapter == null) {
-            songListAdapter = new SongListAdapter(getActivity(),
-                    R.layout.content_songcardview
-                    , mSongs);
+            songListAdapter = new SongListAdapter(
+                    getActivity(),
+                    R.layout.content_songcardview,
+                    mSongs);
         }
         tracklistList.setAdapter(songListAdapter);
 //        tracklistList.setDivider(null);

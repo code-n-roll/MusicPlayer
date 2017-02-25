@@ -24,6 +24,30 @@ public final class NetworkUtils {
 //        q_artist=twenty%20one%20pilots&
 //        apikey=&format=xml
     //http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect?artist=michael%20jackson&song=bad
+    public static String getUrlAlbumCover(String artist, String song){
+        String query = "http://api.musixmatch.com/ws/1.1/matcher.track.get?"
+                + "q_artist="
+                + artist.replace(" ", "%20").toLowerCase()
+                + "&q_track="
+                + song.replace(" ", "%20").toLowerCase()
+                + "&apikey=53f81a46c21c1a24961ef593d74dd870"
+                + "&format=xml";
+        String searchResult = "";
+        try {
+            Document doc = Jsoup.connect(query).get();
+            Elements parts = doc.select("track_share_url");
+            if (parts.size() > 0)
+                doc = Jsoup.connect(parts.text()).get();
+            doc.outputSettings(new Document.OutputSettings().prettyPrint(false));
+            parts = doc.select("meta[content$=.jpg]");
+            if (parts.size() > 0)
+                searchResult = parts.first().attr("content");
+            Log.d("NETWORK LOG", searchResult);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        return searchResult;
+    }
     public static String getLyrics(String artist, String song) {
         // construct the REST query URL
         String query = "http://api.musixmatch.com/ws/1.1/matcher.track.get?"
