@@ -1,5 +1,6 @@
 # Feel Music! Player
-_**Feel Music! Player**_ for everybody who live music. Why? Let's see more carefully and will understand it.<br>
+_**Feel Music! Player**_ for everybody who live music. Why? Let's see more carefully and will understand it.
+
 <img src="screenshots/screenshot_tracklist_fragment.png" 
 alt="screenshot_tracklist_fragment.png" width="250x" height="whatever" align=left>
 
