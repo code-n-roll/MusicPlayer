@@ -18,7 +18,9 @@ And also it will change wallpaper on lockscreen to albumcover selected song with
 Everything in order. Standard buttons with same logic: play/pause, replay, shuffle. Seekbar for navigation on song-track.
 Time begin/end of song playing. For **change song** you can use **fast forward/backward buttons** or **swipe left/right**
 on albumcover image.
-<br>
+
+
+
 
 <img src="screenshots/screenshot_player_fragment_lyrics.png" 
 alt="screenshot_player_fragment_lyrics.png" width="250x" height="whatever" align=left>
