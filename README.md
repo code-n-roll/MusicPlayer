@@ -19,6 +19,7 @@ Everything in order. Standard buttons with same logic: play/pause, replay, shuff
 Time begin/end of song playing. For **change song** you can use **fast forward/backward buttons** or **swipe left/right**
 on albumcover image.
 
+
 <img src="screenshots/screenshot_player_fragment_lyrics.png" 
 alt="screenshot_player_fragment_lyrics.png" width="250x" height="whatever" align=left>
 
