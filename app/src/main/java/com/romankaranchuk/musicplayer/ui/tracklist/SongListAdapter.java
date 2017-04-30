@@ -1,14 +1,10 @@
 package com.romankaranchuk.musicplayer.ui.tracklist;
 
 import android.content.Context;
-import android.os.AsyncTask;
-import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,94 +16,115 @@ import com.romankaranchuk.musicplayer.utils.MathUtils;
 
 import com.squareup.picasso.Picasso;
 
-
 /**
  * Created by NotePad.by on 17.10.2016.
  */
 
-public class SongListAdapter extends ArrayAdapter<Song> {
-    private LayoutInflater layoutInflater;
-    private int resource;
-    private boolean firstCreating = true;
-
-
-    public SongListAdapter(Context context, int resource, ArrayList<Song> list){
-        super(context, resource, list);
-        layoutInflater = LayoutInflater.from(context);
-        this.resource = resource;
+public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.ViewHolder> {
+    public interface OnItemClickListener {
+        void onItemClick(Song item);
     }
 
-    private Song getModel(int position){
-        return (this.getItem(position));
+    private final ArrayList<Song> songs;
+    private final OnItemClickListener listener;
+
+    public SongListAdapter(ArrayList<Song> songs, OnItemClickListener listener, Context context){
+        this.songs = songs;
+        this.listener = listener;
     }
 
-    @NonNull
-    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-        ViewHolder holder;
-        View row = convertView;
-        if (row == null) {
-            row = layoutInflater.inflate(resource, parent, false);
-            holder = new ViewHolder();
-            holder.albumCoverView = (ImageView) row.findViewById(R.id.iconAlbumCover);
-            holder.nameSongView = (TextView) row.findViewById(R.id.nameSong);
-            holder.nameArtistView = (TextView) row.findViewById(R.id.nameArtist);
-            holder.durationView = (TextView) row.findViewById(R.id.timeSongCardView);
-            holder.yearView = (TextView) row.findViewById(R.id.yearSongInfo);
-            holder.languageView = (ImageView) row.findViewById(R.id.country_flag);
-            row.setTag(holder);
-        } else {
-            holder = (ViewHolder) row.getTag();
-        }
-
-        Song song = getModel(position);
-
-        int idDrawable = MathUtils.tryParse(song.getImagePath());
-        if (idDrawable == R.drawable.unknown_album_cover){
-            Picasso.with(getContext()).load(idDrawable).into(holder.albumCoverView);
-            holder.albumCoverView.setPadding(40,40,40,40);
-        } else {
-            Picasso.with(getContext()).load(song.getImagePath()).into(holder.albumCoverView);
-            holder.albumCoverView.setPadding(0,0,0,0);
-        }
-
-        holder.durationView.setText(MathUtils.convertMillisToMin(song.getDuration()));
-        holder.nameSongView.setText(song.getTitle());
-        holder.nameArtistView.setText(song.getNameArtist());
-        if (TracklistFragment.getSortBy() == 2) {
-            holder.yearView.setText(song.getYear());
-            holder.languageView.setImageBitmap(null);
-        } else if (TracklistFragment.getSortBy() == 3) {
-            holder.yearView.setText(song.getDate());
-            holder.languageView.setImageBitmap(null);
-        } else if (TracklistFragment.getSortBy() == 4) {
-            holder.yearView.setText(song.getPath().substring(song.getPath().lastIndexOf(".") + 1));
-            holder.languageView.setImageBitmap(null);
-        } else if (TracklistFragment.getSortBy() == 5) {
-            holder.yearView.setText("");
-            holder.languageView.setImageResource(
-                    getContext().getResources().getIdentifier(
-                            song.getLanguage().toLowerCase(), "drawable", getContext().getPackageName()));
-        } else {
-            holder.yearView.setText("");
-            holder.languageView.setImageBitmap(null);
-        }
-
-
-        if (firstCreating) {
-            Animation roll_up = AnimationUtils.loadAnimation(getContext(), R.anim.songcard_roll_up);
-            roll_up.setStartOffset(position * 50);
-
-            row.startAnimation(roll_up);
-        }
-        if (position == getCount()-1){
-            firstCreating = false;
-        }
-
-        return row;
+    @Override
+    public SongListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(
+                R.layout.content_songcardview, parent, false);
+        return new ViewHolder(view);
     }
 
-    private class ViewHolder{
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.bind(songs.get(position), listener);
+    }
+
+
+    @Override
+    public int getItemCount() {
+        return songs.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder{
         private ImageView albumCoverView, languageView;
         private TextView nameSongView, nameArtistView, durationView, yearView;
+        private View view;
+        private boolean firstCreating;
+        private Context context;
+
+
+        public ViewHolder(View view){
+            super(view);
+            this.view = view;
+            albumCoverView = (ImageView) view.findViewById(R.id.iconAlbumCover);
+            nameSongView = (TextView) view.findViewById(R.id.nameSong);
+            nameArtistView = (TextView) view.findViewById(R.id.nameArtist);
+            durationView = (TextView) view.findViewById(R.id.timeSongCardView);
+            yearView = (TextView) view.findViewById(R.id.yearSongInfo);
+            languageView = (ImageView) view.findViewById(R.id.country_flag);
+        }
+
+        public void bind(final Song song, final OnItemClickListener listener) {
+            int idDrawable = MathUtils.tryParse(song.getImagePath());
+            if (idDrawable == R.drawable.unknown_album_cover){
+                Picasso.with(view.getContext()).load(idDrawable).into(albumCoverView);
+                albumCoverView.setPadding(40,40,40,40);
+            } else {
+                Picasso.with(view.getContext()).load(song.getImagePath()).into(albumCoverView);
+                albumCoverView.setPadding(0,0,0,0);
+            }
+
+            durationView.setText(MathUtils.convertMillisToMin(song.getDuration()));
+            nameSongView.setText(song.getTitle());
+            nameArtistView.setText(song.getNameArtist());
+
+            languageView.setImageBitmap(null);
+            switch(TracklistFragment.getSortBy()){
+                case 2:
+                    yearView.setText(song.getYear());
+
+                    break;
+                case 3:
+                    yearView.setText(song.getDate());
+                    break;
+                case 4:
+                    yearView.setText(song.getPath().substring(song.getPath().lastIndexOf(".") + 1));
+                    break;
+                case 5:
+                    yearView.setText("");
+                    languageView.setImageResource(view.getResources().getIdentifier(
+                            song.getLanguage().toLowerCase(),
+                            "drawable",
+                            view.getContext().getPackageName()
+                    ));
+                    break;
+                default:
+                    yearView.setText("");
+                    break;
+            }
+
+//            if (firstCreating) {
+//                Animation roll_up = AnimationUtils.loadAnimation(view.getContext(), R.anim.songcard_roll_up);
+//                roll_up.setStartOffset(songs.indexOf(song) * 1000);
+//
+//                view.startAnimation(roll_up);
+//            }
+//            if (songs.indexOf(song) == songs.size()-1){
+//                firstCreating = false;
+//            }
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    listener.onItemClick(song);
+                }
+            });
+
+        }
     }
 }

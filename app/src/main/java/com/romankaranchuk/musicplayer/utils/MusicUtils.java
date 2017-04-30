@@ -1,19 +1,17 @@
 package com.romankaranchuk.musicplayer.utils;
 
 import android.media.MediaMetadataRetriever;
-import android.provider.MediaStore;
 
 import com.romankaranchuk.musicplayer.R;
 import com.romankaranchuk.musicplayer.data.Song;
+import com.romankaranchuk.musicplayer.utils.search.SearchCoverUtils;
+import com.romankaranchuk.musicplayer.utils.search.SearchLanguageUtils;
+import com.romankaranchuk.musicplayer.utils.search.SearchLyricUtils;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
-
-import static android.Manifest.permission_group.CALENDAR;
 
 /**
  * Created by NotePad.by on 24.11.2016.

@@ -13,26 +13,13 @@
         android:theme="@style/AppTheme.AppBarOverlay"
         app:popupTheme="@style/AppTheme.PopupOverlay"
         />
-    <GridView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/tracklist_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none"
+        android:layout_height="match_parent"
         android:layout_margin="10dp"
-        android:numColumns="@integer/dynamicNumColumn"
+        android:scrollbars="vertical"
         >
-    </GridView>
-</LinearLayout>
+    </android.support.v7.widget.RecyclerView>
 
-<!--
-<LinearLayout
-android:id="@+id/trackListLinLayout"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_marginTop="10dp"
-android:layout_marginLeft="10dp"
-android:layout_marginRight="10dp"
-android:orientation="vertical">
 </LinearLayout>
--->
-

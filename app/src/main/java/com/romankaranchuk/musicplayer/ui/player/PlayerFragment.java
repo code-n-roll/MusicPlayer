@@ -212,6 +212,7 @@ public class PlayerFragment extends Fragment {
         getContext().unregisterReceiver(playButtonFromServiceToFragmentBR);
         getContext().unregisterReceiver(forwardButtonFromServiceToFragmentBR);
         getContext().unregisterReceiver(backwardButtonFromServiceToFragmentBR);
+
         Log.d(LOG_TAG, "PlayerFragment onDestroy");
     }
 

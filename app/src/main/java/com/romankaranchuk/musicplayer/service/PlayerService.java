@@ -76,7 +76,6 @@ public class PlayerService extends Service {
     }
 
     private class SetLockscreen extends AsyncTask<Bitmap, Integer, Integer>{
-        @TargetApi(24)
         @Override
         protected Integer doInBackground(Bitmap... bitmap) {
             Bitmap curBitmap = bitmap[0];
@@ -104,7 +103,6 @@ public class PlayerService extends Service {
     }
 
     final Target setLockscreenTarget = new Target() {
-        @TargetApi(24)
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
 //            new SetLockscreen().execute(bitmap);
@@ -126,7 +124,6 @@ public class PlayerService extends Service {
     }
 
 
-    @TargetApi(23)
     @Override
     public void onCreate(){
         super.onCreate();
@@ -138,7 +135,7 @@ public class PlayerService extends Service {
         if (PlayerFragment.getCurMediaPlayer() == null) {
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
+//            checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
         }
         Log.d(LOG_TAG,"PlayerService onCreate");
     }
@@ -155,7 +152,6 @@ public class PlayerService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    @TargetApi(24)
     public void onDestroy(){
         super.onDestroy();
         unregisterReceiver(cancelNotifPlayerReceiver);
@@ -177,7 +173,6 @@ public class PlayerService extends Service {
 
 
 
-    @TargetApi(24)
     void sendNotification() {
         remoteViewsBigContent = new RemoteViews(getPackageName(), R.layout.content_notification_player_big);
         remoteViewsContent = new RemoteViews(getPackageName(), R.layout.content_notification_player);
@@ -242,7 +237,6 @@ public class PlayerService extends Service {
 
 
 
-    @TargetApi(24)
     void changePlayButtonImage(final RemoteViews remoteViewsContent, final RemoteViews remoteViewsBigContent){
         UpdateLockscreen();
         if (!isPlaying) {

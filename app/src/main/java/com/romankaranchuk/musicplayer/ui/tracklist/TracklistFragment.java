@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,8 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -59,6 +59,8 @@ public class TracklistFragment extends Fragment implements
     private List<Album> mAlbums;
     private static ArrayList<Song> mSongs;
     private static int sortBy;
+    private RecyclerView.LayoutManager mLayoutManager;
+    RecyclerView tracklistRecycler;
     BroadcastReceiver updateSongs;
 
     public void setCurSelectedSong(Song item){
@@ -73,7 +75,6 @@ public class TracklistFragment extends Fragment implements
     public static int getSortBy(){
         return sortBy;
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -115,13 +116,15 @@ public class TracklistFragment extends Fragment implements
                              final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tracklist, container, false);
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.tracklist_toolbar);
-
-
         MainActivity ma = (MainActivity) getActivity();
         ma.setSupportActionBar(toolbar);
 //        ma.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        ma.getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         restoreDefaultToolbar(ma);
+
+
+        loadAndSortSongs(1);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,40 +137,27 @@ public class TracklistFragment extends Fragment implements
 
         mMainHandler = new Handler(getContext().getMainLooper());
 
-        final GridView tracklistList = (GridView) view.findViewById(R.id.tracklist_list);
-        loadAndSortSongs(1);
+        tracklistRecycler = (RecyclerView) view.findViewById(R.id.tracklist_list);
 
-        if (songListAdapter == null) {
-            songListAdapter = new SongListAdapter(
-                    getActivity(),
-                    R.layout.content_songcardview,
-                    mSongs);
-        }
-        tracklistList.setAdapter(songListAdapter);
-//        tracklistList.setDivider(null);
+        mLayoutManager = new LinearLayoutManager(getContext());
+        tracklistRecycler.setLayoutManager(mLayoutManager);
 
 
-
-        AdapterView.OnItemClickListener itemClickListener = new
-            AdapterView.OnItemClickListener(){
+        SongListAdapter.OnItemClickListener itemClickListener = new
+            SongListAdapter.OnItemClickListener(){
                 @Override
-                public void onItemClick(AdapterView<?> parent, View v, int position,
-                                        long id){
+                public void onItemClick(Song song){
                     curSelectedSong = MainActivity.getCurSelectedSong();
-                    if ( curSelectedSong == null)
-                        setCurSelectedSong((Song)
-                                parent.getItemAtPosition(position));
+                    if (curSelectedSong == null)
+                        setCurSelectedSong(song);
 
-
-                    Song justSelectedSong = (Song)
-                            parent.getItemAtPosition(position);
 
                     FragmentManager fm = getActivity().getSupportFragmentManager();
                     FragmentTransaction ft = fm.beginTransaction();
 
                     fpf = new PlayerFragment();
 
-                    if (curSelectedSong == justSelectedSong){
+                    if (curSelectedSong == song){
                         if (PlayerFragment.getResume()) {
                             fpf.setContinued(true);
                             ft.replace(R.id.fContainerActMain, fpf, FULLSCREEN_TAG);
@@ -183,7 +173,7 @@ public class TracklistFragment extends Fragment implements
                         }
 
                     } else {
-                        curSelectedSong = justSelectedSong;
+                        curSelectedSong = song;
                         MainActivity.setCurSelectedSong(curSelectedSong);
                         if (PlayerFragment.getCurMediaPlayer() != null) {
                             fpf.setFileNewSong(new File(curSelectedSong.getPath()));
@@ -194,18 +184,21 @@ public class TracklistFragment extends Fragment implements
                     }
                 }
             };
-        tracklistList.setOnItemClickListener(itemClickListener);
+        if (songListAdapter == null) {
+            songListAdapter = new SongListAdapter(mSongs, itemClickListener, getContext());
+        }
+        tracklistRecycler.setAdapter(songListAdapter);
 
-        AdapterView.OnItemLongClickListener itemLongClickListener = new
-            AdapterView.OnItemLongClickListener(){
+
+
+        RecyclerView.OnLongClickListener itemLongClickListener = new
+            RecyclerView.OnLongClickListener(){
                 @Override
-                public boolean onItemLongClick(AdapterView<?> parent, View v, int position,
-                                               long id){
-                    Song selectedSong = (Song)
-                            parent.getItemAtPosition(position);
+                public boolean onLongClick(View v) {
+//                    Song selectedSong = (Song) .getAtPosition(position);
 
                     Bundle args = new Bundle();
-                    args.putParcelable(SELECTED_SONG, selectedSong);
+//                    args.putParcelable(SELECTED_SONG, selectedSong);
                     args.putParcelableArrayList(LIST_SONGS, mSongs);
                     AudioSettingsFragment audioSettingsFragment = new AudioSettingsFragment();
 
@@ -214,10 +207,10 @@ public class TracklistFragment extends Fragment implements
                     return true;
                 }
             };
-        tracklistList.setOnItemLongClickListener(itemLongClickListener);
+        tracklistRecycler.setOnLongClickListener(itemLongClickListener);
 
 
-//        registerForContextMenu(tracklistList);
+//        registerForContextMenu(tracklistRecycler);
         Log.d(LOG_TAG, "TracklistFragment onCreateView");
         return view;
     }
@@ -230,25 +223,18 @@ public class TracklistFragment extends Fragment implements
         Log.d(LOG_TAG, "TracklistFragment onDestroy");
     }
 
-
     @Override
     public void onAlbumsChanged() {
         mMainHandler.post(new Runnable(){
             @Override
             public void run(){
-                loadAlbums();
+                mAlbums = mRepository.getAlbums();
             }
         });
     }
 
-
-
-
-    private void loadAlbums(){
-        mAlbums = mRepository.getAlbums();
-    }
     private void loadAndSortSongs(int sortBy){
-        loadAlbums();
+        mAlbums = mRepository.getAlbums();
         if (mSongs == null){
             mSongs = new ArrayList<>();
         }
@@ -261,8 +247,6 @@ public class TracklistFragment extends Fragment implements
         }
         Collections.sort(mSongs, MathUtils.getComparator(sortBy));
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){

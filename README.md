@@ -1,7 +1,7 @@
 # Feel Music! Player
   <tr>
     <p>_**Feel Music! Player**_ for everybody who live music. Why? Let's see more carefully and will understand it.</p>
-    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment.png" 
+    <img src="screenshots/screenshot_tracklist_fragment.png" 
     alt="screenshot_tracklist_fragment.png" width="250x" height="whatever" align=left>
     <p>
     In **SONGS** section we have all songs founded on our device with short info: photo, song title, name artist, duration.
@@ -12,7 +12,7 @@
   </tr>
 
   <tr>
-    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_fragment_portrait.png"
+    <img src="screenshots/screenshot_player_fragment_portrait.png"
     alt="screenshot_player_fragment_portrait.png" width="250x" height="whatever" align=right>
     <p>
     Click on song card will open fullscreen player and will call **player notification big** in status bar and
@@ -26,7 +26,7 @@
   </tr>
 
   <tr>
-    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_fragment_lyrics.png" 
+    <img src="screenshots/screenshot_player_fragment_lyrics.png" 
     alt="screenshot_player_fragment_lyrics.png" width="250x" height="whatever" align=left>
     <p>
     For **taking song lyrics** you can **swipe up** on albumcover image. Lyrics search via internet with help **Musixmatch.com** is
@@ -36,7 +36,7 @@
   </tr>
   
   <tr>
-    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_menu(cut).png" 
+    <img src="screenshots/screenshot_tracklist_fragment_sort_menu(cut).png" 
     alt="screenshot_tracklist_fragment_sort_menu(cut).png" width="250x" height="whatever" align=right>
     <p> 
     We have interesting **sort by: name, duration, year, format, language**. Each from last three sorts accompanied extra info which
@@ -46,17 +46,17 @@
   </tr>
 
   <tr>
-  <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_by_lang(cut).png" 
+  <img src="screenshots/screenshot_tracklist_fragment_sort_by_lang(cut).png" 
     alt="screenshot_tracklist_fragment_sort_by_lang.png" width="70x" height="whatever" align=right>
-    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_by_year(cut).png" 
+    <img src="screenshots/screenshot_tracklist_fragment_sort_by_year(cut).png" 
     alt="screenshot_tracklist_fragment_sort_by_year.png" width="70x" height="whatever" align=right>
-    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment_sort_by_format(cut).png" 
+    <img src="screenshots/screenshot_tracklist_fragment_sort_by_format(cut).png" 
     alt="screenshot_tracklist_fragment_sort_by_format(cut).png" width="70x" height="whatever" align=right>
     <br><br><br>
   </tr>
  
   <tr>
-    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_file_settings_menu(cut).png"
+    <img src="screenshots/screenshot_file_settings_menu(cut).png"
     alt="screenshot_edit_song_title_name_artist(cut).png" width="250x" height="whatever" align=left>
     <p>
     Also by long click on songcard we have audio settings such as: edit, delete, delete from cache.
@@ -66,12 +66,12 @@
   </tr>
  
   <tr>
-    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_edit_song_title_name_artist(cut).png" 
+    <img src="screenshots/screenshot_edit_song_title_name_artist(cut).png" 
     alt="screenshot_file_settings_menu(cut).png" width="250x" height="whatever" align=left>
   </tr>
  
   <tr>
-    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_fragment_landscape.png" 
+    <img src="screenshots/screenshot_player_fragment_landscape.png" 
     alt="screenshot_player_fragment_landscape.png" width="444x" height="whatever" align=right>
     <p>
     How we can see player look very nice and with landscape orientation.
@@ -80,7 +80,7 @@
   </tr>
 
   <tr>
-    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_notification_small_lockscreen(cut).png"
+    <img src="screenshots/screenshot_player_notification_small_lockscreen(cut).png"
     alt="screenshot_player_notification_small_lockscreen(cut).png" width="250x" height="whatever" align=left>
     <p>
     If we go out to lockscreen while notification player big/small is not canceled.
@@ -91,7 +91,7 @@
   </tr>
 
   <tr>
-    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_player_notification_big(cut).png" 
+    <img src="screenshots/screenshot_player_notification_big(cut).png" 
     alt="screenshot_player_notification_big(cut).png" width="250x" height="whatever" align=right>
     <p>
     Also we can **control player in android fast tools blind** it's notif player big. Where have cancel button for notif 
