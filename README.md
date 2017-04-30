@@ -1,7 +1,7 @@
 # Feel Music! Player
   <tr>
     <p>_**Feel Music! Player**_ for everybody who live music. Why? Let's see more carefully and will understand it.</p>
-    <img src="https://github.com/code-n-roll/MusicPlayer/blob/master/screenshots/screenshot_tracklist_fragment.png" 
+    <img src="screenshots/screenshot_tracklist_fragment.png" 
     alt="screenshot_tracklist_fragment.png" width="250x" height="whatever" align=left>
     <p>
     In **SONGS** section we have all songs founded on our device with short info: photo, song title, name artist, duration.
