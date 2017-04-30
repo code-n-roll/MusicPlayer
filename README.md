@@ -31,12 +31,14 @@ alt="screenshot_tracklist_fragment_sort_menu(cut).png" width="250x" height="what
 We have interesting **sort by: name, duration, year, format, language**. Each from last three sorts accompanied extra info which
 appear on right-top corner of songcard.
 
+<br>
 <img src="screenshots/screenshot_tracklist_fragment_sort_by_lang(cut).png" 
 alt="screenshot_tracklist_fragment_sort_by_lang.png" width="70x" height="whatever" align=right>
 <img src="screenshots/screenshot_tracklist_fragment_sort_by_year(cut).png" 
 alt="screenshot_tracklist_fragment_sort_by_year.png" width="70x" height="whatever" align=right>
 <img src="screenshots/screenshot_tracklist_fragment_sort_by_format(cut).png" 
 alt="screenshot_tracklist_fragment_sort_by_format(cut).png" width="70x" height="whatever" align=right>
+
 
 <img src="screenshots/screenshot_file_settings_menu(cut).png"
 alt="screenshot_edit_song_title_name_artist(cut).png" width="250x" height="whatever" align=left>
