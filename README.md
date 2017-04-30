@@ -49,7 +49,7 @@ alt="screenshot_tracklist_fragment_sort_menu(cut).png" width="250x" height="what
 We have interesting **sort by: name, duration, year, format, language**. Each from last three sorts accompanied extra info which
 appear on right-top corner of songcard.
 </p>
-<br><br><br>
+<br><br><br><br>
 </tr>
 
 <tr>
