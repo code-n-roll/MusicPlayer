@@ -1,0 +1,49 @@
+package com.romankaranchuk.musicplayer.presentation.ui.cube;
+
+import android.annotation.TargetApi;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+
+import com.ToxicBakery.viewpager.transforms.CubeOutTransformer;
+import com.romankaranchuk.musicplayer.R;
+
+
+
+public class CubeFragment extends Fragment {
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_cube, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        ViewPager pagerCube = view.findViewById(R.id.pagerCube);
+        pagerCube.setAdapter(new CubePagerAdapter(getChildFragmentManager()));
+        pagerCube.setPageTransformer(true, new CubeOutTransformer());
+
+        final FragmentActivity fragmentActivity = getActivity();
+        if (fragmentActivity != null) {
+            restoreDefaultToolbar(fragmentActivity);
+        }
+    }
+
+    @TargetApi(19)
+    public void restoreDefaultToolbar(@NonNull FragmentActivity ma){
+        WindowManager.LayoutParams attrs = ma.getWindow().getAttributes();
+        attrs.flags &= (~WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        attrs.flags &= (~WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        ma.getWindow().setAttributes(attrs);
+        ma.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+    }
+}

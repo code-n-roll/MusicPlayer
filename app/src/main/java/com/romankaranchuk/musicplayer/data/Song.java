@@ -3,16 +3,11 @@ package com.romankaranchuk.musicplayer.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.romankaranchuk.musicplayer.data.source.MusicDataSource;
-import com.romankaranchuk.musicplayer.data.source.MusicRepository;
-import com.romankaranchuk.musicplayer.data.source.local.MusicLocalDataSource;
 import com.romankaranchuk.musicplayer.utils.MusicUtils;
 
 import java.util.UUID;
 
-/**
- * Created by NotePad.by on 14.10.2016.
- */
+
 
 public class Song implements Parcelable{
     private String mId;

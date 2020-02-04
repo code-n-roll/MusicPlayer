@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         >
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name=".presentation.ui.main.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -27,11 +27,11 @@
 
 
         <service
-            android:name=".service.PlayerService"
+            android:name=".presentation.service.PlayerService"
             android:exported="false"
         />
         <service
-            android:name=".service.SearchService"
+            android:name=".presentation.service.SearchService"
             android:exported="false"
             />
     </application>

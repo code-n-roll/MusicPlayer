@@ -3,13 +3,10 @@ package com.romankaranchuk.musicplayer.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.common.base.Objects;
-
+import java.util.Objects;
 import java.util.UUID;
 
-/**
- * Created by NotePad.by on 25.11.2016.
- */
+
 
 public class Album implements Parcelable {
     private String mId;
@@ -91,10 +88,7 @@ public class Album implements Parcelable {
             return false;
         }
         final Album album = (Album) obj;
-        return Objects.equal(mId, album.getId()) &&
-                Objects.equal(mName, album.getName()) &&
-                Objects.equal(mArtist, album.getArtist()) &&
-                Objects.equal(mPath, album.getPath()) &&
-                Objects.equal(mImagePath, album.getImagePath());
+
+        return Objects.equals(this, obj);
     }
 }

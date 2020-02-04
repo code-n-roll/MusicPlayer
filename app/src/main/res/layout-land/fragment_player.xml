@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
@@ -80,7 +81,7 @@
                 android:layout_height="60dp"
                 android:padding="10dp"
                 android:background="@drawable/fast_backward_selector"
-                android:src="@drawable/fast_backward_button"
+                app:srcCompat="@drawable/fast_backward_button"
                 android:scaleType="fitCenter"
                 />
             <ImageButton
@@ -88,7 +89,7 @@
                 android:layout_width="100dp"
                 android:layout_height="60dp"
                 android:padding="10dp"
-                android:src="@drawable/play_button"
+                app:srcCompat="@drawable/play_button"
                 android:background="@drawable/play_pause_selector"
                 android:scaleType="fitCenter"
                 />
@@ -98,7 +99,7 @@
                 android:layout_height="60dp"
                 android:padding="10dp"
                 android:background="@drawable/fast_forward_selector"
-                android:src="@drawable/fast_forward_button"
+                app:srcCompat="@drawable/fast_forward_button"
                 android:scaleType="fitCenter"
                 />
         </LinearLayout>

@@ -7,11 +7,9 @@ import java.io.File;
 import java.util.ArrayList;
 
 import com.romankaranchuk.musicplayer.data.Song;
-import static com.romankaranchuk.musicplayer.ui.main.MainActivity.path;
+import static com.romankaranchuk.musicplayer.presentation.ui.main.MainActivity.path;
 
-/**
- * Created by NotePad.by on 03.12.2016.
- */
+
 
 public class JniUtils {
     static {

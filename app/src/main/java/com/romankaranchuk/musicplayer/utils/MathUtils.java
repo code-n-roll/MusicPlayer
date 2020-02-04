@@ -12,9 +12,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Locale;
 
-/**
- * Created by NotePad.by on 03.12.2016.
- */
+
 
 public class MathUtils {
     static final String BY_NAME = "0",
@@ -48,13 +46,6 @@ public class MathUtils {
 
     public static Comparator<Song> getComparator(int sortBy){
         switch (String.valueOf(sortBy)){
-            case BY_NAME:
-                return new Comparator<Song>() {
-                    @Override
-                    public int compare(Song song1, Song song2) {
-                        return song1.getName().compareTo(song2.getName());
-                    }
-                };
             case BY_DURATION:
                 return new Comparator<Song>() {
                     @Override
@@ -103,6 +94,7 @@ public class MathUtils {
                         }
                     }
                 };
+            case BY_NAME:
             default:
                 return new Comparator<Song>() {
                     @Override

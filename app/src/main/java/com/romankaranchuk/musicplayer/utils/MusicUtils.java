@@ -2,20 +2,14 @@ package com.romankaranchuk.musicplayer.utils;
 
 import android.media.MediaMetadataRetriever;
 
-import com.romankaranchuk.musicplayer.R;
 import com.romankaranchuk.musicplayer.data.Song;
-import com.romankaranchuk.musicplayer.utils.search.SearchCoverUtils;
-import com.romankaranchuk.musicplayer.utils.search.SearchLanguageUtils;
-import com.romankaranchuk.musicplayer.utils.search.SearchLyricUtils;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by NotePad.by on 24.11.2016.
- */
+
 
 public final class MusicUtils {
 
@@ -58,32 +52,16 @@ public final class MusicUtils {
         return mRecentSongs;
     }
 
-
     public static class SongInfo {
-        public String title;
-        public String artist;
-        public String album;
-        public int duration;
-        public String lyrics;
-        public String year;
-        public String date;
+        public String title = "Unknown title";
+        public String artist = "Unknown artist";
+        public String album = "Unknown album";
+        public int duration = 0;
+        public String lyrics = "Unknown lyrics";
+        public String year = "0";
+        public String date = "Unknown date";
         public String language;
-        public String cover;
-    }
-
-
-
-    private static SongInfo getEmptySongInfo(){
-        SongInfo emptyInfo = new SongInfo();
-        emptyInfo.title = "Unknown title";
-        emptyInfo.artist = "Unknown artist";
-        emptyInfo.album = "Unknown album";
-        emptyInfo.duration = 0;
-        emptyInfo.lyrics = "Unknown lyrics";
-        emptyInfo.year = "0";
-        emptyInfo.date = "Unknown date";
-        emptyInfo.language = "Unknown language";
-        return emptyInfo;
+        public String cover = "Unknown language";
     }
 
     public static SongInfo extractSongInfo(String songPath){
@@ -92,14 +70,14 @@ public final class MusicUtils {
             inputStream = new FileInputStream(songPath);
         } catch (FileNotFoundException e){
             e.printStackTrace();
-            return getEmptySongInfo();
+            return new SongInfo();
         }
         MediaMetadataRetriever metaRetriever = new MediaMetadataRetriever();
         try{
             metaRetriever.setDataSource(inputStream.getFD());
         } catch (Exception e){
             e.printStackTrace();
-            return getEmptySongInfo();
+            return new SongInfo();
         }
         SongInfo songInfo = new SongInfo();
 
@@ -121,17 +99,5 @@ public final class MusicUtils {
             songInfo.year = "";
         }
         return songInfo;
-    }
-    public static void extractSongLyric(SongInfo songInfo){
-        songInfo.lyrics = new SearchLyricUtils().doInBackground(songInfo.artist,songInfo.title);
-    }
-    public static void extractSongLanguage(SongInfo songInfo){
-        songInfo.language = new SearchLanguageUtils().doInBackground(songInfo.artist,songInfo.title);
-    }
-    public static void extractSongCover(SongInfo songInfo){
-        songInfo.cover = new SearchCoverUtils().doInBackground(songInfo.artist, songInfo.title);
-        if (songInfo.cover.isEmpty()){
-            songInfo.cover = String.valueOf(R.drawable.unknown_album_cover);
-        }
     }
 }

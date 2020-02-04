@@ -1,6 +1,3 @@
-//
-// Created by NotePad.by on 02.12.2016.
-//
 #include <string>
 #include <jni.h>
 #include <vector>
