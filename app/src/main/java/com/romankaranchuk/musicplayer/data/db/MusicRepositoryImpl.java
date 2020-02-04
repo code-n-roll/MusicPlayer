@@ -1,7 +1,7 @@
 package com.romankaranchuk.musicplayer.data.db;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.romankaranchuk.musicplayer.data.Album;
 import com.romankaranchuk.musicplayer.data.Song;
