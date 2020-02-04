@@ -2,12 +2,10 @@ package com.romankaranchuk.musicplayer.data.db;
 
 import androidx.annotation.NonNull;
 
-import java.util.List;
-
 import com.romankaranchuk.musicplayer.data.Album;
 import com.romankaranchuk.musicplayer.data.Song;
 
-
+import java.util.List;
 
 public interface MusicRepository {
 

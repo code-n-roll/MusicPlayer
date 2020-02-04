@@ -7,32 +7,50 @@ import com.romankaranchuk.musicplayer.utils.MusicUtils;
 
 import java.util.UUID;
 
+public class Song implements Parcelable {
 
-
-public class Song implements Parcelable{
     private String mId;
     private String mName;
     private String mPath;
-
     private String mImagePath;
     private int mDuration;
     private String mAlbumId;
-
     private String mLyricsSong;
     private String mYear;
     private String mDate;
     private String mLanguage;
 
-    public Song(String name, String path, String imagePath,
-                int duration, String albumId, String lyricsSong,
-                String year, String dateModified, String language){
-        this(UUID.randomUUID().toString(), name, path,
-                imagePath, duration, albumId, lyricsSong, year, dateModified, language);
+    public Song(String name,
+                String path,
+                String imagePath,
+                int duration,
+                String albumId,
+                String lyricsSong,
+                String year,
+                String dateModified,
+                String language){
+        this(UUID.randomUUID().toString(),
+                name,
+                path,
+                imagePath,
+                duration,
+                albumId,
+                lyricsSong,
+                year,
+                dateModified,
+                language);
     }
 
-    public Song(String id, String name, String path,
-                String imagePath, int duration, String albumId,
-                String lyricsSong, String year, String dateModified, String language){
+    public Song(String id,
+                String name,
+                String path,
+                String imagePath,
+                int duration,
+                String albumId,
+                String lyricsSong,
+                String year,
+                String dateModified,
+                String language) {
         mId = id;
         mName = name;
         mPath = path;
@@ -70,6 +88,7 @@ public class Song implements Parcelable{
     public String getYear(){
         return mYear;
     }
+
     public void setName(String mName){
         this.mName = mName;
     }
@@ -124,7 +143,6 @@ public class Song implements Parcelable{
         mDate = parcel.readString();
         mLanguage = parcel.readString();
     }
-
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator(){
         public Song createFromParcel(Parcel in){

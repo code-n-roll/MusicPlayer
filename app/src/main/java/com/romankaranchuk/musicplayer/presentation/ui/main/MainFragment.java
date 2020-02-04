@@ -1,10 +1,7 @@
 package com.romankaranchuk.musicplayer.presentation.ui.main;
 
 import android.annotation.TargetApi;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
-import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,25 +10,27 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 
-import java.io.File;
-import java.util.LinkedList;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.romankaranchuk.musicplayer.R;
 import com.romankaranchuk.musicplayer.data.Song;
 import com.romankaranchuk.musicplayer.presentation.ui.cube.CubeFragment;
 import com.romankaranchuk.musicplayer.presentation.ui.player.PlayerFragment;
-import com.romankaranchuk.musicplayer.presentation.ui.tracklist.TracklistFragment;
+import com.romankaranchuk.musicplayer.presentation.ui.tracklist.TrackListFragment;
 
-
+import java.io.File;
+import java.util.LinkedList;
 
 public class MainFragment extends Fragment {
-    Toolbar toolbar;
-    private PlayerFragment fpf;
-    private String  FULLSCREEN_TAG = "fullscreenFragment",
-                    CUBE_TAG ="cubeFragment",
-                    TRACKLIST_TAG = "TRACKLIST_TAG";
-    private Song curSelectedSong;
 
+    private static final String CUBE_TAG ="cubeFragment";
+    private static final String TRACKLIST_TAG = "TRACKLIST_TAG";
+
+    private Toolbar toolbar;
+    private PlayerFragment fpf;
+    private Song curSelectedSong;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,7 +49,7 @@ public class MainFragment extends Fragment {
 
 
         LinkedList<Song> listRecSongs = MainActivity.getListRecentlySongs();
-//        songListAdapter = new SongListAdapter(getActivity(),R.layout.content_recently_songs, listRecSongs);
+//        songListAdapter = new TrackListAdapter(getActivity(),R.layout.content_recently_songs, listRecSongs);
 //        recentlySongListView.setAdapter(songListAdapter);
 
 //        recentlySongListView.setNumColumns(listRecSongs.size());
@@ -83,24 +82,24 @@ public class MainFragment extends Fragment {
 
 
                     if (curSelectedSong == justSelectedSong){
-                        if (fpf.getResume()) {
+                        if (fpf.getIsResumed()) {
                             fpf.setContinued(true);
-                            ft.replace(R.id.fContainerActMain, fpf);
-                            ft.addToBackStack(FULLSCREEN_TAG);
+                            ft.replace(R.id.fragment_container_main_activity, fpf);
+                            ft.addToBackStack(PlayerFragment.PLAYER_FRAGMENT_TAG);
                             ft.commit();
                         }
                         else {
                             fpf.setContinued(false);
-                            ft.replace(R.id.fContainerActMain, fpf);
-                            ft.addToBackStack(FULLSCREEN_TAG);
+                            ft.replace(R.id.fragment_container_main_activity, fpf);
+                            ft.addToBackStack(PlayerFragment.PLAYER_FRAGMENT_TAG);
                             ft.commit();
                         }
 
                     } else {
                         curSelectedSong = justSelectedSong;
                         fpf.setFileNewSong(new File(curSelectedSong.getPath()));
-                        ft.replace(R.id.fContainerActMain, fpf);
-                        ft.addToBackStack(FULLSCREEN_TAG);
+                        ft.replace(R.id.fragment_container_main_activity, fpf);
+                        ft.addToBackStack(PlayerFragment.PLAYER_FRAGMENT_TAG);
                         ft.commit();
                     }
                 }
@@ -121,8 +120,8 @@ public class MainFragment extends Fragment {
     public void openPlayer(){
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         if (getActivity().getSupportFragmentManager().findFragmentByTag(TRACKLIST_TAG) == null) {
-            TracklistFragment tracklist = new TracklistFragment();
-            ft.replace(R.id.fContainerActMain, tracklist, TRACKLIST_TAG);
+            TrackListFragment tracklist = new TrackListFragment();
+            ft.replace(R.id.fragment_container_main_activity, tracklist, TRACKLIST_TAG);
             ft.addToBackStack(TRACKLIST_TAG);
         }
         ft.commit();
@@ -132,7 +131,7 @@ public class MainFragment extends Fragment {
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         if (getActivity().getSupportFragmentManager().findFragmentByTag(TRACKLIST_TAG) == null) {
             CubeFragment cube = new CubeFragment();
-            ft.replace(R.id.fContainerActMain, cube, CUBE_TAG);
+            ft.replace(R.id.fragment_container_main_activity, cube, CUBE_TAG);
             ft.addToBackStack(CUBE_TAG);
         }
         ft.commit();

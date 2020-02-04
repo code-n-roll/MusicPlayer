@@ -4,19 +4,17 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import androidx.annotation.NonNull;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.romankaranchuk.musicplayer.data.Album;
 import com.romankaranchuk.musicplayer.data.Song;
 import com.romankaranchuk.musicplayer.data.db.TablesPersistenceContract.AlbumEntry;
 import com.romankaranchuk.musicplayer.data.db.TablesPersistenceContract.SongEntry;
 
-
 import java.util.ArrayList;
 import java.util.List;
-
-
 
 public class MusicStoreImpl implements MusicStore {
 

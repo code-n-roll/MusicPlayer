@@ -6,20 +6,30 @@ import android.os.Parcelable;
 import java.util.Objects;
 import java.util.UUID;
 
-
-
 public class Album implements Parcelable {
+
     private String mId;
     private String mName;
     private String mArtist;
     private String mPath;
     private String mImagePath;
 
-    public Album(String name, String artist, String path, String imagePath) {
-        this(UUID.randomUUID().toString(), name, artist, path, imagePath);
+    public Album(String name,
+                 String artist,
+                 String path,
+                 String imagePath) {
+        this(UUID.randomUUID().toString(),
+                name,
+                artist,
+                path,
+                imagePath);
     }
 
-    public Album(String id, String name, String artist, String path, String imagePath) {
+    public Album(String id,
+                 String name,
+                 String artist,
+                 String path,
+                 String imagePath) {
         mId = id;
         mName = name;
         mArtist = artist;
@@ -87,8 +97,6 @@ public class Album implements Parcelable {
         if (obj.getClass() != Album.class){
             return false;
         }
-        final Album album = (Album) obj;
-
         return Objects.equals(this, obj);
     }
 }

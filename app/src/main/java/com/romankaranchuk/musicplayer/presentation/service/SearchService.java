@@ -6,12 +6,15 @@ import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Environment;
 import android.os.IBinder;
-import androidx.annotation.Nullable;
 import android.util.Log;
+
+import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.romankaranchuk.musicplayer.data.Album;
 import com.romankaranchuk.musicplayer.data.Song;
 import com.romankaranchuk.musicplayer.data.db.MusicRepositoryImpl;
+import com.romankaranchuk.musicplayer.presentation.ui.tracklist.TrackListFragment;
 import com.romankaranchuk.musicplayer.utils.MusicUtils;
 
 import org.jsoup.Jsoup;
@@ -24,8 +27,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-
-
 
 public class SearchService extends Service {
     String LOG_TAG = "myLogs";
@@ -159,10 +160,8 @@ public class SearchService extends Service {
                             album.getId(), songLyrics, songYear, songDate, songLanguage);
                     songs.add(song);
                 }
-                int oldRepSize = mRepository.getAlbums().size();
                 mRepository.saveAlbum(album, songs);
-                if (oldRepSize != mRepository.getAlbums().size())
-                    sendBroadcast(new Intent("updateSongs"));
+                sendBroadcast(new Intent(TrackListFragment.UPDATE_SONG_BROADCAST));
             }
             isSearchActive = false;
             stopSelf();

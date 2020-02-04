@@ -20,50 +20,56 @@ import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
-import androidx.annotation.RequiresApi;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.TaskStackBuilder;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.TaskStackBuilder;
+
+import com.romankaranchuk.musicplayer.R;
+import com.romankaranchuk.musicplayer.data.Song;
+import com.romankaranchuk.musicplayer.presentation.ui.main.MainActivity;
+import com.romankaranchuk.musicplayer.presentation.ui.player.PlayerFragment;
+import com.romankaranchuk.musicplayer.utils.MathUtils;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 
-import com.romankaranchuk.musicplayer.presentation.ui.player.PlayerFragment;
-import com.romankaranchuk.musicplayer.presentation.ui.main.MainActivity;
-import com.romankaranchuk.musicplayer.R;
-import com.romankaranchuk.musicplayer.data.Song;
-import com.romankaranchuk.musicplayer.utils.MathUtils;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
-
 public class PlayerService extends Service {
-    NotificationManager nm;
-    WallpaperManager wallpaperManager;
-    Bitmap oldWallpaper;
-    BroadcastReceiver cancelNotifPlayerReceiver, playNotifPlayerReceiver,
-            forwardNotifPlayerReceiver, backwardNotifPlayerReceiver;
 
-    String  TAG_CANCEL_BIG = "cancelNotifPlayerReceiver",
-            TAG_FORWARD = "forwardNotifPlayerReceiver",
-            TAG_PLAY = "playNotifPlayerReceiver",
-            TAG_BACKWARD = "backwardNotifPlayerReceiver",
-            LOG_TAG = "myLogs",
-            TAG_PLAY_BUT_PS_TO_F_BR = "playButtonFromPStoFragmentBR",
-            TAG_FORWARD_BUT_PS_TO_F_BR = "forwardButtonFromPStoFragmentBR",
-            TAG_BACKWARD_BUT_PS_TO_F_BR = "backwardButtonFromPStoFragmentBR",
-            TAG_RESTORE_FPF_PS_TO_F_BR="restoreFpfFromPStoF";
-    NotificationCompat.Builder mBuilder;
-    boolean isPlaying = false;
-    PlayerBinder binder = new PlayerBinder();
+    private static final String TAG_CANCEL_BIG = "cancelNotifPlayerReceiver";
+    private static final String TAG_FORWARD = "forwardNotifPlayerReceiver";
+    private static final String TAG_PLAY = "playNotifPlayerReceiver";
+    private static final String TAG_BACKWARD = "backwardNotifPlayerReceiver";
+    private static final String LOG_TAG = "myLogs";
+    private static final String TAG_PLAY_BUT_PS_TO_F_BR = "playButtonFromPStoFragmentBR";
+    private static final String TAG_FORWARD_BUT_PS_TO_F_BR = "forwardButtonFromPStoFragmentBR";
+    private static final String TAG_BACKWARD_BUT_PS_TO_F_BR = "backwardButtonFromPStoFragmentBR";
+    private static final String TAG_RESTORE_FPF_PS_TO_F_BR="restoreFpfFromPStoF";
+
+    private NotificationManager nm;
+    private WallpaperManager wallpaperManager;
+    private Bitmap oldWallpaper;
+    private BroadcastReceiver cancelNotifPlayerReceiver;
+    private BroadcastReceiver playNotifPlayerReceiver;
+    private BroadcastReceiver forwardNotifPlayerReceiver;
+    private BroadcastReceiver backwardNotifPlayerReceiver;
+
+    private NotificationCompat.Builder mBuilder;
+    private boolean isPlaying = false;
+    private PlayerBinder binder = new PlayerBinder();
     private MediaPlayer mediaPlayer;
     private File path;
-    int smallIcon;
+    private int smallIcon;
     private Song currentSong;
     private String oldAlbumCoverResource;
-    public RemoteViews remoteViewsBigContent = null,remoteViewsContent= null;
+    private RemoteViews remoteViewsBigContent = null;
+    private RemoteViews remoteViewsContent= null;
 
     public void UpdateLockscreen(){
         if (currentSong != null && !currentSong.getImagePath().equals(oldAlbumCoverResource)) {
@@ -372,10 +378,10 @@ public class PlayerService extends Service {
             File fileCurrentSong = PlayerFragment.getFileCurrentSong();
             File filePlayedSong = PlayerFragment.getFilePlayedSong();
             Song currentSong = PlayerFragment.getCurrentSong();
-            int curPosition = PlayerFragment.getCurPosition();
+            int curPosition = PlayerFragment.getCurrentPosition();
             double startTime = PlayerFragment.getStartTime(),
                     finalTime = PlayerFragment.getFinalTime();
-            boolean resume = PlayerFragment.getResume();
+            boolean resume = PlayerFragment.getIsResumed();
             if (fileCurrentSong == null) {
                 fileCurrentSong = new File (currentSong.getPath());
                 mediaPlayer.setDataSource(fileCurrentSong.toString());
@@ -398,17 +404,17 @@ public class PlayerService extends Service {
 //                    seekBar.setProgress((int)startTime);
 //                    myHandler.postDelayed(UpdateSongTime,10);
 //                    myHandler.postDelayed(UpdateSeekBar,10);
-                    PlayerFragment.setResume(true);
-                    PlayerFragment.setPaused(false);
+                    PlayerFragment.setIsResumed(true);
+                    PlayerFragment.setIsPaused(false);
                 } else {
                     mediaPlayer.seekTo(curPosition);
                     mediaPlayer.start();
-                    PlayerFragment.setPaused(false);
+                    PlayerFragment.setIsPaused(false);
                 }
             } else {
                 mediaPlayer.pause();
-                PlayerFragment.setCurPosition(mediaPlayer.getCurrentPosition());
-                PlayerFragment.setPaused(true);
+                PlayerFragment.setCurrentPosition(mediaPlayer.getCurrentPosition());
+                PlayerFragment.setIsPaused(true);
             }
         } catch (IOException e){
             e.printStackTrace();

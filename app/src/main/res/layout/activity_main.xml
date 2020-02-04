@@ -4,6 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/fContainerActMain"
+    android:id="@+id/fragment_container_main_activity"
     >
 </LinearLayout>

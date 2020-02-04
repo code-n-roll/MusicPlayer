@@ -18,9 +18,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.romankaranchuk.musicplayer.data.db.TablesPersistenceContract.SongEntry;
 import com.romankaranchuk.musicplayer.data.db.TablesPersistenceContract.AlbumEntry;
-
+import com.romankaranchuk.musicplayer.data.db.TablesPersistenceContract.SongEntry;
 
 public class SQLiteOpenHelperImpl extends SQLiteOpenHelper {
 

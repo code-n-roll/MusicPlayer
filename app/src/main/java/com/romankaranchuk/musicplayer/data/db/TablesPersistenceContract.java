@@ -2,8 +2,6 @@ package com.romankaranchuk.musicplayer.data.db;
 
 import android.provider.BaseColumns;
 
-
-
 final class TablesPersistenceContract {
 
     private TablesPersistenceContract(){}

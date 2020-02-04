@@ -3,13 +3,12 @@ package com.romankaranchuk.musicplayer.utils;
 import android.os.Environment;
 import android.util.Log;
 
+import com.romankaranchuk.musicplayer.data.Song;
+
 import java.io.File;
 import java.util.ArrayList;
 
-import com.romankaranchuk.musicplayer.data.Song;
 import static com.romankaranchuk.musicplayer.presentation.ui.main.MainActivity.path;
-
-
 
 public class JniUtils {
     static {
@@ -22,7 +21,6 @@ public class JniUtils {
     public static ArrayList<Integer> printAllSongs(ArrayList<Song> songs){
         ArrayList<Integer> durations = new ArrayList<>();
         for (Song song : songs){
-            path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
             durations.add(MusicUtils.extractSongInfo(new File(path,song.getPath()).toString()).duration);
         }
         return durations;
