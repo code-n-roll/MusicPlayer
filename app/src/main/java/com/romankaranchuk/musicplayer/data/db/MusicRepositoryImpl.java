@@ -1,6 +1,5 @@
 package com.romankaranchuk.musicplayer.data.db;
 
-import android.content.Context;
 import androidx.annotation.NonNull;
 
 import com.romankaranchuk.musicplayer.data.Album;
@@ -17,7 +16,8 @@ public class MusicRepositoryImpl implements MusicRepository {
 
     private static MusicRepositoryImpl INSTANCE = null;
 
-    private final MusicStore mMusicStore;
+    private final ILocalAlbumDataSource localAlbumDataSource;
+    private final ILocalSongDataSource localSongDataSource;
 
     private List<AlbumsRepositoryObserver> mObservers = new ArrayList<>();
 
@@ -27,9 +27,12 @@ public class MusicRepositoryImpl implements MusicRepository {
     private boolean mCacheAlbumsIsDirty = true;
     private boolean mCacheSongsIsDirty = true;
 
-    public static MusicRepositoryImpl getInstance(Context context){
-        if (INSTANCE == null){
-            INSTANCE = new MusicRepositoryImpl(MusicStoreImpl.getInstance(context));
+    public static MusicRepositoryImpl getInstance(@NonNull AppDatabase appDatabase){
+        if (INSTANCE == null) {
+            INSTANCE = new MusicRepositoryImpl(
+                    LocalAlbumDataSource.getInstance(appDatabase),
+                    LocalSongDataSource.getInstance(appDatabase)
+            );
         }
         return INSTANCE;
     }
@@ -38,8 +41,12 @@ public class MusicRepositoryImpl implements MusicRepository {
         INSTANCE = null;
     }
 
-    private MusicRepositoryImpl(@NonNull MusicStore tasksLocalDataSource){
-        mMusicStore = tasksLocalDataSource;
+    private MusicRepositoryImpl(
+            @NonNull ILocalAlbumDataSource localAlbumDataSource,
+            @NonNull ILocalSongDataSource localSongDataSource
+    ) {
+        this.localAlbumDataSource = localAlbumDataSource;
+        this.localSongDataSource = localSongDataSource;
     }
 
     public void addContentObserver(AlbumsRepositoryObserver observer){
@@ -61,19 +68,9 @@ public class MusicRepositoryImpl implements MusicRepository {
     private List<Song> getCachedSongs(@NonNull String albumId, boolean sortByName){
         Comparator<Song> comparator;
         if (sortByName){
-            comparator = new Comparator<Song>() {
-                @Override
-                public int compare(Song song1, Song song2) {
-                    return song1.getName().compareTo(song2.getName());
-                }
-            };
+            comparator = (song1, song2) -> song1.getName().compareTo(song2.getName());
         } else {
-            comparator = new Comparator<Song>() {
-                @Override
-                public int compare(Song song1, Song song2) {
-                    return song1.getDuration() - song2.getDuration();
-                }
-            };
+            comparator = (song1, song2) -> song1.getDuration() - song2.getDuration();
         }
 
         if (mCachedSongs == null){
@@ -92,24 +89,21 @@ public class MusicRepositoryImpl implements MusicRepository {
     }
 
     @Override
-    public boolean saveAlbum(@NonNull Album album, @NonNull List<Song> songs) {
+    public void saveAlbum(@NonNull Album album, @NonNull List<Song> songs) {
         saveSongs(songs);
 
         if (mCachedAlbums == null){
             mCachedAlbums = new LinkedHashMap<>();
         }
 
-        boolean successState = mMusicStore.saveAlbum(album, songs);
-        if (successState){
-            mCachedAlbums.put(album.getId(), album);
-            notifyAlbumsChanged();
-        }
-        return successState;
+        localAlbumDataSource.saveAlbum(album, songs);
+        mCachedAlbums.put(album.getId(), album);
+        notifyAlbumsChanged();
     }
 
     @Override
     public void saveSongs(@NonNull List<Song> songs) {
-        mMusicStore.saveSongs(songs);
+        localSongDataSource.saveSongs(songs);
 
         if (mCachedSongs == null){
             mCachedSongs = new LinkedHashMap<>();
@@ -121,7 +115,8 @@ public class MusicRepositoryImpl implements MusicRepository {
 
     @Override
     public void deleteAlbum(@NonNull Album album) {
-        mMusicStore.deleteAlbum(album);
+        localAlbumDataSource.deleteAlbum(album);
+        localSongDataSource.deleteSongs(album.getId());
 
         if (mCachedAlbums != null){
             if (mCachedAlbums.containsKey(album.getId())){
@@ -142,7 +137,7 @@ public class MusicRepositoryImpl implements MusicRepository {
 
     @Override
     public void deleteSong(@NonNull Song song) {
-        mMusicStore.deleteSong(song);
+        localSongDataSource.deleteSong(song);
 
         if (mCachedSongs != null){
             if (mCachedSongs.containsKey(song.getId())){
@@ -173,7 +168,7 @@ public class MusicRepositoryImpl implements MusicRepository {
         if (!mCacheAlbumsIsDirty){
             return getCachedAlbums();
         } else {
-            List<Album> albums = mMusicStore.getAlbums();
+            List<Album> albums = localAlbumDataSource.getAlbums();
 
             mCachedAlbums = new LinkedHashMap<>();
             for (Album album: albums){
@@ -191,10 +186,10 @@ public class MusicRepositoryImpl implements MusicRepository {
         if (!mCacheSongsIsDirty){
             return getCachedSongs(albumId, sortByName);
         } else {
-            List<Album> albums = mMusicStore.getAlbums();
+            List<Album> albums = localAlbumDataSource.getAlbums();
             mCachedSongs = new LinkedHashMap<>();
             for (Album nextAlbum: albums){
-                for (Song nextSong: mMusicStore.getSongs(nextAlbum.getId(), sortByName)){
+                for (Song nextSong: localSongDataSource.getSongs(nextAlbum.getId(), sortByName)){
                     mCachedSongs.put(nextSong.getId(), nextSong);
                 }
             }
@@ -202,6 +197,12 @@ public class MusicRepositoryImpl implements MusicRepository {
             mCacheSongsIsDirty = false;
             return getCachedSongs(albumId, sortByName);
         }
+    }
+
+    @NonNull
+    @Override
+    public Song getSong(@NonNull String songId) {
+        return localSongDataSource.getSong(songId);
     }
 
     private void notifyAlbumsChanged(){

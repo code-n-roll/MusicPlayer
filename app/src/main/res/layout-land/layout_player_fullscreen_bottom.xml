@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/lpfb_album_image"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="40dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@id/seekbarSongTime"
+        app:layout_constraintEnd_toStartOf="@id/nameSongFullscreenPlayer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/english" />
+
+    <TextView
+        android:id="@+id/nameSongFullscreenPlayer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:singleLine="true"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/lpfb_album_image"
+        app:layout_constraintTop_toTopOf="@id/lpfb_album_image"
+        tools:text="Holiday" />
+
+    <TextView
+        android:id="@+id/nameArtistFullScreenPlayer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:singleLine="true"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@id/seekbarSongTime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/lpfb_album_image"
+        app:layout_constraintTop_toBottomOf="@id/nameSongFullscreenPlayer"
+        tools:text="Green Day" />
+
+    <SeekBar
+        android:id="@+id/seekbarSongTime"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="5dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:progressDrawable="@drawable/progress"
+        android:thumb="@drawable/my_thumb"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nameArtistFullScreenPlayer" />
+
+    <TextView
+        android:id="@+id/startTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginStart="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seekbarSongTime"
+        tools:text="00:00" />
+
+    <TextView
+        android:id="@+id/endTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seekbarSongTime"
+        tools:text="01:00" />
+
+    <ImageView
+        android:id="@+id/dislike"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="20dp"
+        android:src="@drawable/ic_like_on"
+        app:layout_constraintBottom_toBottomOf="@id/toPreviousSongButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/toPreviousSongButton" />
+
+    <ImageView
+        android:id="@+id/toPreviousSongButton"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="5dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/fast_backward_button"
+        app:layout_constraintBottom_toTopOf="@id/shuffleButton"
+        app:layout_constraintEnd_toStartOf="@id/playPauseSongButton"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@id/dislike"
+        app:layout_constraintTop_toBottomOf="@id/nameArtistFullScreenPlayer"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <ImageView
+        android:id="@+id/playPauseSongButton"
+        android:layout_width="80dp"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="5dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/selector_play_pause"
+        app:layout_constraintBottom_toBottomOf="@id/toPreviousSongButton"
+        app:layout_constraintEnd_toStartOf="@id/toNextSongButton"
+        app:layout_constraintStart_toEndOf="@id/toPreviousSongButton"
+        app:layout_constraintTop_toTopOf="@id/toPreviousSongButton" />
+
+    <ImageView
+        android:id="@+id/toNextSongButton"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="5dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/fast_forward_button"
+        app:layout_constraintBottom_toBottomOf="@id/toPreviousSongButton"
+        app:layout_constraintEnd_toStartOf="@id/like"
+        app:layout_constraintStart_toEndOf="@id/playPauseSongButton"
+        app:layout_constraintTop_toTopOf="@id/toPreviousSongButton" />
+
+    <ImageView
+        android:id="@+id/like"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/ic_like_on"
+        app:layout_constraintBottom_toBottomOf="@id/toNextSongButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/toNextSongButton" />
+
+    <ImageView
+        android:id="@+id/replayButton"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="20dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="10dp"
+        android:src="@drawable/selector_replay"
+        app:layout_constraintBottom_toBottomOf="@id/shuffleButton"
+        app:layout_constraintEnd_toStartOf="@id/lyricsButton"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/shuffleButton" />
+
+    <ImageView
+        android:id="@+id/lyricsButton"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="10dp"
+        android:src="@drawable/selector_lyrics"
+        app:layout_constraintBottom_toBottomOf="@id/shuffleButton"
+        app:layout_constraintEnd_toStartOf="@id/timerButton"
+        app:layout_constraintStart_toEndOf="@id/replayButton"
+        app:layout_constraintTop_toTopOf="@id/shuffleButton" />
+
+    <ImageView
+        android:id="@+id/timerButton"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="10dp"
+        android:src="@drawable/selector_timer"
+        app:layout_constraintBottom_toBottomOf="@id/shuffleButton"
+        app:layout_constraintEnd_toStartOf="@id/shuffleButton"
+        app:layout_constraintStart_toEndOf="@id/lyricsButton"
+        app:layout_constraintTop_toTopOf="@id/shuffleButton" />
+
+    <ImageView
+        android:id="@+id/shuffleButton"
+        android:layout_width="45dp"
+        android:layout_height="55dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="10dp"
+        android:src="@drawable/selector_shuffle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/timerButton" />
+</androidx.constraintlayout.widget.ConstraintLayout>

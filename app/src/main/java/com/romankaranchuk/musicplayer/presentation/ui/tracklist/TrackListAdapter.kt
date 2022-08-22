@@ -13,8 +13,7 @@ import com.romankaranchuk.musicplayer.R
 import com.romankaranchuk.musicplayer.data.Song
 import com.romankaranchuk.musicplayer.utils.MathUtils
 import com.squareup.picasso.Picasso
-
-import java.util.ArrayList
+import java.util.*
 
 class TrackListAdapter(
         private val mItemClickListener: (Song) -> Unit,
@@ -62,19 +61,21 @@ class TrackListAdapter(
             languageView = view.findViewById(R.id.country_flag)
         }
 
-        fun bind(song: Song,
-                 itemClickListener: (Song) -> Unit,
-                 itemLongClickListener: (Song) -> Unit) {
+        fun bind(
+            song: Song,
+            itemClickListener: (Song) -> Unit,
+            itemLongClickListener: (Song) -> Unit
+        ) {
             val idDrawable = MathUtils.tryParse(song.imagePath)!!
             //            if (idDrawable == R.drawable.unknown_album_cover){
-            //                Picasso.with(view.getContext()).load(idDrawable).into(albumCoverView);
+            //                Picasso.get().load(idDrawable).into(albumCoverView);
             //                albumCoverView.setPadding(40,40,40,40);
             //            } else {
-            Picasso.with(view.context).load(song.imagePath).into(albumCoverView)
+            Picasso.get().load(song.imagePath).into(albumCoverView)
             albumCoverView.setPadding(0, 0, 0, 0)
             //            }
 
-            durationView.text = MathUtils.convertMillisToMin(song.duration)
+            durationView.text = MathUtils.convertMillisToMin(song.duration ?: 0)
             nameSongView.text = song.title
             nameArtistView.text = song.nameArtist
 
@@ -82,13 +83,18 @@ class TrackListAdapter(
             when (TrackListFragment.sortBy) {
                 "2" -> yearView.text = song.year
                 "3" -> yearView.text = song.date
-                "4" -> yearView.text = song.path.substring(song.path.lastIndexOf(".") + 1)
+                "4" -> {
+                    val path = song.path
+                    if (path != null) {
+                        yearView.text = path.substring(path.lastIndexOf(".") + 1)
+                    }
+                }
                 "5" -> {
                     yearView.text = ""
                     languageView.setImageResource(view.resources.getIdentifier(
-                            song.language.toLowerCase(),
-                            "drawable",
-                            view.context.packageName
+                        song.language?.lowercase(Locale.getDefault()),
+                        "drawable",
+                        view.context.packageName
                     ))
                 }
                 else -> yearView.text = ""

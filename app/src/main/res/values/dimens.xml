@@ -4,4 +4,8 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="head_text_size">20sp</dimen>
     <dimen name="myToolbarSize">60dp</dimen>
+
+    <dimen name="page_margin">20dp</dimen>
+    <dimen name="offset">40dp</dimen>
+    <dimen name="page_margin_and_offset">60dp</dimen>
 </resources>

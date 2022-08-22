@@ -3,10 +3,6 @@
     <shape
         android:shape="rectangle">
         <corners android:radius="0dp"/>
-        <gradient
-            android:angle="270"
-            android:endColor="@android:color/holo_green_light"
-            android:startColor="@android:color/holo_green_light"
-            />
+        <solid android:color="@color/white"/>
     </shape>
 </clip>

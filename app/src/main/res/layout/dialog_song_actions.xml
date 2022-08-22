@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/album_image"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/english"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/song_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@id/artist_name"
+        app:layout_constraintStart_toEndOf="@id/album_image"
+        app:layout_constraintTop_toTopOf="@id/album_image"
+        app:layout_constraintVertical_chainStyle="spread"
+        tools:text="What You Make It" />
+
+    <TextView
+        android:id="@+id/artist_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/album_image"
+        app:layout_constraintStart_toEndOf="@id/album_image"
+        app:layout_constraintTop_toBottomOf="@id/song_name"
+        tools:text="With Confidence • 3:49" />
+
+    <ImageView
+        android:id="@+id/lyricsImage"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginVertical="16dp"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/ic_rtt_off"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/album_image" />
+
+    <TextView
+        android:id="@+id/lyricsBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:gravity="center"
+        android:text="Show lyrics"
+        app:layout_constraintBottom_toBottomOf="@id/lyricsImage"
+        app:layout_constraintStart_toEndOf="@id/lyricsImage"
+        app:layout_constraintTop_toTopOf="@id/lyricsImage" />
+</androidx.constraintlayout.widget.ConstraintLayout>

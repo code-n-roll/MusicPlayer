@@ -1,14 +1,14 @@
 package com.romankaranchuk.musicplayer.utils;
 
-import android.os.Environment;
-import android.util.Log;
+import static com.romankaranchuk.musicplayer.presentation.ui.main.MainActivity.path;
 
 import com.romankaranchuk.musicplayer.data.Song;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
-import static com.romankaranchuk.musicplayer.presentation.ui.main.MainActivity.path;
+import timber.log.Timber;
 
 public class JniUtils {
     static {
@@ -18,7 +18,7 @@ public class JniUtils {
     public static native long sum(ArrayList<Integer> list);
 
 
-    public static ArrayList<Integer> printAllSongs(ArrayList<Song> songs){
+    public static List<Integer> printAllSongs(List<Song> songs){
         ArrayList<Integer> durations = new ArrayList<>();
         for (Song song : songs){
             durations.add(MusicUtils.extractSongInfo(new File(path,song.getPath()).toString()).duration);
@@ -28,8 +28,8 @@ public class JniUtils {
 
     public static void checkJNI(ArrayList<Integer> durations){
         long result = sum(durations);
-        Log.d("hello JNI", stringFromJNI());
-        Log.d("JNI all songs duration", Long.toString(result));
+        Timber.d("hello JNI"+ stringFromJNI());
+        Timber.d("JNI all songs duration"+ Long.toString(result));
 
         long startTime = System.currentTimeMillis();
         long sum = 0;
@@ -38,7 +38,7 @@ public class JniUtils {
                 sum += value;
             }
         }
-        Log.d("Java all songs duration", Long.toString(sum));
-        Log.d("Java running time", "" + (System.currentTimeMillis() - startTime));
+        Timber.d("Java all songs duration"+ Long.toString(sum));
+        Timber.d("Java running time"+ "" + (System.currentTimeMillis() - startTime));
     }
 }
