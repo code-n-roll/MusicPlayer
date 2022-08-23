@@ -1,8 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <com.romankaranchuk.musicplayer.utils.widgets.CircularSeekBar
+        android:id="@+id/seekbar1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_margin="32dp"
+        android:alpha="0"
+        app:cs_circle_color="#33000000"
+        app:cs_circle_progress_color="#A4C639"
+        app:cs_circle_stroke_width="6dp"
+        app:cs_disable_pointer="true"
+        app:cs_lock_enabled="false"
+        app:cs_max="60"
+        app:cs_min="0"
+        app:cs_move_outside_circle="true"
+        app:cs_pointer_color="#A4C639"
+        app:cs_pointer_halo_color="@android:color/transparent"
+        app:cs_pointer_halo_color_ontouch="@android:color/transparent"
+        app:cs_progress="60"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/timerOnEndTrackContainer" />
+
+    <com.romankaranchuk.musicplayer.utils.widgets.CircularSeekBar
+        android:id="@+id/seekbar2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_margin="32dp"
+        android:alpha="0"
+        app:cs_circle_color="#33000000"
+        app:cs_circle_progress_color="#A4C639"
+        app:cs_circle_stroke_width="6dp"
+        app:cs_disable_pointer="true"
+        app:cs_lock_enabled="false"
+        app:cs_max="60"
+        app:cs_min="0"
+        app:cs_move_outside_circle="true"
+        app:cs_pointer_color="#A4C639"
+        app:cs_pointer_halo_color="@android:color/transparent"
+        app:cs_pointer_halo_color_ontouch="@android:color/transparent"
+        app:cs_pointer_stroke_width="0dp"
+        app:cs_progress="60"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/timerOnEndTrackContainer" />
 
     <com.romankaranchuk.musicplayer.utils.widgets.CircularSeekBar
         android:id="@+id/seekbar"
@@ -13,7 +60,6 @@
         app:cs_circle_color="#33000000"
         app:cs_circle_progress_color="#A4C639"
         app:cs_circle_stroke_width="6dp"
-        app:cs_lock_enabled="true"
         app:cs_max="60"
         app:cs_min="1"
         app:cs_move_outside_circle="true"
@@ -36,4 +82,4 @@
         app:layout_constraintEnd_toEndOf="@id/seekbar"
         app:layout_constraintStart_toStartOf="@id/seekbar"
         app:layout_constraintTop_toTopOf="@id/seekbar" />
-</FrameLayout>
+</merge>

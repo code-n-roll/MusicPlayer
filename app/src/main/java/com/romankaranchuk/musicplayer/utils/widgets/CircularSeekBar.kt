@@ -1059,7 +1059,7 @@ class CircularSeekBar @JvmOverloads constructor(
                 }
                 if (lockAtStart && isLockEnabled) {
                     // TODO: Add a check if mProgress is already 0, in which case don't call the listener
-                    progressActual = 0f
+                    progressActual = min
                     recalculateAll()
                     invalidate()
                     onCircularSeekBarChangeListener?.onProgressChanged(this, progress, true)

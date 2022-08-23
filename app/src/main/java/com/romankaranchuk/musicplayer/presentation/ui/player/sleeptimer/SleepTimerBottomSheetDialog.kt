@@ -117,7 +117,7 @@ class SleepTimerBottomSheetDialog : BottomSheetDialogFragment(), Injectable {
                         is SleepTimerViewModel.State.SetupSleepTimer -> {
                             val durSec = viewState.duration/1000f
                             val progress = durSec / 60f
-                            binding.seekbar.setProgress(progress, false)
+                            binding.seekbar.setProgress(progress, showMinutesOnly = false)
                         }
                         is SleepTimerViewModel.State.ShowStart -> {
                             binding.startStopTimer.text = "Start"
