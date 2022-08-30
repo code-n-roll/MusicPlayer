@@ -18,9 +18,13 @@ import javax.inject.Singleton
     ActivityModule::class,
     FragmentModule::class,
     ServiceModule::class,
-    AppModule::class,
+
     ViewModelModule::class,
+
+    AppModule::class,
+
     AndroidInjectionModule::class,
+
     UseCaseModule::class,
     DataModule::class
 ], dependencies = [AppDeps::class])

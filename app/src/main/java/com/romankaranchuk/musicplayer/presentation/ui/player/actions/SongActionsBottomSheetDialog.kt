@@ -62,6 +62,11 @@ class SongActionsBottomSheetDialog : BottomSheetDialogFragment(), Injectable {
         setupListeners()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
     private fun setupListeners() {
         binding.lyricsBtn.setOnClickListener(lyricsBtnClickListener)
     }

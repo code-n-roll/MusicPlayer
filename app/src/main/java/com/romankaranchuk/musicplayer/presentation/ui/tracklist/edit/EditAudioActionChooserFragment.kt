@@ -73,6 +73,12 @@ class EditAudioActionChooserFragment : DialogFragment() {
         setupAdapter()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        _binding = null
+    }
+
     private fun parseArguments() {
         val song: Song? = arguments?.getParcelable(SELECTED_SONG)
         if (song == null) {

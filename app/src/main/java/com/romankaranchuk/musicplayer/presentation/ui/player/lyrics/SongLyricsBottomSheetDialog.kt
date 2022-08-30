@@ -109,6 +109,7 @@ class SongLyricsBottomSheetDialog : BottomSheetDialogFragment(), Injectable {
         super.onDestroy()
 
         binding.challengeAppbar.removeOnOffsetChangedListener(offsetChangedListener)
+        _binding = null
     }
 
     private fun bindViewModel() {

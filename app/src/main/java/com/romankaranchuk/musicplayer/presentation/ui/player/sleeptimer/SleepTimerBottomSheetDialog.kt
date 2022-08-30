@@ -99,6 +99,12 @@ class SleepTimerBottomSheetDialog : BottomSheetDialogFragment(), Injectable {
         bindViewModel()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        _binding = null
+    }
+
     private fun setupViewState() {
     }
 
