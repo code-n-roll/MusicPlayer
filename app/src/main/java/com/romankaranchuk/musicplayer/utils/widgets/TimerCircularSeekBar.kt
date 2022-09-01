@@ -230,9 +230,10 @@ class TimerCircularSeekBar @JvmOverloads constructor(
         if (binding.seekbar1.alpha == 0f) {
             return
         }
+
         binding.seekbar1.animate()
-            .scaleXBy(SEEKBAR_1_SCALE_OFFSET)
-            .scaleYBy(SEEKBAR_1_SCALE_OFFSET)
+            .scaleX(1f)
+            .scaleY(1f)
             .alpha(0f)
             .start()
     }
@@ -241,9 +242,10 @@ class TimerCircularSeekBar @JvmOverloads constructor(
         if (binding.seekbar2.alpha == 0f) {
             return
         }
+
         binding.seekbar2.animate()
-            .scaleXBy(SEEKBAR_2_SCALE_OFFSET)
-            .scaleYBy(SEEKBAR_2_SCALE_OFFSET)
+            .scaleX(1f)
+            .scaleY(1f)
             .alpha(0f)
             .start()
     }
@@ -252,9 +254,10 @@ class TimerCircularSeekBar @JvmOverloads constructor(
         if (binding.seekbar1.alpha == 1f) {
             return
         }
+
         binding.seekbar1.animate()
-            .scaleXBy(-SEEKBAR_1_SCALE_OFFSET)
-            .scaleYBy(-SEEKBAR_1_SCALE_OFFSET)
+            .scaleX(1f - SEEKBAR_1_SCALE_OFFSET)
+            .scaleY(1f - SEEKBAR_1_SCALE_OFFSET)
             .alpha(1f)
             .start()
     }
@@ -263,9 +266,10 @@ class TimerCircularSeekBar @JvmOverloads constructor(
         if (binding.seekbar2.alpha == 1f) {
             return
         }
+
         binding.seekbar2.animate()
-            .scaleXBy(-SEEKBAR_2_SCALE_OFFSET)
-            .scaleYBy(-SEEKBAR_2_SCALE_OFFSET)
+            .scaleX(1f - SEEKBAR_2_SCALE_OFFSET)
+            .scaleY(1f - SEEKBAR_2_SCALE_OFFSET)
             .alpha(1f)
             .start()
     }
